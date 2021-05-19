@@ -1,0 +1,96 @@
+.appoinment_ocw {
+  position: relative;
+  margin-top: 2.5rem;
+
+  h1 {
+    position: relative;
+    font-size: 4rem;
+    width: 40%;
+    font-weight: map-get($font-weights, medium);
+    line-height: 1.2;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -25%;
+      left: 0%;
+      width: 7rem;
+      height: 0.3rem;
+      background-color: $darkGrayish;
+    }
+  }
+
+  .card_list {
+    @include flexCenter;
+    justify-content: space-between;
+    position: relative;
+    margin: 6rem 0;
+
+    .card {
+      width: 14rem;
+      height: 16rem;
+      border-radius: 1rem;
+      border: 3px solid black;
+      cursor: pointer;
+    }
+  }
+}
+
+.appoinment_form {
+  position: relative;
+  left: 12.5%;
+  width: 84.125rem;
+  height: 48.375rem;
+  background-color: #2c389b;
+
+  .identities_form {
+    position: absolute;
+    right: 0%;
+    top: 10%;
+    width: 40%;
+    height: fit-content;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 1rem;
+      height: 100%;
+      background-color: $darkOrangish;
+      left: -10%;
+      top: 0%;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 60%;
+
+      label {
+        color: $whiteGrayish;
+        font-size: 1.5rem;
+      }
+
+      input[type="text"] {
+        margin: 1rem 0;
+        font-size: 1.25rem;
+      }
+
+      button[type="submit"] {
+        margin-top: 2rem;
+        padding: 1rem 0;
+        cursor: pointer;
+        background-color: $darkOrangish;
+        border: none;
+        color: $whiteGrayish;
+        font-size: 1rem;
+        font-weight: map-get($font-weights, bold);
+        border-radius: 0.625rem;
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+          opacity: 0.9;
+        }
+      }
+    }
+  }
+}
