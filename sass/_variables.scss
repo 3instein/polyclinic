@@ -1,0 +1,36 @@
+// colors
+$primariBlue: #024ed5;
+$secondaryBlue: #0a1bd8;
+$thirdBlue: #1e406d;
+$darkGrayish: #878288;
+$textUse: #333333;
+$darkOrangish: #c0404e;
+$whiteGrayish: #f6eff0;
+$lightViolet: #f1f1f9;
+
+// font weight
+$font-weights: (
+  "light": 300,
+  "regular": 400,
+  "medium": 500,
+  "bold": 700,
+);
+
+@mixin flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// media query
+@mixin tablet {
+  @media screen and (max-width: 89.9375rem) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media screen and (max-width: 47.9375rem) {
+    @content;
+  }
+}
