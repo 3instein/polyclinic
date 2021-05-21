@@ -54,7 +54,7 @@ if (isset($_POST['register'])) {
         }
     }
 
-    if($uploadOk == 1){
+    if ($uploadOk == 1) {
         $department_id = $conn->real_escape_string($_POST['department']);
         $full_name =  $conn->real_escape_string($_POST['full_name']);
         $password =  $conn->real_escape_string($_POST['password']);
@@ -72,7 +72,6 @@ if (isset($_POST['register'])) {
         header('location: ../doctor/register');
     }
     $conn->close();
-
 }
 
 if (isset($_POST['login'])) {
@@ -102,16 +101,14 @@ if (isset($_POST['login'])) {
     $conn->close();
 }
 
-    function getDoctor($doctor_id, $request){
-        require 'connect.php';
-        $sql = "SELECT * FROM doctors WHERE id='$doctor_id'";
-        $result = $conn->query($sql);
-        if($result-> num_rows > 0){
-            if($request == "name"){
-                $name = $result->fetch_assoc();
-                return $name['full_name'];
-            }
+function getDoctor($doctor_id, $request) {
+    require 'connect.php';
+    $sql = "SELECT * FROM doctors WHERE id='$doctor_id'";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        if ($request == "name") {
+            $name = $result->fetch_assoc();
+            return $name['full_name'];
         }
     }
-
-?>
+}

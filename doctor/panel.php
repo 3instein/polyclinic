@@ -40,9 +40,9 @@ include '../controller/doctor_controller.php';
                     echo "<td>$row[time]</td>";
                     echo "<td>";
                     if($row['availability'] = "available" && empty($doctor_name)){
-                        echo "<button><a href='../controller/schedule_controller?schedule_id=$row[id]&doctor_id=$row[id]&action=select'>Select</a></button>";
+                        echo "<button><a href='../controller/schedule_controller?schedule_id=$row[id]&doctor_id=$_SESSION[id]&action=select'>Select</a></button>";
                     } else if($row['doctor_id'] == $_SESSION['id']){
-                        echo "<button><a href='../controller/schedule_controller?schedule_id=$row[id]&doctor_id=$row[id]&action=cancel'>Cancel</a></button>";
+                        echo "<button><a href='../controller/schedule_controller?schedule_id=$row[id]&doctor_id=$_SESSION[id]&action=cancel'>Cancel</a></button>";
                     }
                     echo "</td>";
                     echo "</tr>";
