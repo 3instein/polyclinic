@@ -33,16 +33,16 @@ if (isset($_POST['login'])) {
         while ($row = $result->fetch_assoc()) {
             if (password_verify($pin, $row['pin'])) {
                 session_start();
-                $_SESSION['patient_id'] = $row['id'];
-                header('location: ./../patient/appointment');
+                $_SESSION['id'] = $row['id'];
+                $_SESSION['full_name'] = $row['full_name'];
+                header('location: ./../patient/panel');
             }
         }
     }
     $conn->close();
 }
 
-function getPatient($patient_id, $request)
-{
+function getPatient($patient_id, $request) {
     require 'connect.php';
     $sql = "SELECT * FROM patients WHERE id='$patient_id'";
     $result = $conn->query($sql);

@@ -29,8 +29,10 @@
             $appointment = getDoctorAppointment($_SESSION['id']);
             if(!empty($appointment)){
                 while($row = $appointment->fetch_assoc()){
+                    echo "<tr>";
                     echo "<td>".getPatient($row['patient_id'], "name")."</td>";
                     echo "<td>$row[time]</td>";
+                    echo "</tr>";
                 }
             }
         ?>

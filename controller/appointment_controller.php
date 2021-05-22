@@ -12,13 +12,13 @@ switch ($_GET['action'] ?? '') {
 if (isset($_POST['appointment'])) {
     require 'connect.php';
     session_start();
-    $patient_id = $_SESSION['patient_id'];
+    $id = $_SESSION['id'];
     $schedule_id = $_POST['appointment'];
 
-    $sql = "INSERT INTO `appointments` (`id`, `schedule_id`, `patient_id`) VALUES (NULL, '$schedule_id', '$patient_id')";
+    $sql = "INSERT INTO `appointments` (`id`, `schedule_id`, `patient_id`) VALUES (NULL, '$schedule_id', '$id')";
 
     if ($conn->query($sql)) {
-
+        header('location: ../patient/panel');
     }
     $conn->close();
 }
@@ -43,6 +43,16 @@ function getDoctorAppointment($doctor_id){
     $sql = "SELECT * FROM appointments JOIN schedules ON schedules.doctor_id WHERE schedules.doctor_id='$doctor_id'";
     $result = $conn ->query($sql);
 
+    if($result->num_rows > 0){
+        return $result;
+    }
+    $conn->close();
+}
+
+function getPatientAppointment($patient_id){
+    require 'connect.php';
+    $sql = "SELECT * FROM appointments JOIN patients ON patients.id WHERE patients.id='$patient_id'";
+    $result = $conn->query($sql);
     if($result->num_rows > 0){
         return $result;
     }

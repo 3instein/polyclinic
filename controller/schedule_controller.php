@@ -35,4 +35,21 @@
         $conn->close();
     }
 
-?>
+    function scheduleData($schedule_id, $request){
+        require 'connect.php';
+        $sql = "SELECT * FROM schedules WHERE schedule_id='$schedule_id'";
+        $result = $conn->query($sql);
+        $data = $result->fetch_assoc();
+        
+        if($result && $request == "department"){
+            return $data['department_id'];
+        }
+
+        if($result && $request == "doctor"){
+            return $data['doctor_id'];
+        }
+
+        if($result && $request == "time"){
+            return $data['time'];
+        }
+    }
