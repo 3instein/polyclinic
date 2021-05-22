@@ -1,11 +1,9 @@
 <?php
 
-include './../controller/appointment_controller.php';
 include './../controller/doctor_controller.php';
 include './../controller/patient_controller.php';
 include './../controller/schedule_controller.php';
 include './../controller/department_controller.php';
-include 'test.php';
 
 ?>
 <!DOCTYPE html>
@@ -15,8 +13,7 @@ include 'test.php';
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
     <title>Document</title>
 </head>
@@ -36,27 +33,17 @@ include 'test.php';
             ?>
         </select>
         <table border="1" cellpadding="5" cellspacing="0" class="doctor_table">
-            <tr>
-                <th>Doctor</th>
-                <th>Time</th>
-                <th>Status</th>
-            </tr>
-            <tr>
-                <?php
-                // $department_id = getDepartmentid();
-                // $schedule = getSchedule($department_id);
-
-                // if ($schedule) {
-                //     while ($row = $schedule->fetch_assoc()) {
-                //         $doctor_name = getDoctor($row['doctor_id'], "name");
-                //         echo "<td>$doctor_name</td>";
-                //     }
-                // }
-                ?>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Doctor</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
         </table>
-        <br />
-        <button name="appointment">Make Appoinment</button>
     </form>
 
     <script>
@@ -64,12 +51,30 @@ include 'test.php';
             $('#department').on('change', function() {
                 let selected = $('#department').val();
                 $.ajax({
-                    url: 'test.php',
+                    url: 'http://localhost/polyclinic/controller/appointment_controller.php?action=getDepartmentId',
                     type: 'POST',
-                    data: {'selected': selected},
-                    success: alert(selected),
-                
-                })
+                    data: {
+                        selected
+                    },
+                    success: (payload) => {
+                        payload = JSON.parse(payload);
+                        if (payload.message === 'success') {
+                            let tableData = '';
+                            payload.data.forEach(element => {
+                                let row = '<tr>';
+                                row += `<td>${element.full_name}</td>`;
+                                row += `<td>${element.time}</td>`;
+                                row += `<td>${element.availability}</td>`;
+                                row += `<td><button type="submit" name="appointment" value="${element.schedule_id}">Select</button></td>`;
+                                row += '</tr>';
+                                tableData += row;
+                            });
+                            $('.doctor_table tbody').html(tableData);
+                        } else {
+                            alert(payload.message);
+                        }
+                    },
+                });
             });
         });
     </script>

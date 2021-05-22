@@ -32,6 +32,8 @@ if (isset($_POST['login'])) {
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             if (password_verify($pin, $row['pin'])) {
+                session_start();
+                $_SESSION['patient_id'] = $row['id'];
                 header('location: ./../patient/appointment');
             }
         }

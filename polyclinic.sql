@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 20, 2021 at 06:03 AM
+-- Generation Time: May 22, 2021 at 07:25 AM
 -- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.11
+-- PHP Version: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,6 +33,13 @@ CREATE TABLE `appointments` (
   `patient_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `appointments`
+--
+
+INSERT INTO `appointments` (`id`, `schedule_id`, `patient_id`) VALUES
+(1, 4, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -49,7 +56,9 @@ CREATE TABLE `departments` (
 --
 
 INSERT INTO `departments` (`id`, `name`) VALUES
-(1, 'General');
+(1, 'General'),
+(2, 'Eye'),
+(3, 'Dentist');
 
 -- --------------------------------------------------------
 
@@ -99,8 +108,16 @@ CREATE TABLE `patients` (
   `id_number` char(16) NOT NULL,
   `full_name` varchar(20) NOT NULL,
   `address` varchar(30) NOT NULL,
-  `contact` varchar(13) NOT NULL
+  `contact` varchar(13) NOT NULL,
+  `pin` char(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `patients`
+--
+
+INSERT INTO `patients` (`id`, `id_number`, `full_name`, `address`, `contact`, `pin`) VALUES
+(3, '123', 'a', 'a', 'a', '$2y$10$nVV9hguRAxiWch69JAaWg.WHqKA7TqZeOay89KEu33VhjP4yJZx9i');
 
 -- --------------------------------------------------------
 
@@ -109,7 +126,7 @@ CREATE TABLE `patients` (
 --
 
 CREATE TABLE `schedules` (
-  `id` int(11) NOT NULL,
+  `schedule_id` int(11) NOT NULL,
   `department_id` int(11) NOT NULL,
   `doctor_id` int(11) DEFAULT NULL,
   `time` time NOT NULL,
@@ -120,8 +137,8 @@ CREATE TABLE `schedules` (
 -- Dumping data for table `schedules`
 --
 
-INSERT INTO `schedules` (`id`, `department_id`, `doctor_id`, `time`, `availability`) VALUES
-(4, 1, 4, '10:00:00', 'available');
+INSERT INTO `schedules` (`schedule_id`, `department_id`, `doctor_id`, `time`, `availability`) VALUES
+(4, 1, 1, '10:00:00', 'available');
 
 --
 -- Indexes for dumped tables
@@ -165,7 +182,7 @@ ALTER TABLE `patients`
 -- Indexes for table `schedules`
 --
 ALTER TABLE `schedules`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`schedule_id`),
   ADD KEY `doctor_schedule_key` (`doctor_id`),
   ADD KEY `department_schedule_key` (`department_id`);
 
@@ -177,13 +194,13 @@ ALTER TABLE `schedules`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `diagnosis`
@@ -201,13 +218,13 @@ ALTER TABLE `doctors`
 -- AUTO_INCREMENT for table `patients`
 --
 ALTER TABLE `patients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `schedules`
 --
 ALTER TABLE `schedules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -218,7 +235,7 @@ ALTER TABLE `schedules`
 --
 ALTER TABLE `appointments`
   ADD CONSTRAINT `patient_id_key` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`),
-  ADD CONSTRAINT `schedule_id_key` FOREIGN KEY (`schedule_id`) REFERENCES `schedules` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `schedule_id_key` FOREIGN KEY (`schedule_id`) REFERENCES `schedules` (`schedule_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `diagnosis`
