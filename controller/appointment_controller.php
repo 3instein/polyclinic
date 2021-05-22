@@ -37,4 +37,15 @@ function getDepartmentid($department_id) {
     return $result;
     $conn->close();
 }
+
+function getDoctorAppointment($doctor_id){
+    require 'connect.php';
+    $sql = "SELECT * FROM appointments JOIN schedules ON schedules.doctor_id WHERE schedules.doctor_id='$doctor_id'";
+    $result = $conn ->query($sql);
+
+    if($result->num_rows > 0){
+        return $result;
+    }
+    $conn->close();
+}
     

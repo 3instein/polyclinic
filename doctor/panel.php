@@ -1,7 +1,8 @@
 <?php
-
-include '../controller/doctor_controller.php';
+    include '../controller/appointment_controller.php';
+    include '../controller/doctor_controller.php';
     include '../controller/schedule_controller.php';
+    include '../controller/patient_controller.php';
     !isset($_SESSION['id']) ? header('location: login') : NULL;
 ?>
 
@@ -17,6 +18,23 @@ include '../controller/doctor_controller.php';
     <img src="../images/profile/<?= $_SESSION['username']; ?>.png">
     Welcome Dr. <?= $_SESSION['full_name']; ?>
     <button><a href="logout">Logout</a></button><br>
+    Appointment<br>
+    <table border="5">
+        <tr>
+            <th>Patient</th>
+            <th>Time</th>
+            <th>Action</th>
+        </tr>
+        <?php
+            $appointment = getDoctorAppointment($_SESSION['id']);
+            if(!empty($appointment)){
+                while($row = $appointment->fetch_assoc()){
+                    echo "<td>".getPatient($row['patient_id'], "name")."</td>";
+                    echo "<td>$row[time]</td>";
+                }
+            }
+        ?>
+    </table>
     Schedule<br>
     <table border="5">
         <tr>
@@ -40,9 +58,9 @@ include '../controller/doctor_controller.php';
                     echo "<td>$row[time]</td>";
                     echo "<td>";
                     if($row['availability'] = "available" && empty($doctor_name)){
-                        echo "<button><a href='../controller/schedule_controller?schedule_id=$row[id]&doctor_id=$_SESSION[id]&action=select'>Select</a></button>";
+                        echo "<button><a href='../controller/schedule_controller?schedule_id=$row[schedule_id]&doctor_id=$_SESSION[id]&action=select'>Select</a></button>";
                     } else if($row['doctor_id'] == $_SESSION['id']){
-                        echo "<button><a href='../controller/schedule_controller?schedule_id=$row[id]&doctor_id=$_SESSION[id]&action=cancel'>Cancel</a></button>";
+                        echo "<button><a href='../controller/schedule_controller?schedule_id=$row[schedule_id]&doctor_id=$_SESSION[id]&action=cancel'>Cancel</a></button>";
                     }
                     echo "</td>";
                     echo "</tr>";

@@ -40,3 +40,16 @@ if (isset($_POST['login'])) {
     }
     $conn->close();
 }
+
+function getPatient($patient_id, $request)
+{
+    require 'connect.php';
+    $sql = "SELECT * FROM patients WHERE id='$patient_id'";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        if ($request == "name") {
+            $name = $result->fetch_assoc();
+            return $name['full_name'];
+        }
+    }
+}

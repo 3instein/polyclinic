@@ -23,14 +23,14 @@
 
     function selectSchedule($doctor_id, $schedule_id){
         require_once 'connect.php';
-        $sql = "UPDATE `schedules` SET `doctor_id` = '$doctor_id' WHERE `schedules`.`id` = '$schedule_id'";
+        $sql = "UPDATE `schedules` SET `doctor_id` = '$doctor_id' WHERE `schedules`.`schedule_id` = '$schedule_id'";
         $conn->query($sql);
         $conn->close();
     }
 
     function cancelSchedule($schedule_id){
         require_once 'connect.php';
-        $sql = "UPDATE `schedules` SET `doctor_id` = NULL WHERE `schedules`.`id` = '$schedule_id'";
+        $sql = "UPDATE `schedules` SET `doctor_id` = NULL WHERE `schedules`.`schedule_id` = '$schedule_id'";
         $conn->query($sql);
         $conn->close();
     }
