@@ -40,7 +40,8 @@ function getDepartmentid($department_id) {
 
 function getDoctorAppointment($doctor_id){
     require 'connect.php';
-    $sql = "SELECT * FROM appointments JOIN schedules ON schedules.doctor_id WHERE schedules.doctor_id='$doctor_id'";
+    $sql = "SELECT * FROM appointments JOIN schedules ON appointments.schedule_id = schedules.schedule_id 
+            WHERE schedules.doctor_id='$doctor_id'";
     $result = $conn ->query($sql);
 
     if($result->num_rows > 0){
@@ -51,7 +52,10 @@ function getDoctorAppointment($doctor_id){
 
 function getPatientAppointment($patient_id){
     require 'connect.php';
-    $sql = "SELECT * FROM appointments JOIN patients ON patients.id WHERE patients.id='$patient_id'";
+    $sql = "SELECT * FROM appointments JOIN schedules ON appointments.schedule_id = schedules.schedule_id 
+            JOIN departments ON schedules.department_id = departments.id 
+            JOIN doctors ON schedules.doctor_id = doctors.id 
+            WHERE appointments.patient_id = '2'";
     $result = $conn->query($sql);
     if($result->num_rows > 0){
         return $result;

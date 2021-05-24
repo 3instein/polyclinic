@@ -3,7 +3,8 @@
     include '../controller/doctor_controller.php';
     include '../controller/schedule_controller.php';
     include '../controller/patient_controller.php';
-    !isset($_SESSION['id']) ? header('location: login') : NULL;
+    
+    session_start();
 ?>
 
 <!DOCTYPE html>

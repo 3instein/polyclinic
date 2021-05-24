@@ -31,16 +31,17 @@ session_start();
             $appointment = getPatientAppointment($_SESSION['id']);
             if (!empty($appointment)) {
                 while($row = $appointment->fetch_assoc()){
-                    $department_id = scheduleData($row['schedule_id'], "department");
+                    // $department_id = scheduleData($row['schedule_id'], "department");
                     echo "<tr>";
-                    echo "<td>".getDepartment($department_id, "name")."</td>";
-                    $doctor_id = scheduleData($row['schedule_id'], "doctor");
-                    echo "<td>".getDoctor($doctor_id, "name")."</td>";
-                    echo "<td>".scheduleData($row['schedule_id'], "time")."</td>";
+                    echo "<td>$row[name]</td>";
+                    // $doctor_id = scheduleData($row['schedule_id'], "doctor");
+                    echo "<td>$row[full_name]</td>";
+                    echo "<td>$row[time]</td>";
                     echo "</tr>";
                 }
             }
         ?>
+        <button><a href="../doctor/logout">Logout</a></button><br>
     </table>
 </body>
 
