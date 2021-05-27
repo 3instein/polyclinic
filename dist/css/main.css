@@ -470,7 +470,7 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
       -ms-flex-align: center;
           align-items: center;
   text-decoration: none;
-  color: #024ed5;
+  color: #333333;
 }
 
 .first_nav .navbar_brand p {
@@ -502,16 +502,217 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
 }
 
 .second_nav {
-  width: 80%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  width: 100%;
   height: 2rem;
   padding: 2rem 0 2.5rem 0;
-  border-bottom: 1px solid #878288;
-  margin-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(135, 130, 136, 0.6);
+  margin-bottom: 3rem;
 }
 
 .second_nav p {
+  position: relative;
   color: #333333;
   font-weight: 500;
   cursor: pointer;
+}
+
+.second_nav p.selected_menu::after {
+  content: "";
+  position: absolute;
+  bottom: -90%;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  width: 100%;
+  height: 0.2rem;
+  border-radius: 1rem;
+  background-color: #024ed5;
+  -webkit-animation: lineAnime 0.5s;
+          animation: lineAnime 0.5s;
+}
+
+.second_nav p:not(:last-child) {
+  margin-right: 2rem;
+}
+
+.view_appointment_page > table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+.view_appointment_page > table th,
+.view_appointment_page > table td {
+  width: 20%;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(135, 130, 136, 0.2);
+}
+
+.view_appointment_page > table tr:last-child > td {
+  text-align: right;
+  border: none;
+  padding: 3.5rem 0 2.5rem 0;
+}
+
+.view_appointment_page > table tr:last-child > td:first-child {
+  text-align: left;
+}
+
+.view_appointment_page > table tr:last-child > td #make_new_appointment {
+  text-decoration: none;
+  color: #fff;
+  background-color: rgba(30, 64, 109, 0.9);
+  padding: 0.75rem 2rem;
+  border-radius: 1rem;
+  font-weight: 500;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+
+.view_appointment_page > table tr:last-child > td #make_new_appointment:hover {
+  opacity: 0.9;
+}
+
+.view_appointment_page > table th {
+  color: rgba(2, 78, 213, 0.8);
+  font-weight: 700;
+}
+
+.view_appointment_page > table td {
+  padding-top: 1.5rem;
+  color: rgba(51, 51, 51, 0.9);
+  font-weight: 500;
+}
+
+.view_appointment_page > table td #cancel_appointment {
+  text-decoration: none;
+  color: #fff;
+  padding: 0.75rem 2rem;
+  background-color: rgba(2, 78, 213, 0.9);
+  border-radius: 0.625rem;
+  border: none;
+  font-weight: 700;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+  cursor: pointer;
+}
+
+.view_appointment_page > table td #cancel_appointment:hover {
+  opacity: 0.8;
+}
+
+.view_profile_page {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.view_profile_page > .user_profile_section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 25%;
+  height: 100%;
+  margin-left: 4rem;
+}
+
+.view_profile_page > .user_profile_section img {
+  width: 17.5rem;
+  height: 17.5rem;
+  margin-bottom: 2rem;
+}
+
+.view_profile_page > .user_profile_section p {
+  color: #333333;
+  font-weight: 700;
+}
+
+.view_profile_page > .user_profile_section p:nth-child(3) {
+  margin-top: 1rem;
+  color: rgba(51, 51, 51, 0.6);
+  font-weight: 400;
+}
+
+.view_profile_page > .user_profile_section #patientLogout,
+.view_profile_page > .user_profile_section #edit_user_profile {
+  text-decoration: none;
+  text-align: center;
+  margin: 2rem auto;
+  padding: 0.65rem 0;
+  width: 100%;
+  background-color: rgba(193, 21, 27, 0.9);
+  border-radius: 0.625rem;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+  cursor: pointer;
+  color: white;
+  font-weight: 500;
+}
+
+.view_profile_page > .user_profile_section #patientLogout:hover,
+.view_profile_page > .user_profile_section #edit_user_profile:hover {
+  opacity: 0.9;
+}
+
+.view_profile_page > .user_profile_section #edit_user_profile {
+  margin: 3rem 0 0 0;
+  background-color: rgba(30, 64, 109, 0.9);
+}
+
+.view_profile_page > .user_profile_detail,
+.change_profile_detail {
+  width: 75%;
+  margin: 0 4rem;
+  border-left: 1px solid rgba(51, 51, 51, 0.3);
+  padding-left: 4rem;
+}
+
+.view_profile_page > .user_profile_detail img,
+.change_profile_detail img {
+  width: 2rem;
+  height: 2rem;
+}
+
+@-webkit-keyframes lineAnime {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes lineAnime {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
 }
 /*# sourceMappingURL=main.css.map */

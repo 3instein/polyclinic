@@ -1,5 +1,7 @@
 <?php
 
+include ('screening_controller.php');
+
 if (isset($_POST['register'])) {
     require_once 'connect.php';
     $full_name = $_POST['full_name'];
@@ -41,7 +43,11 @@ if (isset($_POST['login'])) {
             if (password_verify($pin, $row['pin'])) {
                 session_start();
                 $_SESSION['id'] = $row['id'];
+                $_SESSION['id_number'] = $row['id_number'];
+                $_SESSION['email'] = $row['email'];
                 $_SESSION['full_name'] = $row['full_name'];
+                $_SESSION['address'] = $row['address'];
+                $_SESSION['contact'] = $row['contact'];
                 header('location: ../patient/panel');
             }
         }

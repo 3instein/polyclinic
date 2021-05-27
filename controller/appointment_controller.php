@@ -7,6 +7,15 @@ switch ($_GET['action'] ?? '') {
 
         // default:
         //     echo json_encode(['message' => 'invalid argument']);
+    case 'cancelAppointment':
+        echo json_encode(['message' => 'success', 'data' => cancelAppointment(@$_POST['cancelAppointment'])]);
+        break;
+    case 'startAppointment':
+        echo json_encode(['message' => 'success', 'data' => startAppointment(@$_POST['appointment_id'])]);
+        break;
+    case 'finishAppointment':
+        echo json_encode(['message' => 'success', 'data' => finishAppointment(@$_POST['appointment_id'])]);
+        break;
 }
 
 if (isset($_POST['appointment'])) {
@@ -21,7 +30,7 @@ if (isset($_POST['appointment'])) {
     $query->bind_param("ii", $schedule_id, $id);
 
     if($query->execute()){
-        header('location: ../patient/panel');
+        header('location: ../patient/screening');
     }
     $conn->close();
 }
@@ -43,9 +52,10 @@ function getDepartmentid($department_id) {
 
 function getDoctorAppointment($doctor_id){
     require 'connect.php';
-    $sql = "SELECT * FROM appointments JOIN schedules ON appointments.schedule_id = schedules.schedule_id 
+    $sql = "SELECT appointments.id, patients.full_name, schedules.time, appointments.status
+            FROM appointments JOIN schedules ON appointments.schedule_id = schedules.schedule_id 
             JOIN patients ON appointments.patient_id = patients.id 
-            WHERE schedules.doctor_id=?";
+            WHERE schedules.doctor_id=? AND appointments.status != 'Finished'";
     $query = $conn->prepare($sql);
     $query->bind_param("i", $doctor_id);
 
@@ -58,7 +68,8 @@ function getDoctorAppointment($doctor_id){
 
 function getPatientAppointment($patient_id){
     require 'connect.php';
-    $sql = "SELECT * FROM appointments JOIN schedules ON appointments.schedule_id = schedules.schedule_id 
+    $sql = "SELECT appointments.id, departments.name, doctors.full_name, schedules.time, appointments.status
+            FROM appointments JOIN schedules ON appointments.schedule_id = schedules.schedule_id 
             JOIN departments ON schedules.department_id = departments.id 
             JOIN doctors ON schedules.doctor_id = doctors.id 
             WHERE appointments.patient_id = ?";
@@ -75,3 +86,38 @@ function getPatientAppointment($patient_id){
     $conn->close();
 }
     
+function cancelAppointment($appointment_id){
+    require 'connect.php';
+    $sql = "UPDATE `appointments` SET `status` = 'Cancelled' WHERE `appointments`.`id` = ?";
+
+    $query = $conn->prepare($sql);
+    $query->bind_param("i", $appointment_id);
+
+    $query->execute();
+
+    $conn->close();
+}
+
+function startAppointment($appointment_id){
+    require 'connect.php';
+    $sql = "UPDATE `appointments` SET `status` = 'Ongoing' WHERE `appointments`.`id` = ?";
+
+    $query = $conn->prepare($sql);
+    $query->bind_param("i", $appointment_id);
+
+    $query->execute();
+
+    $conn->close();
+}
+
+function finishAppointment($appointment_id){
+    require 'connect.php';
+    $sql = "UPDATE `appointments` SET `status` = 'Finished' WHERE `appointments`.`id` = ?";
+
+    $query = $conn->prepare($sql);
+    $query->bind_param("i", $appointment_id);
+
+    $query->execute();
+
+    $conn->close();
+}

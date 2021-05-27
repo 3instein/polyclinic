@@ -1,10 +1,12 @@
 <?php
-    session_start();
 
     if(isset($_POST['screening_submit'])){
-        $screening['question-1'] = $_POST['question-1'];
-        $screening['question-2'] = $_POST['question-2'];
-        echo json_encode($screening);
+        session_start();
+        $screening = array(
+            "question1" => $_POST['question-1'],
+            "question2" => $_POST['question-2']
+        );
+        $screening = json_encode($screening);
         insertScreening($screening, $_SESSION['id']);
     }
 
@@ -17,6 +19,19 @@
 
         if($query->execute()){
             header('location: ../patient/panel');
+        }
+    }
+
+    function readScreening($patient_id){
+        require 'connect.php';
+        $sql = "SELECT * FROM screening WHERE patient_id=?";
+
+        $query = $conn->prepare($sql);
+        $query->bind_param("i", $patient_id);
+
+        if($query->execute()){
+            $result = $query->get_result();
+            return $result;
         }
     }
 ?>

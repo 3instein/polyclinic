@@ -1,14 +1,13 @@
 <?php
 
-if (isset($_GET['action'])) {
-    if ($_GET['action'] == "select") {
-        selectSchedule($_GET['doctor_id'], $_GET['schedule_id']);
-    }
+switch ($_GET['action'] ?? '') {
+    case 'select':
+        echo json_encode(['message' => 'success', 'data' => selectSchedule(@$_POST['doctor_id'], @$_POST['schedule_id'])]);
+        break;
 
-    if ($_GET['action'] == "cancel") {
-        cancelSchedule($_GET['schedule_id']);
-    }
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    case 'cancel':
+        echo json_encode(['message' => 'success', 'data' => cancelSchedule(@$_POST['schedule_id'])]);
+        break;
 }
 
 function getSchedule($department_id) {
@@ -28,27 +27,23 @@ function getSchedule($department_id) {
 }
 
 function selectSchedule($doctor_id, $schedule_id) {
-    require_once 'connect.php';
+    require 'connect.php';
     $sql = "UPDATE `schedules` SET `doctor_id` = ? WHERE `schedules`.`schedule_id` = ?";
 
     $query = $conn->prepare($sql);
     $query->bind_param("ii", $doctor_id, $schedule_id);
 
-    if ($query->execute()) {
-        $response['msg'] = "Success";
-    }
+    $query->execute();
     $conn->close();
 }
 
 function cancelSchedule($schedule_id) {
-    require_once 'connect.php';
+    require 'connect.php';
     $sql = "UPDATE `schedules` SET `doctor_id` = NULL WHERE `schedules`.`schedule_id` = ?";
 
     $query = $conn->prepare($sql);
     $query->bind_param("i", $schedule_id);
 
-    if ($query->execute()) {
-        $response['msg'] = "Success";
-    }
+    $query->execute();
     $conn->close();
 }

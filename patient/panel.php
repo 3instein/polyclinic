@@ -46,21 +46,20 @@ if (!isset($_SESSION['id'])) {
                 <img src="./../dist/img/logo.svg" alt="Logo" />
                 <p>Polyclinic</p>
             </a>
-            <div class="user_profile_name">
-                <p><?= $_SESSION['full_name']; ?></p>
-                <img src="./../dist/img/user_logo.svg" alt="user_icon" />
-            </div>
+            <p>Patient's Panel</p>
         </nav>
         <nav class="second_nav">
             <p class="view_appointment">Appointment</p>
-            <p class="view_profile">Profiles</p>
+            <p class="view_profile">Profile</p>
+            <p class="view_screening">Screening</p>
         </nav>
         <div class="view_appointment_page">
-            <table border="5">
+            <table>
                 <tr>
                     <th>Department</th>
                     <th>Doctor</th>
                     <th>Time</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
                 <?php
@@ -70,36 +69,177 @@ if (!isset($_SESSION['id'])) {
                     echo "<td>$appointment[name]</td>";
                     echo "<td>$appointment[full_name]</td>";
                     echo "<td>$appointment[time]</td>";
+                    echo "<td>$appointment[status]</td>";
+                    if($appointment['status'] == "Upcoming"){
+                        echo "<td><button id='cancel_appointment' name='cancelAppointment' value='$appointment[id]'>Cancel Appointment</button></td>";
+                    } else {
+                        echo "<td></td>";
+                    }
                     echo "</tr>";
                 }
                 ?>
+                <tr>
+                    <td>
+                        <a href="./appointment.php" id="make_new_appointment">New Appointment</a>
+                    </td>
+                </tr>
             </table>
-            <p>Appointment can only be canceled 1 hour before the scheduled time</p>
+            <p>Note : Appointment can only be canceled 1 day before the scheduled time!</p>
         </div>
         <div class="view_profile_page">
-            <p>Ini profile</p>
-            <button id="patientLogout"><a href="BASE_URL/patient/logout">Logout</a></button>
+            <div class="user_profile_section">
+                <img src="./../dist/img/user_logo.svg" alt="user">
+                <p>Hello <?= $_SESSION['full_name']; ?></p>
+                <p><?= $_SESSION['id_number']; ?></p>
+                <p id="edit_user_profile">Edit Profile</p>
+                <a href="logout" id="patientLogout">Logout</a>
+            </div>
+            <div class="user_profile_detail">
+                <img src="./../dist/img/email.svg" alt>
+                <p><?= $_SESSION['email']; ?></p>
+                <img src="./../dist/img/phone.svg" />
+                <p><?= $_SESSION['contact']; ?></p>
+                <img src="./../dist/img/location.svg" />
+                <p><?= $_SESSION['address']; ?></p>
+            </div>
+            <div class="change_profile_detail">
+                <form method="POST" action="./../controller/patient_controller.php">
+                    <label for="email">Email</label>
+                    <input type="text" name="email" <?php echo "placeholder='" . $_SESSION['email'] . "'"; ?>>
+                    <label for="email">Contact</label>
+                    <input type="text" name="email" <?php echo "placeholder='" . $_SESSION['contact'] . "'"; ?>>
+                    <label for="email">Address</label>
+                    <input type="text" name="email" <?php echo "placeholder='" . $_SESSION['address'] . "'"; ?>>
+                </form>
+            </div>
         </div>
+        <div class="view_screening_page">
+            <p>Screening</p>
+            <ol>
+                <?php
+                $screening = readScreening($_SESSION['id']);
+                $data = $screening->fetch_assoc();
+                $result = json_decode($data['result']);
+                echo "<p>Time : $data[time]</p>";
+                echo "<li>Any allergic reaction to medication</li>";
+                if ($result->question1) {
+                    echo "<input type='radio' name='question1' checked disabled>Yes";
+                    echo "<input type='radio' name='question1' disabled>No";
+                } else {
+                    echo "<input type='radio' name='question1' disabled>Yes";
+                    echo "<input type='radio' name='question1' checked disabled>No";
+                }
+                echo "<li>High blood pressure</li>";
+                if ($result->question2) {
+                    echo "<input type='radio' name='question2' checked disabled>Yes";
+                    echo "<input type='radio' name='question2' disabled>No";
+                } else {
+                    echo "<input type='radio' name='question2' disabled>Yes";
+                    echo "<input type='radio' name='question2' checked disabled>No";
+                }
+                ?>
+            </ol>
+        </div>
+        <span id="ct"></span>
     </div>
-    <span id="ct"></span>
 
     <script>
         $(document).ready(function(e) {
             $('.view_profile_page').hide();
+            $('.view_screening_page').hide();
+            $('.change_profile_detail').hide();
+
+            $('.view_appointment').css(
+                "font-weight", "800"
+            ).addClass('selected_menu');
 
             $('.view_appointment').click(function(e) {
                 e.preventDefault();
 
+                $('.view_appointment').css(
+                    "font-weight", "800"
+                ).addClass('selected_menu');
+
+                $('.view_profile').css(
+                    "font-weight", "500"
+                ).removeClass('selected_menu');
+
+                $('.view_screening').css(
+                    "font-weight", "500"
+                ).removeClass('selected_menu');
+
                 $('.view_appointment_page').show();
                 $('.view_profile_page').hide();
+                $('.view_screening_page').hide();
             });
 
             $('.view_profile').click(function(e) {
                 e.preventDefault();
 
+                $('.view_profile').css(
+                    "font-weight", "800"
+                ).addClass('selected_menu');
+
+                $('.view_appointment').css(
+                    "font-weight", "500"
+                ).removeClass('selected_menu');
+
+                $('.view_screening').css(
+                    "font-weight", "500"
+                ).removeClass('selected_menu');
+
                 $('.view_profile_page').show();
                 $('.view_appointment_page').hide();
+                $('.view_screening_page').hide();
             });
+
+            $('.view_screening').click(function(e) {
+                e.preventDefault();
+
+                $('.view_screening').css(
+                    "font-weight", "800"
+                ).addClass('selected_menu');
+
+                $('.view_appointment').css(
+                    "font-weight", "500"
+                ).removeClass('selected_menu');
+
+                $('.view_profile').css(
+                    "font-weight", "500"
+                ).removeClass('selected_menu');
+
+                $('.view_screening_page').show();
+                $('.view_appointment_page').hide();
+                $('.view_profile_page').hide();
+            });
+
+            $('#cancel_appointment').click(function() {
+                let cancelAppointment = $('#cancel_appointment').val();
+                $.ajax({
+                    url: 'http://localhost/polyclinic/controller/appointment_controller.php?action=cancelAppointment',
+                    type: 'POST',
+                    data: {
+                        cancelAppointment
+                    },
+                    success: (payload) => {
+                        payload = JSON.parse(payload);
+                        if (payload.message === 'success') {
+                            location.reload();
+                        } else {
+                            alert(payload.message);
+                        }
+                    },
+                });
+            });
+
+            $('#edit_user_profile').click(
+                (e) => {
+                    e.preventDefault();
+
+                    $('.change_profile_detail').show();
+                    $('.user_profile_detail').hide();
+                }
+            );
         });
     </script>
 </body>
