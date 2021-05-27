@@ -1,55 +1,54 @@
 <?php
 
-    if(isset($_GET['action'])){
-        if($_GET['action'] == "select"){
-            selectSchedule($_GET['doctor_id'], $_GET['schedule_id']);
-        }
-
-        if($_GET['action'] == "cancel"){
-            cancelSchedule($_GET['schedule_id']);
-        }
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
+if (isset($_GET['action'])) {
+    if ($_GET['action'] == "select") {
+        selectSchedule($_GET['doctor_id'], $_GET['schedule_id']);
     }
 
-    function getSchedule($department_id){
-        require 'connect.php';
-        $sql = "SELECT * FROM schedules WHERE department_id='$department_id' AND availability='available'";
-        $result = $conn->query($sql);
-        if($result->num_rows > 0){
-            return $result;
-        }
-        $conn->close();
+    if ($_GET['action'] == "cancel") {
+        cancelSchedule($_GET['schedule_id']);
     }
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
+}
 
-    function selectSchedule($doctor_id, $schedule_id){
-        require_once 'connect.php';
-        $sql = "UPDATE `schedules` SET `doctor_id` = '$doctor_id' WHERE `schedules`.`schedule_id` = '$schedule_id'";
-        $conn->query($sql);
-        $conn->close();
+function getSchedule($department_id) {
+    require 'connect.php';
+    $sql = "SELECT s.schedule_id, s.department_id, s.time, s.availability, doctors.id, doctors.full_name 
+            FROM schedules s LEFT JOIN doctors ON s.doctor_id = doctors.id 
+            WHERE s.department_id=? AND availability='available'";
+
+    $query = $conn->prepare($sql);
+    $query->bind_param("i", $department_id);
+
+    if ($query->execute()) {
+        $result = $query->get_result();
+        return $result;
     }
+    $conn->close();
+}
 
-    function cancelSchedule($schedule_id){
-        require_once 'connect.php';
-        $sql = "UPDATE `schedules` SET `doctor_id` = NULL WHERE `schedules`.`schedule_id` = '$schedule_id'";
-        $conn->query($sql);
-        $conn->close();
+function selectSchedule($doctor_id, $schedule_id) {
+    require_once 'connect.php';
+    $sql = "UPDATE `schedules` SET `doctor_id` = ? WHERE `schedules`.`schedule_id` = ?";
+
+    $query = $conn->prepare($sql);
+    $query->bind_param("ii", $doctor_id, $schedule_id);
+
+    if ($query->execute()) {
+        $response['msg'] = "Success";
     }
+    $conn->close();
+}
 
-    function scheduleData($schedule_id, $request){
-        require 'connect.php';
-        $sql = "SELECT * FROM schedules WHERE schedule_id='$schedule_id'";
-        $result = $conn->query($sql);
-        $data = $result->fetch_assoc();
-        
-        if($result && $request == "department"){
-            return $data['department_id'];
-        }
+function cancelSchedule($schedule_id) {
+    require_once 'connect.php';
+    $sql = "UPDATE `schedules` SET `doctor_id` = NULL WHERE `schedules`.`schedule_id` = ?";
 
-        if($result && $request == "doctor"){
-            return $data['doctor_id'];
-        }
+    $query = $conn->prepare($sql);
+    $query->bind_param("i", $schedule_id);
 
-        if($result && $request == "time"){
-            return $data['time'];
-        }
+    if ($query->execute()) {
+        $response['msg'] = "Success";
     }
+    $conn->close();
+}

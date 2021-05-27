@@ -1,0 +1,101 @@
+@import "./variables";
+
+.form_wrapper {
+  position: absolute;
+  border-radius: 1rem;
+  box-shadow: 3px 3px 20px rgba($color: #000, $alpha: 0.2);
+  width: 80%;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 70%;
+  margin-top: 2rem;
+
+  .slider {
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(93.03deg, $primariBlue -3.29%, rgba(10, 27, 216, 1) 83.23%, $secondaryBlue 176.65%);
+    border-radius: 0 1rem 1rem 0;
+    z-index: 2;
+  }
+
+  .register_form,
+  .login_form {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50%;
+    height: 36rem;
+
+    form {
+      @include flexCenter();
+      align-items: flex-start;
+      justify-content: space-evenly;
+      flex-direction: column;
+      position: absolute;
+      left: 25%;
+      height: 100%;
+
+      label {
+        font-size: 1.5rem;
+        font-weight: map-get($font-weights, medium);
+      }
+
+      input {
+        font-size: 1rem;
+        padding: 0.25rem 0;
+        width: 20rem;
+      }
+
+      button[type="submit"] {
+        font-size: 1.25rem;
+        padding: 0.5rem 2rem;
+        margin-top: 1rem;
+        cursor: pointer;
+        border: none;
+        background-color: $primariBlue;
+        color: $whiteGrayish;
+        border-radius: 0.625rem;
+        font-weight: map-get($font-weights, medium);
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+          opacity: 0.9;
+        }
+      }
+    }
+  }
+
+  .register_form > #change_authentication_register {
+    position: absolute;
+    top: -5%;
+    right: 5%;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  .login_form {
+    right: 0%;
+    float: right;
+
+    #change_authentication_login {
+      position: absolute;
+      top: -5%;
+      right: 5%;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+
+    form {
+      height: 50%;
+    }
+  }
+}

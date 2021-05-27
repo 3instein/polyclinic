@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Viga&display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -313,30 +314,136 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   background-color: #878288;
 }
 
-.appoinment_ocw {
-  position: relative;
-  margin-top: 2.5rem;
+#patientLogout {
+  border: none;
+  background-color: red;
 }
 
-.appoinment_ocw h1 {
-  position: relative;
-  font-size: 4rem;
-  width: 40%;
-  font-weight: 500;
-  line-height: 1.2;
-}
-
-.appoinment_ocw h1::after {
-  content: "";
+.form_wrapper {
   position: absolute;
-  bottom: -25%;
-  left: 0%;
-  width: 7rem;
-  height: 0.3rem;
-  background-color: #878288;
+  border-radius: 1rem;
+  -webkit-box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.2);
+          box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.2);
+  width: 80%;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  height: 70%;
+  margin-top: 2rem;
 }
 
-.appoinment_ocw .card_list {
+.form_wrapper .slider {
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(93.03deg, #024ed5 -3.29%, #0a1bd8 83.23%, #0a1bd8 176.65%);
+  border-radius: 0 1rem 1rem 0;
+  z-index: 2;
+}
+
+.form_wrapper .register_form,
+.form_wrapper .login_form {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  width: 50%;
+  height: 36rem;
+}
+
+.form_wrapper .register_form form,
+.form_wrapper .login_form form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: absolute;
+  left: 25%;
+  height: 100%;
+}
+
+.form_wrapper .register_form form label,
+.form_wrapper .login_form form label {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.form_wrapper .register_form form input,
+.form_wrapper .login_form form input {
+  font-size: 1rem;
+  padding: 0.25rem 0;
+  width: 20rem;
+}
+
+.form_wrapper .register_form form button[type="submit"],
+.form_wrapper .login_form form button[type="submit"] {
+  font-size: 1.25rem;
+  padding: 0.5rem 2rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  border: none;
+  background-color: #024ed5;
+  color: #f6eff0;
+  border-radius: 0.625rem;
+  font-weight: 500;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.form_wrapper .register_form form button[type="submit"]:hover,
+.form_wrapper .login_form form button[type="submit"]:hover {
+  opacity: 0.9;
+}
+
+.form_wrapper .register_form > #change_authentication_register {
+  position: absolute;
+  top: -5%;
+  right: 5%;
+  cursor: pointer;
+}
+
+.form_wrapper .register_form > #change_authentication_register:hover {
+  opacity: 0.7;
+}
+
+.form_wrapper .login_form {
+  right: 0%;
+  float: right;
+}
+
+.form_wrapper .login_form #change_authentication_login {
+  position: absolute;
+  top: -5%;
+  right: 5%;
+  cursor: pointer;
+}
+
+.form_wrapper .login_form #change_authentication_login:hover {
+  opacity: 0.7;
+}
+
+.form_wrapper .login_form form {
+  height: 50%;
+}
+
+.first_nav {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -349,82 +456,62 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  position: relative;
-  margin: 6rem 0;
+  width: 100%;
 }
 
-.appoinment_ocw .card_list .card {
-  width: 14rem;
-  height: 16rem;
-  border-radius: 1rem;
-  border: 3px solid black;
-  cursor: pointer;
-}
-
-.appoinment_form {
-  position: relative;
-  left: 12.5%;
-  width: 84.125rem;
-  height: 48.375rem;
-  background-color: #2c389b;
-}
-
-.appoinment_form .identities_form {
-  position: absolute;
-  right: 0%;
-  top: 10%;
-  width: 40%;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-}
-
-.appoinment_form .identities_form::after {
-  content: "";
-  position: absolute;
-  width: 1rem;
-  height: 100%;
-  background-color: #c0404e;
-  left: -10%;
-  top: 0%;
-}
-
-.appoinment_form .identities_form form {
+.first_nav .navbar_brand {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  width: 60%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-decoration: none;
+  color: #024ed5;
 }
 
-.appoinment_form .identities_form form label {
-  color: #f6eff0;
-  font-size: 1.5rem;
+.first_nav .navbar_brand p {
+  margin-left: 1rem;
+  font-family: "Viga", sans-serif;
+  font-size: 2rem;
 }
 
-.appoinment_form .identities_form form input[type="text"] {
-  margin: 1rem 0;
-  font-size: 1.25rem;
+.first_nav .user_profile_name {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.appoinment_form .identities_form form button[type="submit"] {
-  margin-top: 2rem;
-  padding: 1rem 0;
+.first_nav .user_profile_name p {
+  font-weight: 500;
+}
+
+.first_nav .user_profile_name img {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-left: 1rem;
+}
+
+.second_nav {
+  width: 80%;
+  height: 2rem;
+  padding: 2rem 0 2.5rem 0;
+  border-bottom: 1px solid #878288;
+  margin-bottom: 2.5rem;
+}
+
+.second_nav p {
+  color: #333333;
+  font-weight: 500;
   cursor: pointer;
-  background-color: #c0404e;
-  border: none;
-  color: #f6eff0;
-  font-size: 1rem;
-  font-weight: 700;
-  border-radius: 0.625rem;
-  -webkit-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
-}
-
-.appoinment_form .identities_form form button[type="submit"]:hover {
-  opacity: 0.9;
 }
 /*# sourceMappingURL=main.css.map */

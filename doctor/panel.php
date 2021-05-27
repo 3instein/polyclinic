@@ -3,8 +3,10 @@
     include '../controller/doctor_controller.php';
     include '../controller/schedule_controller.php';
     include '../controller/patient_controller.php';
-    
     session_start();
+    if(!isset($_SESSION['id'])){
+        // header('location: ../doctor/login');
+    }
 ?>
 
 <!DOCTYPE html>
@@ -29,12 +31,10 @@
         <?php
             $appointment = getDoctorAppointment($_SESSION['id']);
             if(!empty($appointment)){
-                while($row = $appointment->fetch_assoc()){
-                    echo "<tr>";
-                    echo "<td>".getPatient($row['patient_id'], "name")."</td>";
-                    echo "<td>$row[time]</td>";
-                    echo "</tr>";
-                }
+                echo "<tr>";
+                echo "<td>$appointment[full_name]</td>";
+                echo "<td>$appointment[time]</td>";
+                echo "</tr>";
             }
         ?>
     </table>
@@ -54,7 +54,7 @@
                         case 1:
                             $department = "General";
                     }
-                    $doctor_name = getDoctor($row['doctor_id'], "name");
+                    $doctor_name = $row['full_name'];
                     echo "<tr>";
                     echo "<td>$department</td>";
                     echo "<td>$doctor_name</td>";
@@ -62,7 +62,7 @@
                     echo "<td>";
                     if($row['availability'] = "available" && empty($doctor_name)){
                         echo "<button><a href='../controller/schedule_controller?schedule_id=$row[schedule_id]&doctor_id=$_SESSION[id]&action=select'>Select</a></button>";
-                    } else if($row['doctor_id'] == $_SESSION['id']){
+                    } else if($row['id'] == $_SESSION['id']){
                         echo "<button><a href='../controller/schedule_controller?schedule_id=$row[schedule_id]&doctor_id=$_SESSION[id]&action=cancel'>Cancel</a></button>";
                     }
                     echo "</td>";

@@ -1,0 +1,56 @@
+.first_nav {
+  @include flexCenter;
+  justify-content: space-between;
+  width: 100%;
+
+  .navbar_brand {
+    @include flexCenter;
+    text-decoration: none;
+    color: $primariBlue;
+
+    p {
+      margin-left: 1rem;
+      font-family: "Viga", sans-serif;
+      font-size: 2rem;
+    }
+  }
+
+  .user_profile_name {
+    @include flexCenter;
+
+    p {
+      font-weight: map-get($font-weights, medium);
+    }
+
+    img {
+      width: 2.5rem;
+      height: 2.5rem;
+      margin-left: 1rem;
+    }
+  }
+}
+
+.second_nav {
+  width: 80%;
+  height: 2rem;
+  padding: 2rem 0 2.5rem 0;
+  border-bottom: 1px solid $darkGrayish;
+  margin-bottom: 2.5rem;
+
+  p {
+    color: $textUse;
+    font-weight: map-get($font-weights, medium);
+    cursor: pointer;
+  }
+}
+// #patientLogout {
+//   border: none;
+//   background-color: #fff;
+//   margin-right: 1rem;
+
+//   a {
+//     text-decoration: none;
+//     color: $darkOrangish;
+//     font-size: 1rem;
+//   }
+// }

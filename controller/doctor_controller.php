@@ -1,9 +1,9 @@
 <?php
 
 if (isset($_POST['register'])) {
-    require_once 'connect.php';
+    require 'connect.php';
 
-    $username =  $conn->real_escape_string($_POST['username']);
+    $username =  $_POST['username'];
 
     $target_dir = "../images/profile/";
     $target_file = $target_dir . $username . ".png";
@@ -54,19 +54,24 @@ if (isset($_POST['register'])) {
     }
 
     if ($uploadOk == 1) {
-        $department_id = $conn->real_escape_string($_POST['department']);
-        $full_name =  $conn->real_escape_string($_POST['full_name']);
-        $password =  $conn->real_escape_string($_POST['password']);
+        $department_id = $_POST['department'];
+        $full_name =  $_POST['full_name'];
+        $password =  $_POST['password'];
         $password = password_hash($password, PASSWORD_DEFAULT);
 
         $sql = "INSERT INTO `doctors` (`id`, `department_id`, `full_name`, `username`, `password`, `session_id`) 
-                    VALUES (NULL, '$department_id', '$full_name', '$username', '$password', NULL)";
+                    VALUES (NULL, ?, ?, ?, ?, NULL)";
 
-        if ($conn->query($sql)) {
-            header('location: ../doctor/login');
+        $query = $conn->prepare($sql);
+        $query->bind_param("isss", $department_id, $full_name, $username, $password);
+
+        if ($query->execute()) {
+            $response['msg'] = "Registered";
+            header('location ../doctor/login');
         } else {
-            echo "Register failed";
+            $response['msg'] = "Failed";
         }
+        echo json_encode($response);
     } else {
         header('location: ../doctor/register');
     }
@@ -74,16 +79,17 @@ if (isset($_POST['register'])) {
 }
 
 if (isset($_POST['login'])) {
-    require_once 'connect.php';
+    require 'connect.php';
 
-    $username = $conn->real_escape_string($_POST['username']);
-    $password = $conn->real_escape_string($_POST['password']);
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-    $sql = "SELECT * FROM doctors WHERE username='$username'";
+    $sql = "SELECT * FROM doctors WHERE username=?";
+    $query = $conn->prepare($sql);
+    $query->bind_param("s", $username);
 
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
+    if ($query->execute()) {
+        $result = $query->get_result();
         while ($row = $result->fetch_assoc()) {
             if (password_verify($password, $row['password'])) {
                 if (empty($row['session_id'])) {
@@ -97,6 +103,7 @@ if (isset($_POST['login'])) {
             }
         }
     }
+
     $conn->close();
 }
 
@@ -110,4 +117,6 @@ function getDoctor($doctor_id, $request) {
             return $name['full_name'];
         }
     }
+
+    $conn->close();
 }

@@ -15,9 +15,12 @@ if (isset($_POST['appointment'])) {
     $id = $_SESSION['id'];
     $schedule_id = $_POST['appointment'];
 
-    $sql = "INSERT INTO `appointments` (`id`, `schedule_id`, `patient_id`) VALUES (NULL, '$schedule_id', '$id')";
+    $sql = "INSERT INTO `appointments` (`schedule_id`, `patient_id`) VALUES (?, ?)";
 
-    if ($conn->query($sql)) {
+    $query = $conn->prepare($sql);
+    $query->bind_param("ii", $schedule_id, $id);
+
+    if($query->execute()){
         header('location: ../patient/panel');
     }
     $conn->close();
@@ -41,11 +44,14 @@ function getDepartmentid($department_id) {
 function getDoctorAppointment($doctor_id){
     require 'connect.php';
     $sql = "SELECT * FROM appointments JOIN schedules ON appointments.schedule_id = schedules.schedule_id 
-            WHERE schedules.doctor_id='$doctor_id'";
-    $result = $conn ->query($sql);
+            JOIN patients ON appointments.patient_id = patients.id 
+            WHERE schedules.doctor_id=?";
+    $query = $conn->prepare($sql);
+    $query->bind_param("i", $doctor_id);
 
-    if($result->num_rows > 0){
-        return $result;
+    if($query->execute()){
+        $result = $query->get_result();
+        return $result->fetch_assoc();
     }
     $conn->close();
 }
@@ -55,10 +61,16 @@ function getPatientAppointment($patient_id){
     $sql = "SELECT * FROM appointments JOIN schedules ON appointments.schedule_id = schedules.schedule_id 
             JOIN departments ON schedules.department_id = departments.id 
             JOIN doctors ON schedules.doctor_id = doctors.id 
-            WHERE appointments.patient_id = '2'";
-    $result = $conn->query($sql);
-    if($result->num_rows > 0){
-        return $result;
+            WHERE appointments.patient_id = ?";
+
+    $query = $conn->prepare($sql);
+    $query->bind_param("i", $patient_id);
+ 
+    if($query->execute()){
+        $result = $query->get_result();
+        if($result->num_rows > 0){
+            return $result->fetch_assoc();
+        }
     }
     $conn->close();
 }

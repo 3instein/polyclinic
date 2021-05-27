@@ -21,9 +21,9 @@ isset($_SESSION['id']) ? header('location: panel') : NULL;
         Department
         <select name="department">
             <?php
-            $department_list = listDepartment();
-            if (!empty($department_list)) {
-                while ($row = $department_list->fetch_assoc()) {
+            $department = listDepartment();
+            if (!empty($department)) {
+                while ($row = $department->fetch_assoc()) {
                     echo "<option value='$row[id]'>$row[name]</option>";
                 }
             }
