@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 22, 2021 at 07:25 AM
+-- Generation Time: May 27, 2021 at 04:56 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.34
 
@@ -30,15 +30,17 @@ SET time_zone = "+00:00";
 CREATE TABLE `appointments` (
   `id` int(11) NOT NULL,
   `schedule_id` int(11) NOT NULL,
-  `patient_id` int(11) NOT NULL
+  `patient_id` int(11) NOT NULL,
+  `status` enum('Upcoming','Ongoing','Finished','Cancelled') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `appointments`
 --
 
-INSERT INTO `appointments` (`id`, `schedule_id`, `patient_id`) VALUES
-(1, 4, 3);
+INSERT INTO `appointments` (`id`, `schedule_id`, `patient_id`, `status`) VALUES
+(16, 4, 3, 'Upcoming'),
+(25, 5, 11, 'Upcoming');
 
 -- --------------------------------------------------------
 
@@ -63,18 +65,6 @@ INSERT INTO `departments` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `diagnosis`
---
-
-CREATE TABLE `diagnosis` (
-  `id` int(11) NOT NULL,
-  `patient_id` int(11) NOT NULL,
-  `time` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `doctors`
 --
 
@@ -95,7 +85,10 @@ INSERT INTO `doctors` (`id`, `department_id`, `full_name`, `username`, `password
 (1, 1, 'Rico Rudikan', 'ricorudikan', '$2y$10$ezLaJupOFurS0eYbzTZ5Yeg.lY8wrrzUC7iYiBTlltb3Y.0mn4YNG', NULL),
 (2, 1, 'Michael Eco', 'eco123', '$2y$10$n1bFcuyTqeQbcUVwnbAGJuW6oKAsFhk0ejVAZwK2mf0LaQabzNq5G', NULL),
 (3, 1, 'Reynaldi Kindarto', 'rey', '$2y$10$hykUVbl3dMB7p.QlJPeWPeB6OoIAFL5B77aDZcaygkWPisQXWwuyu', NULL),
-(4, 1, 'Rico', 'rico', '$2y$10$MYayAl8LeyBxm.YgFQ9bfut8E9VDaLPFhL63LuJOlk05ssHKYpHfm', NULL);
+(4, 1, 'Rico', 'rico', '$2y$10$MYayAl8LeyBxm.YgFQ9bfut8E9VDaLPFhL63LuJOlk05ssHKYpHfm', NULL),
+(5, 2, 'Rudy', 'Kayne', '$2y$10$TUmZb3mfYmqUuHhM2jTwk.rTAzYwog2qA5uchQK1uhk9qWCHLM/xW', NULL),
+(6, 3, 'Wilbert Anthony', 'wilbert', '$2y$10$7XxHaBsGjGD9lvzFVu8J/uk2RuzLZcWnj0SeHJPsGuJlXQhuR/UEy', NULL),
+(7, 3, 'Rudy Kayne', 'bomek', '$2y$10$5xFeOug4jezlVz/ZbGSdSuHeSaVkuG/gUpQZ4iKvLDzkW8buax4WK', NULL);
 
 -- --------------------------------------------------------
 
@@ -106,8 +99,9 @@ INSERT INTO `doctors` (`id`, `department_id`, `full_name`, `username`, `password
 CREATE TABLE `patients` (
   `id` int(11) NOT NULL,
   `id_number` char(16) NOT NULL,
+  `email` varchar(20) NOT NULL,
   `full_name` varchar(20) NOT NULL,
-  `address` varchar(30) NOT NULL,
+  `address` varchar(255) NOT NULL,
   `contact` varchar(13) NOT NULL,
   `pin` char(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -116,8 +110,10 @@ CREATE TABLE `patients` (
 -- Dumping data for table `patients`
 --
 
-INSERT INTO `patients` (`id`, `id_number`, `full_name`, `address`, `contact`, `pin`) VALUES
-(3, '123', 'a', 'a', 'a', '$2y$10$nVV9hguRAxiWch69JAaWg.WHqKA7TqZeOay89KEu33VhjP4yJZx9i');
+INSERT INTO `patients` (`id`, `id_number`, `email`, `full_name`, `address`, `contact`, `pin`) VALUES
+(3, '123', 'wilbertjv@gmail.com', 'Wilbert Anthony', 'Perum Citra Fajar Golf AT D7191', '085156578351', '$2y$10$nVV9hguRAxiWch69JAaWg.WHqKA7TqZeOay89KEu33VhjP4yJZx9i'),
+(4, '12345', '', 'Reynaldi Kindarto', 'Darmo Baru Barat XI/5', '12345', '$2y$10$HXAZzxqWjGLTKyLoNNtd9eueafFdN.BEIvrqrwz7i.39aJ.5IGlqC'),
+(11, '1234567', '', 'b', 'b', '12345', '$2y$10$5Kk0NtQ6aLIOEH1i0nmZG.FODA3JnMEQDR2De2n.EOHrXst/1nTky');
 
 -- --------------------------------------------------------
 
@@ -130,7 +126,7 @@ CREATE TABLE `schedules` (
   `department_id` int(11) NOT NULL,
   `doctor_id` int(11) DEFAULT NULL,
   `time` time NOT NULL,
-  `availability` enum('available','unavailable') NOT NULL
+  `availability` enum('Available','Unavailable') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -138,7 +134,28 @@ CREATE TABLE `schedules` (
 --
 
 INSERT INTO `schedules` (`schedule_id`, `department_id`, `doctor_id`, `time`, `availability`) VALUES
-(4, 1, 1, '10:00:00', 'available');
+(4, 1, 1, '10:00:00', 'Available'),
+(5, 2, 5, '12:00:00', 'Available');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `screening`
+--
+
+CREATE TABLE `screening` (
+  `id` int(11) NOT NULL,
+  `patient_id` int(11) NOT NULL,
+  `result` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`result`)),
+  `time` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `screening`
+--
+
+INSERT INTO `screening` (`id`, `patient_id`, `result`, `time`) VALUES
+(1, 3, '{\"question1\":\"true\",\"question2\":\"true\"}', '2021-05-27 08:24:04');
 
 --
 -- Indexes for dumped tables
@@ -149,6 +166,7 @@ INSERT INTO `schedules` (`schedule_id`, `department_id`, `doctor_id`, `time`, `a
 --
 ALTER TABLE `appointments`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `patient_id` (`patient_id`),
   ADD KEY `schedule_id_key` (`schedule_id`),
   ADD KEY `patient_appointment_key` (`patient_id`);
 
@@ -157,13 +175,6 @@ ALTER TABLE `appointments`
 --
 ALTER TABLE `departments`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `diagnosis`
---
-ALTER TABLE `diagnosis`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `patient_diagnosis_key` (`patient_id`);
 
 --
 -- Indexes for table `doctors`
@@ -187,6 +198,13 @@ ALTER TABLE `schedules`
   ADD KEY `department_schedule_key` (`department_id`);
 
 --
+-- Indexes for table `screening`
+--
+ALTER TABLE `screening`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `patient_diagnosis_key` (`patient_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -194,7 +212,7 @@ ALTER TABLE `schedules`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -203,28 +221,28 @@ ALTER TABLE `departments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `diagnosis`
---
-ALTER TABLE `diagnosis`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT for table `doctors`
 --
 ALTER TABLE `doctors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `patients`
 --
 ALTER TABLE `patients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `schedules`
 --
 ALTER TABLE `schedules`
-  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `screening`
+--
+ALTER TABLE `screening`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -238,12 +256,6 @@ ALTER TABLE `appointments`
   ADD CONSTRAINT `schedule_id_key` FOREIGN KEY (`schedule_id`) REFERENCES `schedules` (`schedule_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `diagnosis`
---
-ALTER TABLE `diagnosis`
-  ADD CONSTRAINT `patient_diagnosis_key` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `doctors`
 --
 ALTER TABLE `doctors`
@@ -255,6 +267,12 @@ ALTER TABLE `doctors`
 ALTER TABLE `schedules`
   ADD CONSTRAINT `department_schedule_key` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `doctor_id_key` FOREIGN KEY (`doctor_id`) REFERENCES `doctors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `screening`
+--
+ALTER TABLE `screening`
+  ADD CONSTRAINT `patient_screening_key` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
