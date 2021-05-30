@@ -136,14 +136,7 @@ function startAppointment($appointment_id){
     $query = $conn->prepare($sql);
     $query->bind_param("i", $appointment_id);
 
-    if($query->execute()){
-        $sql = "UPDATE `schedules` SET `availability` = 'Available' WHERE `schedule_id` = ?";
-
-        $query = $conn->prepare($sql);
-        $query->bind_param("i", $schedule_id);
-
-        $query->execute();
-    }
+    $query->execute();
 
     $conn->close();
 }
@@ -155,7 +148,21 @@ function finishAppointment($appointment_id){
     $query = $conn->prepare($sql);
     $query->bind_param("i", $appointment_id);
 
-    $query->execute();
+    if($query->execute()){
+        $sql = "SELECT schedule_id FROM appointments WHERE id=?";
+        
+        $query = $conn->prepare($sql);
+        $query->bind_param("i", $appointment_id);
+        $query->execute();
+        $result = $query->get_result();
+        $result = $result->fetch_assoc();
+
+        $sql = "UPDATE schedules SET availability = 'Available' WHERE schedule_id=?";
+        
+        $query = $conn->prepare($sql);
+        $query->bind_param("i", $result['schedule_id']);
+        $query->execute();
+    }
 
     $conn->close();
 }
