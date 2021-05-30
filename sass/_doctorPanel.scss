@@ -14,6 +14,7 @@
       top: 2%;
       right: 10%;
       width: 100%;
+      z-index: 2;
 
       img {
         width: 50%;
@@ -95,6 +96,7 @@
       top: 10%;
       left: 35%;
       width: 24rem;
+      z-index: 2;
 
       &::after {
         content: "";
@@ -168,6 +170,51 @@
           }
         }
       }
+    }
+  }
+}
+
+.doctor_note_overlay {
+  @include flexCenter;
+  flex-direction: column;
+  justify-content: space-evenly;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 1rem;
+  width: 40%;
+  height: 35%;
+  background-color: #fff;
+  z-index: 6;
+
+  form {
+    @include flexCenter;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 70%;
+
+    button[type="submit"] {
+      font-size: 1.25rem;
+      padding: 0.5rem 0;
+      width: 100%;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      border: none;
+      background-color: $primariBlue;
+      color: $whiteGrayish;
+      border-radius: 0.625rem;
+      font-weight: map-get($font-weights, medium);
+      transition: all 0.1s ease-in-out;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+
+    #note {
+      resize: none;
+      font-size: 1.25rem;
     }
   }
 }

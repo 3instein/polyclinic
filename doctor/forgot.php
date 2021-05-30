@@ -3,7 +3,6 @@
 if (isset($_GET['token']) && isset($_GET['username'])) {
     require_once '../controller/doctor_controller.php';
     if (validateToken($_GET['token'])) {
-
     } else {
         die("Link invalid");
     }
@@ -25,9 +24,9 @@ if (isset($_GET['token']) && isset($_GET['username'])) {
 <body>
     <form method="POST" action="" class="forgot_password">
         <label for="username">Username</label>
-        <input type="text" name="username" value='<?=$_GET['username']?>'>
+        <input type="text" name="username" value='<?= $_GET['username'] ?>'>
         <label for="token">Token</label>
-        <input type="text" name="token" value='<?=$_GET['token']?>'>
+        <input type="text" name="token" value='<?= $_GET['token'] ?>'>
         <label for="password">New Password</label>
         <input type="password" name="new_password">
         <button type="submit" name="changePassword">Reset Password</button>

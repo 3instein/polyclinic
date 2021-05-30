@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 30, 2021 at 10:06 AM
+-- Generation Time: May 30, 2021 at 05:16 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.34
 
@@ -31,15 +31,18 @@ CREATE TABLE `appointments` (
   `id` int(11) NOT NULL,
   `schedule_id` int(11) NOT NULL,
   `patient_id` int(11) NOT NULL,
-  `status` enum('Upcoming','Ongoing','Finished','Cancelled') NOT NULL
+  `status` enum('Upcoming','Ongoing','Finished','Cancelled') NOT NULL,
+  `note` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`note`))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `appointments`
 --
 
-INSERT INTO `appointments` (`id`, `schedule_id`, `patient_id`, `status`) VALUES
-(43, 4, 3, 'Finished');
+INSERT INTO `appointments` (`id`, `schedule_id`, `patient_id`, `status`, `note`) VALUES
+(43, 4, 3, 'Finished', NULL),
+(44, 4, 3, 'Cancelled', NULL),
+(45, 4, 3, 'Finished', '{\"Note\":\"Halo\"}');
 
 -- --------------------------------------------------------
 
@@ -105,6 +108,13 @@ CREATE TABLE `doctors_token` (
   `token` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `doctors_token`
+--
+
+INSERT INTO `doctors_token` (`id`, `doctor_id`, `token`) VALUES
+(68, 1, 1234);
+
 -- --------------------------------------------------------
 
 --
@@ -151,7 +161,7 @@ CREATE TABLE `schedules` (
 --
 
 INSERT INTO `schedules` (`schedule_id`, `department_id`, `doctor_id`, `day`, `time`, `availability`) VALUES
-(4, 1, 1, 'Monday', '10:00:00', 'Unavailable'),
+(4, 1, 1, 'Monday', '10:00:00', 'Available'),
 (5, 2, 5, 'Monday', '12:00:00', 'Available');
 
 -- --------------------------------------------------------
@@ -182,7 +192,9 @@ INSERT INTO `screening` (`id`, `patient_id`, `result`, `time`) VALUES
 (12, 3, '{\"question1\":\"true\",\"question2\":\"true\"}', '2021-05-30 07:24:57'),
 (13, 3, '{\"question1\":\"false\",\"question2\":\"false\"}', '2021-05-30 07:27:58'),
 (14, 3, '{\"question1\":\"false\",\"question2\":\"false\"}', '2021-05-30 07:47:44'),
-(15, 3, '{\"question1\":\"false\",\"question2\":\"true\"}', '2021-05-30 07:51:23');
+(15, 3, '{\"question1\":\"false\",\"question2\":\"true\"}', '2021-05-30 07:51:23'),
+(16, 3, '{\"question1\":\"false\",\"question2\":\"false\"}', '2021-05-30 08:21:52'),
+(17, 3, '{\"question1\":\"false\",\"question2\":\"false\"}', '2021-05-30 13:21:23');
 
 --
 -- Indexes for dumped tables
@@ -245,7 +257,7 @@ ALTER TABLE `screening`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -263,7 +275,7 @@ ALTER TABLE `doctors`
 -- AUTO_INCREMENT for table `doctors_token`
 --
 ALTER TABLE `doctors_token`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `patients`
@@ -281,7 +293,7 @@ ALTER TABLE `schedules`
 -- AUTO_INCREMENT for table `screening`
 --
 ALTER TABLE `screening`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Constraints for dumped tables
@@ -291,7 +303,7 @@ ALTER TABLE `screening`
 -- Constraints for table `appointments`
 --
 ALTER TABLE `appointments`
-  ADD CONSTRAINT `patient_id_key` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `patient_id_key` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `schedule_id_key` FOREIGN KEY (`schedule_id`) REFERENCES `schedules` (`schedule_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --

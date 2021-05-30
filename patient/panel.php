@@ -41,6 +41,9 @@ if (!isset($_SESSION['id'])) {
 </head>
 
 <body onload=display_ct();>
+
+    <div class="blurred_bg"></div>
+
     <div class="container">
         <nav class="first_nav">
             <a href="./panel" class="navbar_brand">
@@ -76,6 +79,8 @@ if (!isset($_SESSION['id'])) {
                         echo "<td>$row[status]</td>";
                         if ($row['status'] == "Upcoming") {
                             echo "<td><button id='cancel_appointment' name='cancelAppointment' value='$row[id]' data-value='$row[schedule_id]'>Cancel Appointment</button></td>";
+                        } else if ($row['status'] == "Finished") {
+                            echo "<td><button id='view_note' name='view_note' value='$row[id]'>View Note</button></td>";
                         } else {
                             echo "<td></td>";
                         }
@@ -148,12 +153,16 @@ if (!isset($_SESSION['id'])) {
         <span id="ct"></span>
     </div>
 
+    <div class="view_note_overlay">
+        <h1>Note</h1>
+        <textarea id="display_note" cols="30" rows="10" disabled></textarea>
+    </div>
+
     <script>
         $(document).ready(function(e) {
             let base = $('head base').attr('href');
-            $('.view_profile_page').hide();
-            $('.view_screening_page').hide();
-            $('.change_profile_detail').hide();
+            $('.view_profile_page, .change_profile_detail').hide();
+            $('.view_screening_page, .blurred_bg, .view_note_overlay').hide();
 
             $('.view_appointment').css(
                 "font-weight", "800"
@@ -239,6 +248,38 @@ if (!isset($_SESSION['id'])) {
                         }
                     },
                 });
+            });
+
+            $('#view_note').click(function() {
+                let appointment_id = $('#view_note').val();
+                $.ajax({
+                    url: base + '/controller/appointment_controller.php?action=viewNote',
+                    type: 'POST',
+                    data: {
+                        appointment_id
+                    },
+                    success: (payload) => {
+                        payload = JSON.parse(payload);
+                        if (payload.message === 'success') {
+                            let data = '';
+                            payload.data.forEach(element => {
+                                let json = $.parseJSON(element.note);
+                                data += json.Note;
+                            });
+                            $('.blurred_bg, #display_note').show();
+                            $('.view_note_overlay, display_note').animate({
+                                height: 'toggle'
+                            }, 200);
+                            $('.view_note_overlay #display_note').html(data);
+                        } else {
+                            alert(payload.message);
+                        }
+                    },
+                });
+            });
+
+            $('.blurred_bg').click(function() {
+                $('.view_note_overlay, #display_note, .blurred_bg').hide();
             });
 
             $('#edit_user_profile').click(

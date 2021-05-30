@@ -4,7 +4,6 @@ switch ($_GET['action'] ?? '') {
     case 'getDepartmentId':
         echo json_encode(['message' => 'success', 'data' => getDepartmentid(@$_POST['selected'])]);
         break;
-
         // default:
         //     echo json_encode(['message' => 'invalid argument']);
     case 'cancelAppointment':
@@ -15,6 +14,9 @@ switch ($_GET['action'] ?? '') {
         break;
     case 'finishAppointment':
         echo json_encode(['message' => 'success', 'data' => finishAppointment(@$_POST['appointment_id'])]);
+        break;
+    case 'viewNote':
+        echo json_encode(['message' => 'success', 'data' => readNote(@$_POST['appointment_id'])]);
         break;
 }
 
@@ -29,13 +31,13 @@ if (isset($_POST['appointment'])) {
     $query = $conn->prepare($sql);
     $query->bind_param("ii", $schedule_id, $id);
 
-    if($query->execute()){
+    if ($query->execute()) {
         $sql = "UPDATE schedules SET availability='Unavailable' WHERE schedule_id=?";
 
         $query = $conn->prepare($sql);
         $query->bind_param("i", $schedule_id);
 
-        if($query->execute()){
+        if ($query->execute()) {
             require 'mail_controller.php';
 
             $sql = "SELECT appointments.id, email FROM appointments 
@@ -58,6 +60,44 @@ if (isset($_POST['appointment'])) {
     $conn->close();
 }
 
+if (isset($_POST['addNote'])) {
+    include 'base_url.php';
+    $note = array(
+        "Note" => $_POST['note']
+    );
+    $note = json_encode($note);
+    createNote($note, $_POST['addNote']);
+    header('location: ' . base . 'doctor/panel');
+}
+
+function createNote($note, $appointment_id) {
+    require 'connect.php';
+    $sql = "UPDATE `appointments` SET `note` = ? WHERE `id` = ?";
+
+    $query = $conn->prepare($sql);
+    $query->bind_param("si", $note, $appointment_id);
+    $query->execute();
+    $conn->close();
+}
+
+function readNote($appointment_id) {
+    require 'connect.php';
+
+    $sql = "SELECT note FROM appointments WHERE id=?";
+    $query = $conn->prepare($sql);
+    $query->bind_param("i", $appointment_id);
+    $query->execute();
+    $data = $query->get_result();
+
+    if ($data->num_rows > 0) {
+        while ($row = $data->fetch_assoc()) $result[] = $row;
+    }
+
+    return $result;
+
+    $conn->close();
+}
+
 function getDepartmentid($department_id) {
     require 'connect.php';
     $result = [];
@@ -73,23 +113,23 @@ function getDepartmentid($department_id) {
     $conn->close();
 }
 
-function getDoctorAppointment($doctor_id){
+function getDoctorAppointment($doctor_id) {
     require 'connect.php';
     $sql = "SELECT appointments.id, patients.full_name, schedules.time, appointments.status
             FROM appointments JOIN schedules ON appointments.schedule_id = schedules.schedule_id 
             JOIN patients ON appointments.patient_id = patients.id 
-            WHERE schedules.doctor_id=? AND appointments.status != 'Finished'";
+            WHERE schedules.doctor_id=? AND appointments.status != 'Finished' ORDER BY appointments.id DESC";
     $query = $conn->prepare($sql);
     $query->bind_param("i", $doctor_id);
 
-    if($query->execute()){
+    if ($query->execute()) {
         $result = $query->get_result();
-        return $result->fetch_assoc();
+        return $result;
     }
     $conn->close();
 }
 
-function getPatientAppointment($patient_id){
+function getPatientAppointment($patient_id) {
     require 'connect.php';
     $sql = "SELECT appointments.id, departments.name, doctors.full_name, schedules.schedule_id, schedules.day, schedules.time, appointments.status
             FROM appointments JOIN schedules ON appointments.schedule_id = schedules.schedule_id 
@@ -100,24 +140,24 @@ function getPatientAppointment($patient_id){
 
     $query = $conn->prepare($sql);
     $query->bind_param("i", $patient_id);
- 
-    if($query->execute()){
+
+    if ($query->execute()) {
         $result = $query->get_result();
-        if($result->num_rows > 0){
+        if ($result->num_rows > 0) {
             return $result;
         }
     }
     $conn->close();
 }
-    
-function cancelAppointment($appointment_id, $schedule_id){
+
+function cancelAppointment($appointment_id, $schedule_id) {
     require 'connect.php';
     $sql = "UPDATE `appointments` SET `status` = 'Cancelled' WHERE `appointments`.`id` = ?";
 
     $query = $conn->prepare($sql);
     $query->bind_param("i", $appointment_id);
 
-    if($query->execute()){
+    if ($query->execute()) {
         $sql = "UPDATE `schedules` SET `availability` = 'Available' WHERE `schedule_id` = ?";
 
         $query = $conn->prepare($sql);
@@ -129,7 +169,7 @@ function cancelAppointment($appointment_id, $schedule_id){
     $conn->close();
 }
 
-function startAppointment($appointment_id){
+function startAppointment($appointment_id) {
     require 'connect.php';
     $sql = "UPDATE `appointments` SET `status` = 'Ongoing' WHERE `appointments`.`id` = ?";
 
@@ -141,16 +181,16 @@ function startAppointment($appointment_id){
     $conn->close();
 }
 
-function finishAppointment($appointment_id){
+function finishAppointment($appointment_id) {
     require 'connect.php';
     $sql = "UPDATE `appointments` SET `status` = 'Finished' WHERE `appointments`.`id` = ?";
 
     $query = $conn->prepare($sql);
     $query->bind_param("i", $appointment_id);
 
-    if($query->execute()){
+    if ($query->execute()) {
         $sql = "SELECT schedule_id FROM appointments WHERE id=?";
-        
+
         $query = $conn->prepare($sql);
         $query->bind_param("i", $appointment_id);
         $query->execute();
@@ -158,7 +198,7 @@ function finishAppointment($appointment_id){
         $result = $result->fetch_assoc();
 
         $sql = "UPDATE schedules SET availability = 'Available' WHERE schedule_id=?";
-        
+
         $query = $conn->prepare($sql);
         $query->bind_param("i", $result['schedule_id']);
         $query->execute();

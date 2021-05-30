@@ -110,7 +110,8 @@
     color: rgba($color: $textUse, $alpha: 0.9);
     font-weight: map-get($font-weights, medium);
 
-    #cancel_appointment {
+    #cancel_appointment,
+    #view_note {
       text-decoration: none;
       color: #fff;
       padding: 0.75rem 2rem;
@@ -192,6 +193,26 @@
   img {
     width: 2rem;
     height: 2rem;
+  }
+}
+
+.view_note_overlay {
+  @include flexCenter;
+  position: absolute;
+  flex-direction: column;
+  justify-content: space-evenly;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30%;
+  height: 40%;
+  background-color: #fff;
+  border-radius: 0.75rem;
+  z-index: 6;
+
+  #display_note {
+    resize: none;
+    font-size: 1.25rem;
   }
 }
 

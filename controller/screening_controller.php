@@ -8,11 +8,11 @@
             "question2" => $_POST['question-2']
         );
         $screening = json_encode($screening);
-        insertScreening($screening, $_SESSION['id']);
+        createScreening($screening, $_SESSION['id']);
         header('location: ' . base . 'patient/panel');
     }
 
-    function insertScreening($screening, $patient_id){
+    function createScreening($screening, $patient_id){
         require 'connect.php';
         $sql = "INSERT INTO `screening` (`patient_id`, `result`, `time`) VALUES (?, ?, current_timestamp())";
 
@@ -20,6 +20,8 @@
         $query->bind_param("is", $patient_id, $screening);
 
         $query->execute();
+
+        $conn->close();
     }
 
     function readScreening($patient_id){
@@ -33,4 +35,6 @@
             $result = $query->get_result();
             return $result;
         }
+
+        $conn->close();
     }

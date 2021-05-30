@@ -591,7 +591,8 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   font-weight: 500;
 }
 
-.view_appointment_page > table td #cancel_appointment {
+.view_appointment_page > table td #cancel_appointment,
+.view_appointment_page > table td #view_note {
   text-decoration: none;
   color: #fff;
   padding: 0.75rem 2rem;
@@ -604,7 +605,8 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   cursor: pointer;
 }
 
-.view_appointment_page > table td #cancel_appointment:hover {
+.view_appointment_page > table td #cancel_appointment:hover,
+.view_appointment_page > table td #view_note:hover {
   opacity: 0.8;
 }
 
@@ -693,6 +695,40 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   height: 2rem;
 }
 
+.view_note_overlay {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: absolute;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 30%;
+  height: 40%;
+  background-color: #fff;
+  border-radius: 0.75rem;
+  z-index: 6;
+}
+
+.view_note_overlay #display_note {
+  resize: none;
+  font-size: 1.25rem;
+}
+
 @-webkit-keyframes lineAnime {
   from {
     width: 0%;
@@ -720,6 +756,7 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
           backdrop-filter: blur(0.5rem);
   width: 100vw;
   height: 100vh;
+  z-index: 5;
 }
 
 .doctor_authentication_wrapper {
@@ -1008,6 +1045,7 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   top: 2%;
   right: 10%;
   width: 100%;
+  z-index: 2;
 }
 
 .doctor_dashboard .left_panel nav img {
@@ -1108,6 +1146,7 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   top: 10%;
   left: 35%;
   width: 24rem;
+  z-index: 2;
 }
 
 .doctor_dashboard .right_panel nav::after {
@@ -1191,5 +1230,78 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
 .doctor_dashboard .right_panel .view_doctor_appointment table button:hover,
 .doctor_dashboard .right_panel .view_doctor_schedules table button:hover {
   opacity: 0.8;
+}
+
+.doctor_note_overlay {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  border-radius: 1rem;
+  width: 40%;
+  height: 35%;
+  background-color: #fff;
+  z-index: 6;
+}
+
+.doctor_note_overlay form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  height: 70%;
+}
+
+.doctor_note_overlay form button[type="submit"] {
+  font-size: 1.25rem;
+  padding: 0.5rem 0;
+  width: 100%;
+  margin-top: 1.5rem;
+  cursor: pointer;
+  border: none;
+  background-color: #024ed5;
+  color: #f6eff0;
+  border-radius: 0.625rem;
+  font-weight: 500;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+
+.doctor_note_overlay form button[type="submit"]:hover {
+  opacity: 0.9;
+}
+
+.doctor_note_overlay form #note {
+  resize: none;
+  font-size: 1.25rem;
 }
 /*# sourceMappingURL=main.css.map */

@@ -1,3 +1,3 @@
 <?php
-    define("base", "http://polyclinic.hackerexperience.net/");
+    define("base", "http://localhost/polyclinic/");
 ?>

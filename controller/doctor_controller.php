@@ -151,6 +151,8 @@ if (isset($_POST['changePassword'])) {
             }
         }
     }
+
+    $conn->close();
 }
 
 function forgotPassword($username) {
@@ -181,6 +183,8 @@ function forgotPassword($username) {
             sendMail($subject, $target_email, $msg);
         }
     }
+
+    $conn->close();
 }
 
 function validateToken($token) {
@@ -199,6 +203,7 @@ function validateToken($token) {
             return false;
         }
     }
+    $conn->close();
 }
 
 function changePassword($new_password, $doctor_id) {
@@ -207,6 +212,7 @@ function changePassword($new_password, $doctor_id) {
     $query = $conn->prepare($sql);
     $query->bind_param("si", $new_password, $doctor_id);
     $query->execute();
+    $conn->close();
 }
 
 function getDoctor($doctor_id, $request) {

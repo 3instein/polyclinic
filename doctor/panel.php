@@ -26,6 +26,7 @@ if (!isset($_SESSION['id'])) {
 </head>
 
 <body>
+    <div class="blurred_bg"></div>
 
     <section class="container doctor_dashboard">
         <div class="left_panel">
@@ -63,20 +64,22 @@ if (!isset($_SESSION['id'])) {
                         <th>Action</th>
                     </tr>
                     <?php
-                    $appointment = getDoctorAppointment($_SESSION['id']);
-                    if (!empty($appointment)) {
-                        echo "<tr>";
-                        echo "<td>$appointment[full_name]</td>";
-                        echo "<td>$appointment[time]</td>";
-                        echo "<td>$appointment[status]</td>";
-                        if ($appointment['status'] == "Upcoming") {
-                            echo "<td><button id='start' name='start' value='$appointment[id]'>Start</td></button>";
-                        } else if ($appointment['status'] == "Ongoing") {
-                            echo "<td><button id='finish' name='start' value='$appointment[id]'>Finish</td></button>";;
-                        } else {
-                            echo "<td></td>";
+                    $appointments = getDoctorAppointment($_SESSION['id']);
+                    if (!empty($appointments)) {
+                        while ($appointment = $appointments->fetch_assoc()) {
+                            echo "<tr>";
+                            echo "<td>$appointment[full_name]</td>";
+                            echo "<td>$appointment[time]</td>";
+                            echo "<td>$appointment[status]</td>";
+                            if ($appointment['status'] == "Upcoming") {
+                                echo "<td><button id='start' name='start' value='$appointment[id]'>Start</td></button>";
+                            } else if ($appointment['status'] == "Ongoing") {
+                                echo "<td><button id='finish' name='finish' value='$appointment[id]'>Finish</td></button>";;
+                            } else {
+                                echo "<td></td>";
+                            }
+                            echo "</tr>";
                         }
-                        echo "</tr>";
                     }
                     ?>
                 </table>
@@ -119,13 +122,21 @@ if (!isset($_SESSION['id'])) {
 
             </div>
         </div>
+
+        <div class="doctor_note_overlay">
+            <h1>Give Note to Patient</h1>
+            <form method="POST" action="<?= base ?>controller/appointment_controller.php" class="doctor_note">
+                <textarea name="note" cols="50" rows="10" id="note"></textarea>
+                <button id="addNote" type="submit" name="addNote" value="">Done</button>
+            </form>
+        </div>
     </section>
 
     <script>
         $(document).ready(function() {
             let base = $('head base').attr('href');
             $('.view_appointment_doctor').addClass('selected_doctor_menu');
-            $('.view_doctor_schedules').hide();
+            $('.view_doctor_schedules, .blurred_bg, .doctor_note_overlay').hide();
 
             $('.view_appointment_doctor').click(function(e) {
                 e.preventDefault();
@@ -158,6 +169,12 @@ if (!isset($_SESSION['id'])) {
                 $('.view_doctor_schedules').hide();
                 $('.view_doctor_appointment').hide();
                 $('.view_doctor_profile').show();
+            });
+
+            $('.blurred_bg').click(function() {
+                $('.blurred_bg').hide();
+                $('.doctor_note').hide();
+                $('.doctor_note_overlay').hide();
             });
 
             $('#select').click(function() {
@@ -231,7 +248,12 @@ if (!isset($_SESSION['id'])) {
                     success: (payload) => {
                         payload = JSON.parse(payload);
                         if (payload.message === 'success') {
-                            location.reload();
+                            $('.blurred_bg').show();
+                            $('.doctor_note').fadeIn(500);
+                            $('.doctor_note_overlay').animate({
+                                height: 'toggle'
+                            }, 200);
+                            $('#addNote').val(appointment_id);
                         } else {
                             alert(payload.message);
                         }
