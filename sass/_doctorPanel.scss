@@ -1,0 +1,173 @@
+.doctor_dashboard {
+  @include flexCenter;
+  justify-content: space-between;
+  height: 100vh;
+
+  .left_panel {
+    position: relative;
+    height: 100%;
+    width: 25%;
+    border-right: 1px solid rgba($color: #000000, $alpha: 0.2);
+
+    nav {
+      position: absolute;
+      top: 2%;
+      right: 10%;
+      width: 100%;
+
+      img {
+        width: 50%;
+        height: 100%;
+      }
+
+      p {
+        font-size: 2rem;
+        font-family: "Viga", sans-serif;
+        margin-right: 6rem;
+      }
+    }
+
+    .doctor_profile {
+      @include flexCenter;
+      flex-direction: column;
+      justify-content: space-evenly;
+      position: absolute;
+      left: 50%;
+      top: 40%;
+      transform: translate(-50%, -40%);
+      width: 100%;
+      height: 40%;
+      padding-right: 5rem;
+
+      img {
+        width: 12rem;
+        height: 12rem;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 1.5rem 0;
+      }
+
+      p {
+        width: 20rem;
+        color: rgba($color: $textUse, $alpha: 1);
+        font-weight: map-get($font-weights, bold);
+
+        &:nth-child(2) {
+          position: relative;
+          left: 60%;
+          transform: translateX(-50%);
+        }
+
+        &:nth-child(3) {
+          width: fit-content;
+          flex: 1;
+          font-weight: map-get($font-weights, regular);
+        }
+      }
+
+      button {
+        border: none;
+        margin-bottom: 2rem;
+
+        a {
+          text-decoration: none;
+          font-size: 1.25rem;
+          padding: 0.75rem 7rem;
+          margin-top: 1rem;
+          cursor: pointer;
+          background-color: #c1151b;
+          color: $whiteGrayish;
+          border-radius: 0.625rem;
+          font-weight: map-get($font-weights, medium);
+          transition: all 0.1s ease-in-out;
+
+          &:hover {
+            opacity: 0.9;
+          }
+        }
+      }
+    }
+  }
+
+  .right_panel {
+    nav {
+      position: absolute;
+      top: 10%;
+      left: 35%;
+      width: 24rem;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0%;
+        left: -20%;
+        width: 80rem;
+        height: 0.1rem;
+        background-color: rgba($color: #000000, $alpha: 0.2);
+      }
+
+      p {
+        position: relative;
+        font-weight: map-get($font-weights, medium);
+        cursor: pointer;
+        transition: all 0.1s ease-in-out;
+
+        &.selected_doctor_menu::after {
+          content: "";
+          position: absolute;
+          bottom: -125%;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 120%;
+          height: 0.25rem;
+          border-radius: 1rem;
+          background-color: $primariBlue;
+          animation: lineAnime 0.4s;
+        }
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+
+    .view_doctor_appointment,
+    .view_doctor_schedules {
+      position: absolute;
+      top: 25%;
+      left: 33%;
+      width: 63%;
+
+      table {
+        width: 100%;
+        text-align: left;
+        border-collapse: collapse;
+
+        th {
+          color: rgba($color: $primariBlue, $alpha: 0.8);
+        }
+
+        th,
+        td {
+          padding: 1.5rem 0;
+          border-bottom: 1px solid rgba($color: #000000, $alpha: 1);
+        }
+
+        button {
+          color: #fff;
+          padding: 0.75rem 3rem;
+          background-color: rgba($color: $primariBlue, $alpha: 0.9);
+          border-radius: 0.625rem;
+          border: none;
+          font-weight: map-get($font-weights, bold);
+          transition: all 0.1s ease-in-out;
+          cursor: pointer;
+
+          &:hover {
+            opacity: 0.8;
+          }
+        }
+      }
+    }
+  }
+}

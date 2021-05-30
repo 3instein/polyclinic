@@ -2,6 +2,6 @@
 
 session_start();
 session_unset();
-header('location: login');
+header('location: authentication');
 
 ?>

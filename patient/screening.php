@@ -1,3 +1,4 @@
+<?php include '../controller/base_url.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +9,7 @@
 </head>
 <body>
     <h1>Screening</h1>
-    <form action="../controller/screening_controller.php" method="POST">
+    <form action="<?= base ?>controller/screening_controller.php" method="POST">
         <ol>
             <li>Any allergic reaction to medication</li>
             <input type="radio" name="question-1" value="true">Yes

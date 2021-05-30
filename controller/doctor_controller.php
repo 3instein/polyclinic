@@ -1,5 +1,11 @@
 <?php
 
+switch ($_GET['action'] ?? '') {
+    case 'forgotPassword':
+        echo json_encode(['message' => 'success', 'data' => forgotPassword(@$_POST['username'])]);
+        break;
+}
+
 if (isset($_POST['register'])) {
     require 'connect.php';
 
@@ -27,7 +33,7 @@ if (isset($_POST['register'])) {
     }
 
     // Check file size
-    if ($_FILES["fileToUpload"]["size"] > 500000) {
+    if ($_FILES["fileToUpload"]["size"] > 50000000) {
         echo "Sorry, your file is too large.";
         $uploadOk = 0;
     }
@@ -66,14 +72,24 @@ if (isset($_POST['register'])) {
         $query->bind_param("isss", $department_id, $full_name, $username, $password);
 
         if ($query->execute()) {
-            $response['msg'] = "Registered";
-            header('location ../doctor/login');
-        } else {
-            $response['msg'] = "Failed";
+            $sql = "SELECT `id`, `department_id`, `full_name`, `username` FROM `doctors` WHERE `username` = ?";
+            $query = $conn->prepare($sql);
+            $query->bind_param("s", $username);
+
+            if ($query->execute()) {
+                $result = $query->get_result();
+                $result = $result->fetch_assoc();
+
+                session_start();
+                $_SESSION['id'] = $result['id'];
+                $_SESSION['department_id'] = $result['department_id'];
+                $_SESSION['full_name'] = $result['full_name'];
+                $_SESSION['username'] = $result['username'];
+                header('location: ../doctor/panel');
+            }
         }
-        echo json_encode($response);
     } else {
-        header('location: ../doctor/register');
+        header('location: ../doctor/authentication');
     }
     $conn->close();
 }
@@ -90,6 +106,7 @@ if (isset($_POST['login'])) {
 
     if ($query->execute()) {
         $result = $query->get_result();
+
         while ($row = $result->fetch_assoc()) {
             if (password_verify($password, $row['password'])) {
                 if (empty($row['session_id'])) {
@@ -103,8 +120,93 @@ if (isset($_POST['login'])) {
             }
         }
     }
-
     $conn->close();
+}
+
+if (isset($_POST['changePassword'])) {
+    require 'connect.php';
+
+    $token = $_POST['token'];
+    $new_password = $_POST['new_password'];
+    $new_password = password_hash($new_password, PASSWORD_DEFAULT);
+
+    $sql = "SELECT `doctor_id`, `token` FROM `doctors_token` WHERE `token` = ?";
+    $query = $conn->prepare($sql);
+    $query->bind_param("i", $token);
+
+    if ($query->execute()) {
+        $result = $query->get_result();
+
+        if ($result->num_rows > 0) {
+            $result = $result->fetch_assoc();
+            $doctor_id = $result['doctor_id'];
+
+            $sql = "DELETE FROM `doctors_token` WHERE `doctor_id` = ?";
+            $query = $conn->prepare($sql);
+            $query->bind_param("i", $doctor_id);
+
+            if ($query->execute()) {
+                changePassword($new_password, $doctor_id);
+                header('location: ../doctor/authentication');
+            }
+        }
+    }
+}
+
+function forgotPassword($username) {
+    require 'connect.php';
+
+    $token = rand(1000, 9999);
+    $subject = "Forgot Password Token";
+    $link = "http://localhost/polyclinic/doctor/forgot?token=$token&username=$_POST[username]"; /*-- jika sudah hosting, ubah dengan link URL website --*/
+    $msg = "Token Forgot Password anda adalah $token atau anda bisa mengganti password anda melalui link berikut $link";
+
+    $sql = "SELECT id, email FROM doctors WHERE username=?";
+    $query = $conn->prepare($sql);
+    $query->bind_param("s", $_POST['username']);
+
+    if ($query->execute()) {
+        $data = $query->get_result();
+        $data = $data->fetch_assoc();
+        $doctor_id = $data['id'];
+        $target_email = $data['email'];
+
+        $sql = "INSERT INTO `doctors_token` (`doctor_id`, `token`) VALUES (?, ?)";
+        $query = $conn->prepare($sql);
+        $query->bind_param("ii", $doctor_id, $token);
+
+        if ($query->execute()) {
+
+            require 'mail_controller.php';
+            sendMail($subject, $target_email, $msg);
+        }
+    }
+}
+
+function validateToken($token) {
+    require 'connect.php';
+
+    $sql = "SELECT id, token FROM doctors_token WHERE token = ?";
+    $query = $conn->prepare($sql);
+    $query->bind_param("i", $token);
+
+    if ($query->execute()) {
+        $result = $query->get_result();
+        $result = $result->fetch_assoc();
+        if ($result['token'] == $token) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+function changePassword($new_password, $doctor_id) {
+    require 'connect.php';
+    $sql = "UPDATE `doctors` SET `password` = ? WHERE `id` = ?";
+    $query = $conn->prepare($sql);
+    $query->bind_param("si", $new_password, $doctor_id);
+    $query->execute();
 }
 
 function getDoctor($doctor_id, $request) {

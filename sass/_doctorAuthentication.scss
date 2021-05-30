@@ -1,0 +1,183 @@
+.blurred_bg {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  background-color: rgba($color: #d3d3d3, $alpha: 0.3);
+  backdrop-filter: blur(0.5rem);
+  width: 100vw;
+  height: 100vh;
+}
+
+.doctor_authentication_wrapper {
+  @include flexCenter;
+  height: 100vh;
+
+  .doctor_register {
+    @include flexCenter;
+    flex-direction: column;
+    height: 60%;
+
+    form {
+      @include flexCenter;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-evenly;
+      height: 100%;
+
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        font-size: 1.5rem;
+        padding: 0.25rem 1rem;
+      }
+
+      select,
+      input[type="file"] {
+        width: 50%;
+        font-size: 1.25rem;
+        border-radius: 0.25rem;
+      }
+
+      input[type="file"] {
+        width: 100%;
+      }
+
+      button[type="submit"] {
+        font-size: 1.25rem;
+        padding: 0.5rem 0;
+        width: 100%;
+        margin-top: 1rem;
+        cursor: pointer;
+        border: none;
+        background-color: $primariBlue;
+        color: $whiteGrayish;
+        border-radius: 0.625rem;
+        font-weight: map-get($font-weights, medium);
+        transition: all 0.1s ease-in-out;
+
+        &:hover {
+          opacity: 0.9;
+        }
+      }
+    }
+
+    p {
+      cursor: pointer;
+
+      &:hover {
+        color: $primariBlue;
+        opacity: 0.9;
+      }
+    }
+
+    #doctor_login {
+      margin-top: 1rem;
+    }
+  }
+
+  .doctor_login {
+    @include flexCenter;
+    flex-direction: column;
+    height: 60%;
+
+    form {
+      @include flexCenter;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-evenly;
+      height: 50%;
+
+      input {
+        width: 100%;
+        font-size: 1.5rem;
+        padding: 0.25rem 1rem;
+      }
+
+      button[type="submit"] {
+        font-size: 1.25rem;
+        padding: 0.5rem 0;
+        width: 100%;
+        margin-top: 1rem;
+        cursor: pointer;
+        border: none;
+        background-color: $primariBlue;
+        color: $whiteGrayish;
+        border-radius: 0.625rem;
+        font-weight: map-get($font-weights, medium);
+        transition: all 0.1s ease-in-out;
+
+        &:hover {
+          opacity: 0.9;
+        }
+      }
+    }
+
+    p {
+      cursor: pointer;
+
+      &:hover {
+        color: $primariBlue;
+        opacity: 0.9;
+      }
+    }
+
+    #doctor_register {
+      align-self: flex-end;
+      margin-top: 1rem;
+    }
+  }
+}
+
+.doctor_forgot_password_overlay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 25%;
+  height: 40%;
+  border-radius: 0.75rem;
+  background-color: #fff;
+  text-align: center;
+
+  h1 {
+    margin-top: 2rem;
+  }
+
+  .username_section,
+  .forgot_password {
+    @include flexCenter;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 45%;
+
+    input {
+      width: 100%;
+      font-size: 1.25rem;
+      padding: 0.25rem 1rem;
+    }
+
+    button {
+      font-size: 1.25rem;
+      padding: 0.5rem 0;
+      width: 100%;
+      margin-top: 1rem;
+      cursor: pointer;
+      border: none;
+      background-color: $primariBlue;
+      color: $whiteGrayish;
+      border-radius: 0.625rem;
+      font-weight: map-get($font-weights, medium);
+      transition: all 0.1s ease-in-out;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+}

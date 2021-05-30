@@ -8,7 +8,7 @@ include './../controller/doctor_controller.php';
 
 session_start();
 if (!isset($_SESSION['id'])) {
-    header('location: ' . BASE_URL . '/patient/authentication');
+    header('location: ' . base . '/patient/authentication');
 }
 ?>
 <!DOCTYPE html>
@@ -18,6 +18,7 @@ if (!isset($_SESSION['id'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="<?= base; ?>">
 
     <style>
         <?php include './../dist/css/main.css'; ?>
@@ -43,7 +44,7 @@ if (!isset($_SESSION['id'])) {
     <div class="container">
         <nav class="first_nav">
             <a href="./panel" class="navbar_brand">
-                <img src="./../dist/img/logo.svg" alt="Logo" />
+                <img src="<?= base ?>dist/img/logo.svg" alt="Logo" />
                 <p>Polyclinic</p>
             </a>
             <p>Patient's Panel</p>
@@ -58,6 +59,7 @@ if (!isset($_SESSION['id'])) {
                 <tr>
                     <th>Department</th>
                     <th>Doctor</th>
+                    <th>Day</th>
                     <th>Time</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -65,45 +67,48 @@ if (!isset($_SESSION['id'])) {
                 <?php
                 $appointment = getPatientAppointment($_SESSION['id']);
                 if (!empty($appointment)) {
-                    echo "<tr>";
-                    echo "<td>$appointment[name]</td>";
-                    echo "<td>$appointment[full_name]</td>";
-                    echo "<td>$appointment[time]</td>";
-                    echo "<td>$appointment[status]</td>";
-                    if($appointment['status'] == "Upcoming"){
-                        echo "<td><button id='cancel_appointment' name='cancelAppointment' value='$appointment[id]'>Cancel Appointment</button></td>";
-                    } else {
-                        echo "<td></td>";
+                    while ($row = $appointment->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td>$row[name]</td>";
+                        echo "<td>$row[full_name]</td>";
+                        echo "<td>$row[day]</td>";
+                        echo "<td>$row[time]</td>";
+                        echo "<td>$row[status]</td>";
+                        if ($row['status'] == "Upcoming") {
+                            echo "<td><button id='cancel_appointment' name='cancelAppointment' value='$row[id]' data-value='$row[schedule_id]'>Cancel Appointment</button></td>";
+                        } else {
+                            echo "<td></td>";
+                        }
+                        echo "</tr>";
                     }
-                    echo "</tr>";
                 }
                 ?>
                 <tr>
                     <td>
-                        <a href="./appointment.php" id="make_new_appointment">New Appointment</a>
+                        <a href="<?= base; ?>patient/appointment.php" id="make_new_appointment">New Appointment</a>
                     </td>
                 </tr>
             </table>
-            <p>Note : Appointment can only be canceled 1 day before the scheduled time!</p>
+            <p>Appointment can only be canceled 1 day before!</p>
         </div>
         <div class="view_profile_page">
             <div class="user_profile_section">
-                <img src="./../dist/img/user_logo.svg" alt="user">
+                <img src="<?= base ?>dist/img/user_logo.svg" alt="user">
                 <p>Hello <?= $_SESSION['full_name']; ?></p>
                 <p><?= $_SESSION['id_number']; ?></p>
                 <p id="edit_user_profile">Edit Profile</p>
-                <a href="logout" id="patientLogout">Logout</a>
+                <a href="<?= base; ?>patient/logout" id="patientLogout">Logout</a>
             </div>
             <div class="user_profile_detail">
-                <img src="./../dist/img/email.svg" alt>
+                <img src="<?= base ?>dist/img/email.svg" alt>
                 <p><?= $_SESSION['email']; ?></p>
-                <img src="./../dist/img/phone.svg" />
+                <img src="<?= base ?>dist/img/phone.svg" />
                 <p><?= $_SESSION['contact']; ?></p>
-                <img src="./../dist/img/location.svg" />
+                <img src="<?= base ?>dist/img/location.svg" />
                 <p><?= $_SESSION['address']; ?></p>
             </div>
             <div class="change_profile_detail">
-                <form method="POST" action="./../controller/patient_controller.php">
+                <form method="POST" action="<?= base ?>controller/patient_controller.php">
                     <label for="email">Email</label>
                     <input type="text" name="email" <?php echo "placeholder='" . $_SESSION['email'] . "'"; ?>>
                     <label for="email">Contact</label>
@@ -122,7 +127,7 @@ if (!isset($_SESSION['id'])) {
                 $result = json_decode($data['result']);
                 echo "<p>Time : $data[time]</p>";
                 echo "<li>Any allergic reaction to medication</li>";
-                if ($result->question1) {
+                if ($result->question1 == "true") {
                     echo "<input type='radio' name='question1' checked disabled>Yes";
                     echo "<input type='radio' name='question1' disabled>No";
                 } else {
@@ -130,7 +135,7 @@ if (!isset($_SESSION['id'])) {
                     echo "<input type='radio' name='question1' checked disabled>No";
                 }
                 echo "<li>High blood pressure</li>";
-                if ($result->question2) {
+                if ($result->question2 == "true") {
                     echo "<input type='radio' name='question2' checked disabled>Yes";
                     echo "<input type='radio' name='question2' disabled>No";
                 } else {
@@ -145,6 +150,7 @@ if (!isset($_SESSION['id'])) {
 
     <script>
         $(document).ready(function(e) {
+            let base = $('head base').attr('href');
             $('.view_profile_page').hide();
             $('.view_screening_page').hide();
             $('.change_profile_detail').hide();
@@ -214,12 +220,15 @@ if (!isset($_SESSION['id'])) {
             });
 
             $('#cancel_appointment').click(function() {
+                let button = document.getElementById('cancel_appointment');
+                let schedule_id = button.getAttribute('data-value');
                 let cancelAppointment = $('#cancel_appointment').val();
                 $.ajax({
-                    url: 'http://localhost/polyclinic/controller/appointment_controller.php?action=cancelAppointment',
+                    url: base + '/controller/appointment_controller.php?action=cancelAppointment',
                     type: 'POST',
                     data: {
-                        cancelAppointment
+                        cancelAppointment,
+                        schedule_id
                     },
                     success: (payload) => {
                         payload = JSON.parse(payload);

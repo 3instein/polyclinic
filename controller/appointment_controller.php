@@ -8,7 +8,7 @@ switch ($_GET['action'] ?? '') {
         // default:
         //     echo json_encode(['message' => 'invalid argument']);
     case 'cancelAppointment':
-        echo json_encode(['message' => 'success', 'data' => cancelAppointment(@$_POST['cancelAppointment'])]);
+        echo json_encode(['message' => 'success', 'data' => cancelAppointment(@$_POST['cancelAppointment'], @$_POST['schedule_id'])]);
         break;
     case 'startAppointment':
         echo json_encode(['message' => 'success', 'data' => startAppointment(@$_POST['appointment_id'])]);
@@ -30,7 +30,30 @@ if (isset($_POST['appointment'])) {
     $query->bind_param("ii", $schedule_id, $id);
 
     if($query->execute()){
-        header('location: ../patient/screening');
+        $sql = "UPDATE schedules SET availability='Unavailable' WHERE schedule_id=?";
+
+        $query = $conn->prepare($sql);
+        $query->bind_param("i", $schedule_id);
+
+        if($query->execute()){
+            require 'mail_controller.php';
+
+            $sql = "SELECT appointments.id, email FROM appointments 
+                    JOIN patients ON appointments.patient_id = patients.id 
+                    WHERE patient_id=? ORDER BY id DESC LIMIT 1";
+            $query = $conn->prepare($sql);
+            $query->bind_param("i", $id);
+            $query->execute();
+            $result = $query->get_result();
+            $result = $result->fetch_assoc();
+
+            $subject = "Appointment #$result[id]";
+            $target_email = $result['email'];
+            $msg = "Your appointment has been scheduled!";
+            sendMail($subject, $target_email, $msg);
+
+            header('location: ../patient/screening');
+        }
     }
     $conn->close();
 }
@@ -68,11 +91,12 @@ function getDoctorAppointment($doctor_id){
 
 function getPatientAppointment($patient_id){
     require 'connect.php';
-    $sql = "SELECT appointments.id, departments.name, doctors.full_name, schedules.time, appointments.status
+    $sql = "SELECT appointments.id, departments.name, doctors.full_name, schedules.schedule_id, schedules.day, schedules.time, appointments.status
             FROM appointments JOIN schedules ON appointments.schedule_id = schedules.schedule_id 
             JOIN departments ON schedules.department_id = departments.id 
             JOIN doctors ON schedules.doctor_id = doctors.id 
-            WHERE appointments.patient_id = ?";
+            WHERE appointments.patient_id = ?
+            ORDER BY `appointments`.`id` DESC LIMIT 5";
 
     $query = $conn->prepare($sql);
     $query->bind_param("i", $patient_id);
@@ -80,20 +104,27 @@ function getPatientAppointment($patient_id){
     if($query->execute()){
         $result = $query->get_result();
         if($result->num_rows > 0){
-            return $result->fetch_assoc();
+            return $result;
         }
     }
     $conn->close();
 }
     
-function cancelAppointment($appointment_id){
+function cancelAppointment($appointment_id, $schedule_id){
     require 'connect.php';
     $sql = "UPDATE `appointments` SET `status` = 'Cancelled' WHERE `appointments`.`id` = ?";
 
     $query = $conn->prepare($sql);
     $query->bind_param("i", $appointment_id);
 
-    $query->execute();
+    if($query->execute()){
+        $sql = "UPDATE `schedules` SET `availability` = 'Available' WHERE `schedule_id` = ?";
+
+        $query = $conn->prepare($sql);
+        $query->bind_param("i", $schedule_id);
+
+        $query->execute();
+    }
 
     $conn->close();
 }

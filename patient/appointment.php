@@ -1,5 +1,6 @@
 <?php
 
+include '../controller/base_url.php';
 include './../controller/doctor_controller.php';
 include './../controller/patient_controller.php';
 include './../controller/schedule_controller.php';
@@ -14,13 +15,13 @@ include './../controller/department_controller.php';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-
+    <base href="<?= base; ?>">
     <title>Document</title>
 </head>
 
 <body>
     <h1>Choose Department</h1>
-    <form action="./../controller/appointment_controller.php" method="POST">
+    <form action="<?= base ?>controller/appointment_controller.php" method="POST">
         <select name="department" id="department">
             <option disabled selected>Choose Department</option>
             <?php
@@ -36,6 +37,7 @@ include './../controller/department_controller.php';
             <thead>
                 <tr>
                     <th>Doctor</th>
+                    <th>Day</th>
                     <th>Time</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -50,8 +52,9 @@ include './../controller/department_controller.php';
         $(document).ready(function() {
             $('#department').on('change', function() {
                 let selected = $('#department').val();
+                let base = $('head base').attr('href');
                 $.ajax({
-                    url: 'http://localhost/polyclinic/controller/appointment_controller.php?action=getDepartmentId',
+                    url: base + '/controller/appointment_controller.php?action=getDepartmentId',
                     type: 'POST',
                     data: {
                         selected
@@ -63,6 +66,7 @@ include './../controller/department_controller.php';
                             payload.data.forEach(element => {
                                 let row = '<tr>';
                                 row += `<td>${element.full_name}</td>`;
+                                row += `<td>${element.day}</td>`;
                                 row += `<td>${element.time}</td>`;
                                 row += `<td>${element.availability}</td>`;
                                 row += `<td><button type="submit" name="appointment" value="${element.schedule_id}">Select</button></td>`;

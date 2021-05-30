@@ -1,3 +1,4 @@
+<?php include '../controller/base_url.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <base href="<?= base ?>">
 
     <style>
         <?php include '../dist/css/main.css'; ?>
@@ -30,11 +32,13 @@
             <div class="slider"></div>
             <div class="register_form">
                 <p id="change_authentication_register">Returning Patient?</p>
-                <form method="POST" action="../controller/patient_controller.php">
+                <form method="POST" action="<?= base ?>controller/patient_controller.php">
                     <label for="name">Name</label>
                     <input type="text" name="full_name" />
                     <label for="address">Address</label>
                     <input type="text" name="address" />
+                    <label for="address">Email</label>
+                    <input type="text" name="email" />
                     <label for="contact">Contact</label>
                     <input type="text" name="contact" />
                     <label for="id">ID Card Number</label>
@@ -46,7 +50,7 @@
             </div>
             <div class="login_form">
                 <p id="change_authentication_login">New Patient?</p>
-                <form method="POST" action="../controller/patient_controller.php">
+                <form method="POST" action="<?= base ?>controller/patient_controller.php">
                     <label for="id_number">ID Card Number</label>
                     <input type="text" name="id_number">
                     <label for="pin">PIN</label>
