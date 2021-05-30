@@ -136,7 +136,14 @@ function startAppointment($appointment_id){
     $query = $conn->prepare($sql);
     $query->bind_param("i", $appointment_id);
 
-    $query->execute();
+    if($query->execute()){
+        $sql = "UPDATE `schedules` SET `availability` = 'Available' WHERE `schedule_id` = ?";
+
+        $query = $conn->prepare($sql);
+        $query->bind_param("i", $schedule_id);
+
+        $query->execute();
+    }
 
     $conn->close();
 }
