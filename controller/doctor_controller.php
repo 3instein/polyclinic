@@ -1,4 +1,5 @@
 <?php
+include 'base_url.php';
 
 switch ($_GET['action'] ?? '') {
     case 'forgotPassword':
@@ -11,7 +12,7 @@ if (isset($_POST['register'])) {
 
     $username =  $_POST['username'];
 
-    $target_dir = "../images/profile/";
+    $target_dir = base."images/profile/";
     $target_file = $target_dir . $username . ".png";
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
