@@ -12,9 +12,9 @@ switch ($_GET['action'] ?? '') {
 
 function getSchedule($department_id) {
     require 'connect.php';
-    $sql = "SELECT s.schedule_id, s.department_id, s.time, s.availability, doctors.id, doctors.full_name 
-            FROM schedules s LEFT JOIN doctors ON s.doctor_id = doctors.id 
-            WHERE s.department_id=? AND availability='available'";
+    $sql = "SELECT s.schedule_id, s.department_id, s.day, s.time, s.availability, doctors.id, doctors.full_name 
+    FROM schedules s LEFT JOIN doctors ON s.doctor_id = doctors.id 
+    WHERE s.department_id=? AND availability='available'";
 
     $query = $conn->prepare($sql);
     $query->bind_param("i", $department_id);

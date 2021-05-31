@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 30, 2021 at 05:16 PM
+-- Generation Time: May 31, 2021 at 08:23 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.34
 
@@ -42,7 +42,9 @@ CREATE TABLE `appointments` (
 INSERT INTO `appointments` (`id`, `schedule_id`, `patient_id`, `status`, `note`) VALUES
 (43, 4, 3, 'Finished', NULL),
 (44, 4, 3, 'Cancelled', NULL),
-(45, 4, 3, 'Finished', '{\"Note\":\"Halo\"}');
+(45, 4, 3, 'Finished', '{\"Note\":\"Halo\"}'),
+(46, 4, 3, 'Cancelled', NULL),
+(47, 5, 17, 'Cancelled', NULL);
 
 -- --------------------------------------------------------
 
@@ -77,6 +79,7 @@ CREATE TABLE `doctors` (
   `full_name` varchar(30) NOT NULL,
   `username` varchar(15) NOT NULL,
   `password` char(60) NOT NULL,
+  `profile_picture` varchar(50) NOT NULL,
   `session_id` char(60) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -84,17 +87,20 @@ CREATE TABLE `doctors` (
 -- Dumping data for table `doctors`
 --
 
-INSERT INTO `doctors` (`id`, `department_id`, `email`, `full_name`, `username`, `password`, `session_id`) VALUES
-(1, 1, 'michael.gunawan2002@gmail.com', 'Rico Rudikan', 'ricorudikan', '$2y$10$c0c/rjlzV9c0prXjXfwJwOQVxbqPsqYTXORbFTKCD3JaMsjIGz5.u', NULL),
-(2, 1, '', 'Michael Eco', 'eco123', '$2y$10$n1bFcuyTqeQbcUVwnbAGJuW6oKAsFhk0ejVAZwK2mf0LaQabzNq5G', NULL),
-(3, 1, 'reynaldi_kindarto@yahoo.com', 'Reynaldi Kindarto', 'rey', '$2y$10$D4VFpwvTJPQf2spBbyre0ODE9q/uErh8jPb58d1BntVB0FCP7hyNC', NULL),
-(4, 1, '', 'Rico', 'rico', '$2y$10$MYayAl8LeyBxm.YgFQ9bfut8E9VDaLPFhL63LuJOlk05ssHKYpHfm', NULL),
-(5, 2, '', 'Rudy', 'Kayne', '$2y$10$TUmZb3mfYmqUuHhM2jTwk.rTAzYwog2qA5uchQK1uhk9qWCHLM/xW', NULL),
-(6, 3, '', 'Wilbert Anthony', 'wilbert', '$2y$10$7XxHaBsGjGD9lvzFVu8J/uk2RuzLZcWnj0SeHJPsGuJlXQhuR/UEy', NULL),
-(7, 3, '', 'Rudy Kayne', 'bomek', '$2y$10$5xFeOug4jezlVz/ZbGSdSuHeSaVkuG/gUpQZ4iKvLDzkW8buax4WK', NULL),
-(8, 1, '', 'Maklo Geming', 'maklo', '$2y$10$QTlYw5PLOYnK1EP1ryfEIOD6EbbfBqucVxm7rNozFV.DS.DrXRG2G', NULL),
-(9, 1, '', 'Bapaklo Geming', 'bapaklo', '$2y$10$ln6xwd1MClJh8GH1Jd4.oejw04zr67ZA4n/rwTp7qa9ONQY7elhGm', NULL),
-(10, 1, '', 'Reynaldi Kindarto', 'kepet', '$2y$10$DtjxNkMPeSjGUPjP5OJ11OGZ368rx8JJREeRIrRQQcFmj3V0QQeQy', NULL);
+INSERT INTO `doctors` (`id`, `department_id`, `email`, `full_name`, `username`, `password`, `profile_picture`, `session_id`) VALUES
+(1, 1, 'michael.gunawan2002@gmail.com', 'Rico Rudikan', 'ricorudikan', '$2y$10$KLCrPVdS62GSLPwY1wK1Aui/ghw.pibAnSK/c4WKj.PDMpBiy9eEe', 'ricorudikan.png', NULL),
+(2, 1, '', 'Michael Eco', 'eco123', '$2y$10$n1bFcuyTqeQbcUVwnbAGJuW6oKAsFhk0ejVAZwK2mf0LaQabzNq5G', 'a', NULL),
+(3, 1, 'reynaldi_kindarto@yahoo.com', 'Reynaldi Kindarto', 'rey', '$2y$10$/YNZjA6ii0b3r/DcdRrlIOYEe4lO5uvZt5JW7jaaKT50naKunlr6i', 'a', NULL),
+(4, 1, '', 'Rico', 'rico', '$2y$10$Mp7.egF5N1fVPIJhj1cB.uLPn/nYQhO81xpMcsHOZtUQziv9qm1CG', 'rico.png', NULL),
+(5, 2, '', 'Rudy', 'Kayne', '$2y$10$TUmZb3mfYmqUuHhM2jTwk.rTAzYwog2qA5uchQK1uhk9qWCHLM/xW', 'a', NULL),
+(6, 3, '', 'Wilbert Anthony', 'wilbert', '$2y$10$7XxHaBsGjGD9lvzFVu8J/uk2RuzLZcWnj0SeHJPsGuJlXQhuR/UEy', 'a', NULL),
+(7, 3, '', 'Rudy Kayne', 'bomek', '$2y$10$5xFeOug4jezlVz/ZbGSdSuHeSaVkuG/gUpQZ4iKvLDzkW8buax4WK', 'a', NULL),
+(8, 1, '', 'Maklo Geming', 'maklo', '$2y$10$QTlYw5PLOYnK1EP1ryfEIOD6EbbfBqucVxm7rNozFV.DS.DrXRG2G', 'a', NULL),
+(9, 1, '', 'Bapaklo Geming', 'bapaklo', '$2y$10$ln6xwd1MClJh8GH1Jd4.oejw04zr67ZA4n/rwTp7qa9ONQY7elhGm', 'a', NULL),
+(10, 1, '', 'Reynaldi Kindarto', 'kepet', '$2y$10$DtjxNkMPeSjGUPjP5OJ11OGZ368rx8JJREeRIrRQQcFmj3V0QQeQy', 'a', NULL),
+(13, 1, '', 'Maklo Geming', 'maklogeming', '$2y$10$dp3KQiCU27WASNfYlCaJH.52PSkzO0w9KppMisAwz81ZBq/ea5Hhq', 'maklogeming.png', NULL),
+(14, 1, '', 'Yohanes Dorus', 'congok', '$2y$10$cq63KrLsLjg6n8EtvzVYb.kZqU4dSqi3mkzyjrpwFMv3nd58PFuiC', 'congok.png', NULL),
+(15, 2, '', 'CONGOK', 'dorus', '$2y$10$T50JBPqxRQz2qzHUzmN5NOLRK6JAa3jZ1PPC64DzEou9uVocg6iSi', 'dorus.png', NULL);
 
 -- --------------------------------------------------------
 
@@ -108,12 +114,23 @@ CREATE TABLE `doctors_token` (
   `token` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `doctors_token`
+-- Table structure for table `hod`
 --
 
-INSERT INTO `doctors_token` (`id`, `doctor_id`, `token`) VALUES
-(68, 1, 1234);
+CREATE TABLE `hod` (
+  `id` int(11) NOT NULL,
+  `doctor_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `hod`
+--
+
+INSERT INTO `hod` (`id`, `doctor_id`) VALUES
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -136,10 +153,11 @@ CREATE TABLE `patients` (
 --
 
 INSERT INTO `patients` (`id`, `id_number`, `email`, `full_name`, `address`, `contact`, `pin`) VALUES
-(3, '123', 'michael.gunawan2002@gmail.com', 'Wilbert Anthony', 'Perum Citra Fajar Golf AT D7191', '085156578351', '$2y$10$nVV9hguRAxiWch69JAaWg.WHqKA7TqZeOay89KEu33VhjP4yJZx9i'),
+(3, '123', 'michael.gunawan2002@gmail.com', 'Wilbert Anthony', 'Darmo Baru Barat XI/5', '9719823', '$2y$10$nVV9hguRAxiWch69JAaWg.WHqKA7TqZeOay89KEu33VhjP4yJZx9i'),
 (11, '1234567', '', 'b', 'b', '12345', '$2y$10$5Kk0NtQ6aLIOEH1i0nmZG.FODA3JnMEQDR2De2n.EOHrXst/1nTky'),
 (12, '12345', 'rkindarto@student.ciputra.ac.id', 'Reynaldi Kindarto', 'Darmo Baru Barat XI/5', '123', '$2y$10$BA/KdBeqM.QRvYfJir6Ba.5sVLal6QmKtc5ZngIWg2glEvbXlmuf2'),
-(16, '11111', 'joshua@gmail.com', 'Joshua', 'ajsdkuasd', '12345', '$2y$10$XDgij9Vi6Gj4MOApYgQbH.9nUQO8SuikxSEGXkApoSu0dmRB6rYaC');
+(16, '11111', 'joshua@gmail.com', 'Joshua', 'ajsdkuasd', '12345', '$2y$10$XDgij9Vi6Gj4MOApYgQbH.9nUQO8SuikxSEGXkApoSu0dmRB6rYaC'),
+(17, '123456789', 'a', 'a', 'a', '1', '$2y$10$ju.Gn3yM9DIzuTphXY55luMWZGq/uT32CLgnoYOGcymupM0ED11lC');
 
 -- --------------------------------------------------------
 
@@ -194,7 +212,9 @@ INSERT INTO `screening` (`id`, `patient_id`, `result`, `time`) VALUES
 (14, 3, '{\"question1\":\"false\",\"question2\":\"false\"}', '2021-05-30 07:47:44'),
 (15, 3, '{\"question1\":\"false\",\"question2\":\"true\"}', '2021-05-30 07:51:23'),
 (16, 3, '{\"question1\":\"false\",\"question2\":\"false\"}', '2021-05-30 08:21:52'),
-(17, 3, '{\"question1\":\"false\",\"question2\":\"false\"}', '2021-05-30 13:21:23');
+(17, 3, '{\"question1\":\"false\",\"question2\":\"false\"}', '2021-05-30 13:21:23'),
+(18, 3, '{\"question1\":\"false\",\"question2\":\"false\"}', '2021-05-31 05:32:48'),
+(19, 17, '{\"question1\":\"true\",\"question2\":\"false\"}', '2021-05-31 05:34:14');
 
 --
 -- Indexes for dumped tables
@@ -229,6 +249,13 @@ ALTER TABLE `doctors_token`
   ADD KEY `doctor_token_key` (`doctor_id`);
 
 --
+-- Indexes for table `hod`
+--
+ALTER TABLE `hod`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `hod_key` (`doctor_id`);
+
+--
 -- Indexes for table `patients`
 --
 ALTER TABLE `patients`
@@ -257,7 +284,7 @@ ALTER TABLE `screening`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -269,19 +296,25 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `doctors`
 --
 ALTER TABLE `doctors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `doctors_token`
 --
 ALTER TABLE `doctors_token`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+
+--
+-- AUTO_INCREMENT for table `hod`
+--
+ALTER TABLE `hod`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `patients`
 --
 ALTER TABLE `patients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `schedules`
@@ -293,7 +326,7 @@ ALTER TABLE `schedules`
 -- AUTO_INCREMENT for table `screening`
 --
 ALTER TABLE `screening`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Constraints for dumped tables
@@ -317,6 +350,12 @@ ALTER TABLE `doctors`
 --
 ALTER TABLE `doctors_token`
   ADD CONSTRAINT `doctor_token_key` FOREIGN KEY (`doctor_id`) REFERENCES `doctors` (`id`);
+
+--
+-- Constraints for table `hod`
+--
+ALTER TABLE `hod`
+  ADD CONSTRAINT `hod_key` FOREIGN KEY (`doctor_id`) REFERENCES `doctors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `schedules`

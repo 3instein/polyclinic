@@ -1,6 +1,6 @@
 <?php
 
-include('screening_controller.php');
+include 'screening_controller.php';
 
 if (isset($_POST['register'])) {
     require_once 'connect.php';
@@ -30,7 +30,7 @@ if (isset($_POST['register'])) {
             $result = $result->fetch_assoc();
 
             session_start();
-            $_SESSION['id'] = $result['id'];
+            $_SESSION['patient_id'] = $result['id'];
             $_SESSION['id_number'] = $_POST['id_number'];
             $_SESSION['email'] = $_POST['email'];
             $_SESSION['full_name'] = $_POST['full_name'];
@@ -59,7 +59,7 @@ if (isset($_POST['login'])) {
         while ($row = $result->fetch_assoc()) {
             if (password_verify($pin, $row['pin'])) {
                 session_start();
-                $_SESSION['id'] = $row['id'];
+                $_SESSION['patient_id'] = $row['id'];
                 $_SESSION['id_number'] = $row['id_number'];
                 $_SESSION['email'] = $row['email'];
                 $_SESSION['full_name'] = $row['full_name'];
@@ -70,4 +70,25 @@ if (isset($_POST['login'])) {
         }
     }
     $conn->close();
+}
+
+
+if (isset($_POST['edit_patient'])) {
+    require_once 'connect.php';
+    session_start();
+
+    $email = $_POST['email'];
+    $address = $_POST['address'];
+    $contact = $_POST['contact'];
+
+    $sql = "UPDATE `patients` SET `email` = ?, `address` = ?, `contact` = ? WHERE `id` = ?";
+
+    $query = $conn->prepare($sql);
+    $query->bind_param("sssi", $email, $address, $contact, $_SESSION['patient_id']);
+    if ($query->execute()) {
+        $_SESSION['email'] = $email;
+        $_SESSION['address'] =  $address;
+        $_SESSION['contact'] = $contact;
+        header("location: ../patient/panel");
+    }
 }

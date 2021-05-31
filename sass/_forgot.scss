@@ -1,0 +1,51 @@
+.forgot_password_wrapper {
+  @include flexCenter;
+  flex-direction: column;
+  justify-content: space-evenly;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30%;
+  height: 40%;
+
+  .forgot_password {
+    @include flexCenter;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    height: 100%;
+    width: 50%;
+    margin-top: 1rem;
+
+    input[type="text"] {
+      font-size: 1.25rem;
+      padding: 0.5rem 1rem;
+      width: 100%;
+      pointer-events: none;
+    }
+
+    input[type="password"] {
+      font-size: 1.25rem;
+      padding: 0.5rem 1rem;
+      width: 100%;
+    }
+
+    button {
+      color: #fff;
+      padding: 1rem 3rem;
+      background-color: rgba($color: $primariBlue, $alpha: 0.9);
+      border-radius: 0.625rem;
+      width: 100%;
+      border: none;
+      margin-top: 2rem;
+      font-weight: map-get($font-weights, bold);
+      transition: all 0.1s ease-in-out;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+}

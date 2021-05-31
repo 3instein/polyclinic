@@ -8,7 +8,7 @@
             "question2" => $_POST['question-2']
         );
         $screening = json_encode($screening);
-        createScreening($screening, $_SESSION['id']);
+        createScreening($screening, $_SESSION['patient_id']);
         header('location: ' . base . 'patient/panel');
     }
 

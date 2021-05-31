@@ -5,7 +5,7 @@ include '../controller/doctor_controller.php';
 include '../controller/schedule_controller.php';
 include '../controller/patient_controller.php';
 session_start();
-if (!isset($_SESSION['id'])) {
+if (!isset($_SESSION['doctor_id'])) {
     header('location: authentication');
 }
 ?>
@@ -35,7 +35,7 @@ if (!isset($_SESSION['id'])) {
                 <p>Polyclinic</p>
             </nav>
             <div class="doctor_profile">
-                <img src="<?= base ?>images/profile/<?= $_SESSION['username']; ?>.png">
+                <img src="<?= base ?>images/profile/<?= $_SESSION['profile_picture']; ?>">
                 <p>Welcome Dr. <?= $_SESSION['full_name']; ?></p>
                 <p>
                     <?php
@@ -59,16 +59,18 @@ if (!isset($_SESSION['id'])) {
                 <table>
                     <tr>
                         <th>Patient</th>
+                        <th>Day</th>
                         <th>Time</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
                     <?php
-                    $appointments = getDoctorAppointment($_SESSION['id']);
+                    $appointments = getDoctorAppointment($_SESSION['doctor_id']);
                     if (!empty($appointments)) {
                         while ($appointment = $appointments->fetch_assoc()) {
                             echo "<tr>";
                             echo "<td>$appointment[full_name]</td>";
+                            echo "<td>$appointment[day]</td>";
                             echo "<td>$appointment[time]</td>";
                             echo "<td>$appointment[status]</td>";
                             if ($appointment['status'] == "Upcoming") {
@@ -85,10 +87,18 @@ if (!isset($_SESSION['id'])) {
                 </table>
             </div>
             <div class="view_doctor_schedules">
+                <?php
+                    if($_SESSION['hod']){
+                        echo "<button id='createSchedule'>Create Schedule</button>";
+                        echo "<button>X</button>";
+                        echo "<button>Delete Schedule</button>";
+                    }
+                ?>
                 <table>
                     <tr>
                         <th>Department</th>
                         <th>Doctor</th>
+                        <th>Day</th>
                         <th>Time</th>
                         <th>Action</th>
                     </tr>
@@ -100,15 +110,16 @@ if (!isset($_SESSION['id'])) {
                                 case 1:
                                     $department = "General";
                             }
-                            $doctor_name = $row['full_name'];
+                            // $doctor_name = $row['full_name'];
                             echo "<tr>";
                             echo "<td>$department</td>";
-                            echo "<td>$doctor_name</td>";
+                            echo "<td>$row[full_name]</td>";
+                            echo "<td>$row[day]</td>";
                             echo "<td>$row[time]</td>";
                             echo "<td>";
-                            if ($row['availability'] = "available" && empty($doctor_name)) {
-                                echo "<button id='select' name='schedule_id' value='$row[schedule_id]' data-value='$_SESSION[id]'>Select</button>";
-                            } else if ($row['id'] == $_SESSION['id']) {
+                            if ($row['availability'] = "available" && empty($row['full_name'])) {
+                                echo "<button id='select' name='schedule_id' value='$row[schedule_id]' data-value='$_SESSION[doctor_id]'>Select</button>";
+                            } else if ($row['id'] == $_SESSION['doctor_id']) {
                                 echo "<button id='cancel' name='schedule_id' value='$row[schedule_id]'>Cancel</button>";
                             }
                             echo "</td>";
@@ -259,6 +270,10 @@ if (!isset($_SESSION['id'])) {
                         }
                     },
                 });
+            });
+
+            $('#createSchedule').click(function() {
+                
             });
         });
     </script>

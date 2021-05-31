@@ -2,7 +2,7 @@
 include '../controller/base_url.php';
 include '../controller/department_controller.php';
 session_start();
-isset($_SESSION['id']) ? header('location: panel') : NULL;
+isset($_SESSION['doctor_id']) ? header('location: panel') : NULL;
 ?>
 <!DOCTYPE html>
 <html lang="en">

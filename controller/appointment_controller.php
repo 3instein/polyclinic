@@ -7,7 +7,7 @@ switch ($_GET['action'] ?? '') {
         // default:
         //     echo json_encode(['message' => 'invalid argument']);
     case 'cancelAppointment':
-        echo json_encode(['message' => 'success', 'data' => cancelAppointment(@$_POST['cancelAppointment'], @$_POST['schedule_id'])]);
+        echo json_encode(['message' => 'success', 'data' => cancelAppointment(@$_POST['appointment_id'], @$_POST['schedule_id'])]);
         break;
     case 'startAppointment':
         echo json_encode(['message' => 'success', 'data' => startAppointment(@$_POST['appointment_id'])]);
@@ -23,7 +23,7 @@ switch ($_GET['action'] ?? '') {
 if (isset($_POST['appointment'])) {
     require 'connect.php';
     session_start();
-    $id = $_SESSION['id'];
+    $id = $_SESSION['patient_id'];
     $schedule_id = $_POST['appointment'];
 
     $sql = "INSERT INTO `appointments` (`schedule_id`, `patient_id`) VALUES (?, ?)";
@@ -115,7 +115,7 @@ function getDepartmentid($department_id) {
 
 function getDoctorAppointment($doctor_id) {
     require 'connect.php';
-    $sql = "SELECT appointments.id, patients.full_name, schedules.time, appointments.status
+    $sql = "SELECT appointments.id, patients.full_name, schedules.time, appointments.status, schedules.day
             FROM appointments JOIN schedules ON appointments.schedule_id = schedules.schedule_id 
             JOIN patients ON appointments.patient_id = patients.id 
             WHERE schedules.doctor_id=? AND appointments.status != 'Finished' ORDER BY appointments.id DESC";
@@ -152,6 +152,7 @@ function getPatientAppointment($patient_id) {
 
 function cancelAppointment($appointment_id, $schedule_id) {
     require 'connect.php';
+    require 'mail_controller.php';
     $sql = "UPDATE `appointments` SET `status` = 'Cancelled' WHERE `appointments`.`id` = ?";
 
     $query = $conn->prepare($sql);
@@ -163,9 +164,25 @@ function cancelAppointment($appointment_id, $schedule_id) {
         $query = $conn->prepare($sql);
         $query->bind_param("i", $schedule_id);
 
-        $query->execute();
-    }
+        if ($query->execute()) {
+            $sql = "SELECT email FROM appointments 
+                    JOIN patients ON appointments.patient_id = patients.id 
+                    WHERE appointments.id = ?";
+            $query = $conn->prepare($sql);
+            $query->bind_param("i", $appointment_id);
+            $query->execute();
+            $data = $query->get_result();
+            $data = $data->fetch_assoc();
 
+            $subject = "Appointment #$appointment_id cancelled";
+            $target_email = $data['email'];
+            $msg = "You have canceled your appointment!";
+
+            sendMail($subject, $target_email, $msg);
+            
+            header('location: ../patient/panel');
+        }
+    }
     $conn->close();
 }
 

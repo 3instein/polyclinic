@@ -1,5 +1,4 @@
 <?php
-include 'base_url.php';
 
 switch ($_GET['action'] ?? '') {
     case 'forgotPassword':
@@ -12,7 +11,7 @@ if (isset($_POST['register'])) {
 
     $username =  $_POST['username'];
 
-    $target_dir = base."images/profile/";
+    $target_dir =  "../images/profile/";
     $target_file = $target_dir . $username . ".png";
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -65,15 +64,16 @@ if (isset($_POST['register'])) {
         $full_name =  $_POST['full_name'];
         $password =  $_POST['password'];
         $password = password_hash($password, PASSWORD_DEFAULT);
+        $profile_picture = $username . ".png";
 
-        $sql = "INSERT INTO `doctors` (`id`, `department_id`, `full_name`, `username`, `password`, `session_id`) 
-                    VALUES (NULL, ?, ?, ?, ?, NULL)";
+        $sql = "INSERT INTO `doctors` (`id`, `department_id`, `full_name`, `username`, `password`, `profile_picture`, `session_id`) 
+                    VALUES (NULL, ?, ?, ?, ?, ?, NULL)";
 
         $query = $conn->prepare($sql);
-        $query->bind_param("isss", $department_id, $full_name, $username, $password);
+        $query->bind_param("issss", $department_id, $full_name, $username, $password, $profile_picture);
 
         if ($query->execute()) {
-            $sql = "SELECT `id`, `department_id`, `full_name`, `username` FROM `doctors` WHERE `username` = ?";
+            $sql = "SELECT `id`, `department_id`, `full_name`, `username`, `profile_picture` FROM `doctors` WHERE `username` = ?";
             $query = $conn->prepare($sql);
             $query->bind_param("s", $username);
 
@@ -82,10 +82,11 @@ if (isset($_POST['register'])) {
                 $result = $result->fetch_assoc();
 
                 session_start();
-                $_SESSION['id'] = $result['id'];
+                $_SESSION['doctor_id'] = $result['id'];
                 $_SESSION['department_id'] = $result['department_id'];
                 $_SESSION['full_name'] = $result['full_name'];
                 $_SESSION['username'] = $result['username'];
+                $_SESSION['profile_picture'] = $result['profile_picture'];
                 header('location: ../doctor/panel');
             }
         }
@@ -112,14 +113,29 @@ if (isset($_POST['login'])) {
             if (password_verify($password, $row['password'])) {
                 if (empty($row['session_id'])) {
                     session_start();
-                    $_SESSION['id'] = $row['id'];
+                    $_SESSION['doctor_id'] = $row['id'];
                     $_SESSION['department_id'] = $row['department_id'];
                     $_SESSION['full_name'] = $row['full_name'];
                     $_SESSION['username'] = $row['username'];
+                    $_SESSION['profile_picture'] = $row['profile_picture'];
+                    $_SESSION['hod'] = checkHOD($_SESSION['doctor_id']);
                     header('location: ../doctor/panel');
                 }
             }
         }
+    }
+    $conn->close();
+}
+
+function checkHOD($doctor_id) {
+    require 'connect.php';
+    $sql = "SELECT doctor_id FROM hod WHERE doctor_id=?";
+    $query = $conn->prepare($sql);
+    $query->bind_param("i", $doctor_id);
+    $query->execute();
+    $result = $query->get_result();
+    if ($result->num_rows > 0) {
+        return true;
     }
     $conn->close();
 }
@@ -152,7 +168,6 @@ if (isset($_POST['changePassword'])) {
             }
         }
     }
-
     $conn->close();
 }
 
@@ -184,7 +199,6 @@ function forgotPassword($username) {
             sendMail($subject, $target_email, $msg);
         }
     }
-
     $conn->close();
 }
 
@@ -226,6 +240,5 @@ function getDoctor($doctor_id, $request) {
             return $name['full_name'];
         }
     }
-
     $conn->close();
 }

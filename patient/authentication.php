@@ -1,7 +1,11 @@
 <?php include '../controller/base_url.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
-
+<?php
+    if (isset($_SESSION['patient_id'])) {
+        header('location: panel');
+    }
+?>
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />

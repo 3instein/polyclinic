@@ -7,7 +7,7 @@ include './../controller/schedule_controller.php';
 include './../controller/doctor_controller.php';
 
 session_start();
-if (!isset($_SESSION['id'])) {
+if (!isset($_SESSION['patient_id'])) {
     header('location: ' . base . '/patient/authentication');
 }
 ?>
@@ -68,7 +68,7 @@ if (!isset($_SESSION['id'])) {
                     <th>Action</th>
                 </tr>
                 <?php
-                $appointment = getPatientAppointment($_SESSION['id']);
+                $appointment = getPatientAppointment($_SESSION['patient_id']);
                 if (!empty($appointment)) {
                     while ($row = $appointment->fetch_assoc()) {
                         echo "<tr>";
@@ -105,21 +105,23 @@ if (!isset($_SESSION['id'])) {
                 <a href="<?= base; ?>patient/logout" id="patientLogout">Logout</a>
             </div>
             <div class="user_profile_detail">
-                <img src="<?= base ?>dist/img/email.svg" alt>
+                <img src="<?= base ?>dist/img/email.svg" />
                 <p><?= $_SESSION['email']; ?></p>
                 <img src="<?= base ?>dist/img/phone.svg" />
                 <p><?= $_SESSION['contact']; ?></p>
                 <img src="<?= base ?>dist/img/location.svg" />
                 <p><?= $_SESSION['address']; ?></p>
             </div>
+
             <div class="change_profile_detail">
                 <form method="POST" action="<?= base ?>controller/patient_controller.php">
                     <label for="email">Email</label>
                     <input type="text" name="email" <?php echo "placeholder='" . $_SESSION['email'] . "'"; ?>>
-                    <label for="email">Contact</label>
-                    <input type="text" name="email" <?php echo "placeholder='" . $_SESSION['contact'] . "'"; ?>>
-                    <label for="email">Address</label>
-                    <input type="text" name="email" <?php echo "placeholder='" . $_SESSION['address'] . "'"; ?>>
+                    <label for="contact">Contact</label>
+                    <input type="text" name="contact" <?php echo "placeholder='" . $_SESSION['contact'] . "'"; ?>>
+                    <label for="address">Address</label>
+                    <input type="text" name="address" <?php echo "placeholder='" . $_SESSION['address'] . "'"; ?>>
+                    <button name="edit_patient">Save Change</button>
                 </form>
             </div>
         </div>
@@ -127,7 +129,7 @@ if (!isset($_SESSION['id'])) {
             <p>Screening</p>
             <ol>
                 <?php
-                $screening = readScreening($_SESSION['id']);
+                $screening = readScreening($_SESSION['patient_id']);
                 $data = $screening->fetch_assoc();
                 $result = json_decode($data['result']);
                 echo "<p>Time : $data[time]</p>";
@@ -155,7 +157,7 @@ if (!isset($_SESSION['id'])) {
 
     <div class="view_note_overlay">
         <h1>Note</h1>
-        <textarea id="display_note" cols="30" rows="10" disabled></textarea>
+        <textarea id="display_note" cols="30" rows="10"></textarea>
     </div>
 
     <script>
@@ -231,19 +233,17 @@ if (!isset($_SESSION['id'])) {
             $('#cancel_appointment').click(function() {
                 let button = document.getElementById('cancel_appointment');
                 let schedule_id = button.getAttribute('data-value');
-                let cancelAppointment = $('#cancel_appointment').val();
+                let appointment_id = $('#cancel_appointment').val();
                 $.ajax({
                     url: base + '/controller/appointment_controller.php?action=cancelAppointment',
                     type: 'POST',
                     data: {
-                        cancelAppointment,
+                        appointment_id,
                         schedule_id
                     },
                     success: (payload) => {
                         payload = JSON.parse(payload);
-                        if (payload.message === 'success') {
-                            location.reload();
-                        } else {
+                        if (payload.message === 'success') {} else {
                             alert(payload.message);
                         }
                     },
