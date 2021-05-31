@@ -953,6 +953,7 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   border-radius: 0.75rem;
   background-color: #fff;
   text-align: center;
+  z-index: 6;
 }
 
 .doctor_forgot_password_overlay h1 {

@@ -84,15 +84,4 @@ include './../controller/department_controller.php';
     </script>
 </body>
 
-</html>et tableData = '';
-                            paylad.data.forEah(element => {
-                                let row = '<tr>';
-                                row += `<td>${element.full_nme}</d>`;
-                                row += `<td>${element.day}</td>`;
-                                row += `<td>${element.tme}</td>`;
-                                rw += `<td>${elemetavailability}</td>`;
-                                ow += `<td><button type="submit" name="appointment" value="${element.schedule_id}">Selct</button></td>`;
-                                row += '</tr>';
-                                tabeData += row;
-                            });
-                            $('.doctr_tble tboy').htmltableData
+</html>
