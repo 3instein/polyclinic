@@ -11,6 +11,7 @@
 
 .doctor_authentication_wrapper {
   @include flexCenter;
+  flex-direction: column;
   height: 100vh;
 
   .doctor_register {
@@ -125,6 +126,15 @@
     #doctor_register {
       align-self: flex-end;
       margin-top: 1rem;
+      background-color: #fff;
+      cursor: pointer;
+      border: none;
+      height: 5%;
+      font-size: 1.25rem;
+
+      &:hover {
+        color: $primariBlue;
+      }
     }
   }
 }
@@ -182,4 +192,8 @@
       }
     }
   }
+}
+
+#isLoginTrue {
+  color: $darkOrangish;
 }

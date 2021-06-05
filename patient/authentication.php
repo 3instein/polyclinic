@@ -2,10 +2,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-    if (isset($_SESSION['patient_id'])) {
-        header('location: panel');
-    }
+if (isset($_SESSION['patient_id'])) {
+    header('location: panel');
+}
+session_start();
+echo isset($_SESSION['error']) ? $_SESSION['error'] : NULL;
+
+unset($_SESSION['error']);
 ?>
+
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -22,13 +27,12 @@
 </head>
 
 <body>
+    <div class="blurred_bg"></div>
     <nav class="container" id="home">
         <a href="" class="navbar_brand">
-            <img src="./../dist/img/logo.svg" alt="Logo" />
+            <img src="<?= base ?>dist/img/logo.svg" alt="Logo" />
+            <p>Polyclinic</p>
         </a>
-        <div class="navbar_nav">
-            <a href="" class="navbar_link">Home</a>
-        </div>
     </nav>
 
     <section class="container">
@@ -59,14 +63,34 @@
                     <input type="text" name="id_number">
                     <label for="pin">PIN</label>
                     <input type="password" name="pin">
+                    <p id="forgot_pin">Forgot PIN?</p>
                     <button type="submit" name="login">Login</button>
                 </form>
             </div>
         </div>
     </section>
 
+    <div class="user_forgot_password_overlay">
+        <h1>Forgot PIN</h1>
+        <div class="id_section">
+            <label for="id">ID Card Number</label>
+            <input type="text" name="id_number" id="id_number">
+            <button id="next_id">Next</button>
+        </div>
+        <form method="POST" action="<?= base ?>controller/patient_controller.php" class="forgot_pin">
+            <label for="token">Token</label>
+            <input type="text" name="token" id="token">
+            <label for="password">New Password</label>
+            <input type="password" name="new_pin">
+            <button type="submit" name="changePin">Reset PIN</button>
+        </form>
+    </div>
+
     <script>
         $(document).ready(function() {
+            let base = $('head base').attr('href');
+            $('.blurred_bg, .forgot_pin, .id_section, .user_forgot_password_overlay').hide();
+
             $('#change_authentication_register').click(function() {
                 $('.slider').animate({
                     right: '50%',
@@ -81,6 +105,31 @@
                 }).css(
                     "border-radius", "0 1rem 1rem 0"
                 );
+            });
+
+            $('#forgot_pin').click(function(e) {
+                e.preventDefault();
+
+                $('.blurred_bg').show();
+                $('.id_section').fadeIn(750);
+                $('.user_forgot_password_overlay').animate({
+                    height: 'toggle'
+                }, 200);
+            });
+
+            $('#next_id').click(function(e) {
+                let id_number = $('#id_number').val();
+                $.ajax({
+                    url: base + 'controller/patient_controller.php?action=forgotPIN',
+                    type: 'POST',
+                    data: {
+                        id_number
+                    },
+                    success: function() {
+                        $('.forgot_pin').fadeIn(500);
+                        $('.id_section').hide();
+                    },
+                });
             });
         });
     </script>

@@ -1,5 +1,8 @@
 <?php
 
+include '../controller/department_controller.php';
+include '../controller/schedule_controller.php';
+
 switch ($_GET['action'] ?? '') {
     case 'getDepartmentId':
         echo json_encode(['message' => 'success', 'data' => getDepartmentid(@$_POST['selected'])]);

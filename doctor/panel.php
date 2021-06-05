@@ -2,8 +2,7 @@
 include '../controller/base_url.php';
 include '../controller/appointment_controller.php';
 include '../controller/doctor_controller.php';
-include '../controller/schedule_controller.php';
-include '../controller/patient_controller.php';
+
 session_start();
 if (!isset($_SESSION['doctor_id'])) {
     header('location: authentication');
@@ -88,7 +87,7 @@ if (!isset($_SESSION['doctor_id'])) {
             </div>
             <div class="view_doctor_schedules">
                 <?php
-                    if($_SESSION['hod']){
+                    if(isset($_SESSION['hod'])){
                         echo "<button id='createSchedule'>Create Schedule</button>";
                         echo "<button>X</button>";
                         echo "<button>Delete Schedule</button>";

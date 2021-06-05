@@ -1,10 +1,8 @@
 <?php
 
 include '../controller/base_url.php';
-include './../controller/doctor_controller.php';
+include './../controller/appointment_controller.php';
 include './../controller/patient_controller.php';
-include './../controller/schedule_controller.php';
-include './../controller/department_controller.php';
 
 ?>
 <!DOCTYPE html>

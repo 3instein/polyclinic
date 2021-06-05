@@ -314,6 +314,27 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   background-color: #878288;
 }
 
+#home > a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-decoration: none;
+}
+
+#home > a p {
+  font-family: "Viga", sans-serif;
+  color: #333333;
+  font-size: 2rem;
+  font-weight: 500;
+  margin-left: 0.5rem;
+}
+
 .form_wrapper {
   position: absolute;
   border-radius: 1rem;
@@ -436,6 +457,93 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
 
 .form_wrapper .login_form form {
   height: 50%;
+}
+
+.form_wrapper .login_form form #forgot_pin {
+  cursor: pointer;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+
+.form_wrapper .login_form form #forgot_pin:hover {
+  color: #024ed5;
+  opacity: 0.9;
+}
+
+.user_forgot_password_overlay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 25%;
+  height: 40%;
+  border-radius: 0.75rem;
+  background-color: #fff;
+  text-align: center;
+  z-index: 6;
+}
+
+.user_forgot_password_overlay h1 {
+  margin-top: 2rem;
+}
+
+.user_forgot_password_overlay .id_section,
+.user_forgot_password_overlay .forgot_pin {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 50%;
+  height: 45%;
+}
+
+.user_forgot_password_overlay .id_section input,
+.user_forgot_password_overlay .forgot_pin input {
+  width: 100%;
+  font-size: 1.25rem;
+  padding: 0.25rem 1rem;
+}
+
+.user_forgot_password_overlay .id_section button,
+.user_forgot_password_overlay .forgot_pin button {
+  font-size: 1.25rem;
+  padding: 0.5rem 0;
+  width: 100%;
+  margin-top: 1rem;
+  cursor: pointer;
+  border: none;
+  background-color: #024ed5;
+  color: #f6eff0;
+  border-radius: 0.625rem;
+  font-weight: 500;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+
+.user_forgot_password_overlay .id_section button:hover,
+.user_forgot_password_overlay .forgot_pin button:hover {
+  opacity: 0.9;
 }
 
 .first_nav {
@@ -695,6 +803,59 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   height: 2rem;
 }
 
+.view_profile_page > .change_profile_detail > form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  height: 25rem;
+}
+
+.view_profile_page > .change_profile_detail > form label {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.view_profile_page > .change_profile_detail > form input {
+  font-size: 1rem;
+  padding: 0.25rem 0;
+  width: 20rem;
+}
+
+.view_profile_page > .change_profile_detail > form #edit_patient {
+  font-size: 1.25rem;
+  padding: 0.5rem 2rem;
+  margin-top: 1rem;
+  width: 35%;
+  cursor: pointer;
+  border: none;
+  background-color: #024ed5;
+  color: #f6eff0;
+  border-radius: 0.625rem;
+  font-weight: 500;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.view_profile_page > .change_profile_detail > form #edit_patient:hover {
+  opacity: 0.9;
+}
+
 .view_note_overlay {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -728,6 +889,12 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   resize: none;
   font-size: 1.25rem;
   pointer-events: none;
+}
+
+#ct {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
 }
 
 @-webkit-keyframes lineAnime {
@@ -770,6 +937,10 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   height: 100vh;
 }
 
@@ -941,6 +1112,15 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   -ms-flex-item-align: end;
       align-self: flex-end;
   margin-top: 1rem;
+  background-color: #fff;
+  cursor: pointer;
+  border: none;
+  height: 5%;
+  font-size: 1.25rem;
+}
+
+.doctor_authentication_wrapper .doctor_login #doctor_register:hover {
+  color: #024ed5;
 }
 
 .doctor_forgot_password_overlay {
@@ -1017,6 +1197,10 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
 .doctor_forgot_password_overlay .username_section button:hover,
 .doctor_forgot_password_overlay .forgot_password button:hover {
   opacity: 0.9;
+}
+
+#isLoginTrue {
+  color: #c0404e;
 }
 
 .doctor_dashboard {

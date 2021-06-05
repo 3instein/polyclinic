@@ -51,46 +51,58 @@ if (isset($_POST['register'])) {
     if ($uploadOk == 0) {
         echo "Sorry, your file was not uploaded.";
         // if everything is ok, try to upload file
-    } else {
-        if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-            echo "The file " . htmlspecialchars(basename($_FILES["fileToUpload"]["name"])) . " has been uploaded.";
-        } else {
-            echo "Sorry, there was an error uploading your file.";
-        }
     }
 
     if ($uploadOk == 1) {
         $department_id = $_POST['department'];
+        $email = $_POST['email'];
         $full_name =  $_POST['full_name'];
         $password =  $_POST['password'];
         $password = password_hash($password, PASSWORD_DEFAULT);
         $profile_picture = $username . ".png";
 
-        $sql = "INSERT INTO `doctors` (`id`, `department_id`, `full_name`, `username`, `password`, `profile_picture`, `session_id`) 
-                    VALUES (NULL, ?, ?, ?, ?, ?, NULL)";
+        $sql = "INSERT INTO `doctors` (`id`, `department_id`, `email`, `full_name`, `username`, `password`, `profile_picture`, `session_id`) 
+                    VALUES (NULL, ?, ?, ?, ?, ?, ?, NULL)";
 
         $query = $conn->prepare($sql);
-        $query->bind_param("issss", $department_id, $full_name, $username, $password, $profile_picture);
+        $query->bind_param("isssss", $department_id, $email, $full_name, $username, $password, $profile_picture);
 
-        if ($query->execute()) {
-            $sql = "SELECT `id`, `department_id`, `full_name`, `username`, `profile_picture` FROM `doctors` WHERE `username` = ?";
-            $query = $conn->prepare($sql);
-            $query->bind_param("s", $username);
-
+        if (!empty($department_id) && !empty($full_name) && !empty($email) && !empty($password) && !empty($profile_picture)) {
             if ($query->execute()) {
-                $result = $query->get_result();
-                $result = $result->fetch_assoc();
+                $sql = "SELECT `id`, `department_id`, `full_name`, `username`, `profile_picture` FROM `doctors` WHERE `username` = ?";
+                $query = $conn->prepare($sql);
+                $query->bind_param("s", $username);
 
+                if ($query->execute()) {
+                    $result = $query->get_result();
+                    $result = $result->fetch_assoc();
+
+                    session_start();
+                    $_SESSION['doctor_id'] = $result['id'];
+                    $_SESSION['department_id'] = $result['department_id'];
+                    $_SESSION['full_name'] = $result['full_name'];
+                    $_SESSION['username'] = $result['username'];
+                    $_SESSION['profile_picture'] = $result['profile_picture'];
+                    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                        echo "The file " . htmlspecialchars(basename($_FILES["fileToUpload"]["name"])) . " has been uploaded.";
+                    } else {
+                        echo "Sorry, there was an error uploading your file.";
+                    }
+                    header('location: ../doctor/panel');
+                }
+            } else {
                 session_start();
-                $_SESSION['doctor_id'] = $result['id'];
-                $_SESSION['department_id'] = $result['department_id'];
-                $_SESSION['full_name'] = $result['full_name'];
-                $_SESSION['username'] = $result['username'];
-                $_SESSION['profile_picture'] = $result['profile_picture'];
-                header('location: ../doctor/panel');
+                $_SESSION['error'] = "Username / email already taken!";
+                header('location: ../doctor/authentication');
             }
+        } else {
+            session_start();
+            $_SESSION['error'] = "Fields must be filled!";
+            header('location: ../doctor/authentication');
         }
     } else {
+        session_start();
+        $_SESSSION['error'] = "Image is invalid!";
         header('location: ../doctor/authentication');
     }
     $conn->close();
@@ -109,19 +121,29 @@ if (isset($_POST['login'])) {
     if ($query->execute()) {
         $result = $query->get_result();
 
-        while ($row = $result->fetch_assoc()) {
-            if (password_verify($password, $row['password'])) {
-                if (empty($row['session_id'])) {
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                if (password_verify($password, $row['password'])) {
+                    if (empty($row['session_id'])) {
+                        session_start();
+                        $_SESSION['doctor_id'] = $row['id'];
+                        $_SESSION['department_id'] = $row['department_id'];
+                        $_SESSION['full_name'] = $row['full_name'];
+                        $_SESSION['username'] = $row['username'];
+                        $_SESSION['profile_picture'] = $row['profile_picture'];
+                        $_SESSION['hod'] = checkHOD($_SESSION['doctor_id']);
+                        header('location: ../doctor/panel');
+                    }
+                } else {
                     session_start();
-                    $_SESSION['doctor_id'] = $row['id'];
-                    $_SESSION['department_id'] = $row['department_id'];
-                    $_SESSION['full_name'] = $row['full_name'];
-                    $_SESSION['username'] = $row['username'];
-                    $_SESSION['profile_picture'] = $row['profile_picture'];
-                    $_SESSION['hod'] = checkHOD($_SESSION['doctor_id']);
-                    header('location: ../doctor/panel');
+                    $_SESSION['error'] = "Wrong username / password!";
+                    header('location: ../doctor/authentication');
                 }
             }
+        } else {
+            session_start();
+            $_SESSION['error'] = "Account not found!";
+            header('location: ../doctor/authentication');
         }
     }
     $conn->close();
@@ -173,15 +195,16 @@ if (isset($_POST['changePassword'])) {
 
 function forgotPassword($username) {
     require 'connect.php';
+    $username = $_POST['username'];
 
     $token = rand(1000, 9999);
     $subject = "Forgot Password Token";
-    $link = "http://localhost/polyclinic/doctor/forgot?token=$token&username=$_POST[username]"; /*-- jika sudah hosting, ubah dengan link URL website --*/
+    $link = "https://polyclinic.hackerexperience.net/doctor/forgot?token=$token&username=$_POST[username]"; /*-- jika sudah hosting, ubah dengan link URL website --*/
     $msg = "Token Forgot Password anda adalah $token atau anda bisa mengganti password anda melalui link berikut $link";
 
     $sql = "SELECT id, email FROM doctors WHERE username=?";
     $query = $conn->prepare($sql);
-    $query->bind_param("s", $_POST['username']);
+    $query->bind_param("s", $username);
 
     if ($query->execute()) {
         $data = $query->get_result();
@@ -202,7 +225,7 @@ function forgotPassword($username) {
     $conn->close();
 }
 
-function validateToken($token) {
+function validateDoctorToken($token) {
     require 'connect.php';
 
     $sql = "SELECT id, token FROM doctors_token WHERE token = ?";

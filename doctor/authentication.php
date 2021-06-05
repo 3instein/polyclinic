@@ -3,6 +3,7 @@ include '../controller/base_url.php';
 include '../controller/department_controller.php';
 session_start();
 isset($_SESSION['doctor_id']) ? header('location: panel') : NULL;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,13 +28,15 @@ isset($_SESSION['doctor_id']) ? header('location: panel') : NULL;
     <div class="doctor_authentication_wrapper">
         <div class="doctor_register">
             <h1>Doctor Register</h1>
-            <form method="POST" action="<?= base ?>controller/doctor_controller.php" enctype="multipart/form-data">
+            <form method="POST" action="<?= base ?>controller/doctor_controller.php" enctype="multipart/form-data" id="doctorRegisterForm">
                 <label for="full_name">Full name</label>
-                <input type="text" name="full_name">
+                <input type="text" name="full_name" id="register_full_name">
+                <label for="email">Email</label>
+                <input type="text" name="email" id="register_email">
                 <label for="username">Username</label>
-                <input type="text" name="username">
+                <input type="text" name="username" id="register_username">
                 <label for="password">Password</label>
-                <input type="password" name="password">
+                <input type="password" name="password" id="register_password">
                 <label for="department">Department</label>
                 <select name="department">
                     <?php
@@ -46,23 +49,34 @@ isset($_SESSION['doctor_id']) ? header('location: panel') : NULL;
                     ?>
                 </select>
                 <label for="photo">Photo</label>
-                <input type="file" name="fileToUpload" id="fileToUpload">
-                <button type="submit" name="register">Register</button>
+                <input type="file" name="fileToUpload" id="fileToUpload" id="register_photo">
+                <button type="submit" name="register" id="registerDoc">Register</button>
             </form>
+            <p id="isRegisterTrue">
+                <?php
+                echo isset($_SESSION['error']) ? $_SESSION['error'] : NULL;
+                ?>
+            </p>
             <p id="doctor_login"><i class="fa fa-arrow-left"></i> Back</p>
         </div>
 
         <div class="doctor_login">
             <h1>Login Doctor</h1>
-            <form method="POST" action="<?= base?>controller/doctor_controller.php">
+            <form method="POST" action="<?= base ?>controller/doctor_controller.php" id="doctorLoginForm">
                 <label for="username">Username</label>
-                <input type="text" name="username">
+                <input type="text" name="username" id="login_username">
                 <label for="password">Password</label>
-                <input type="password" name="password">
+                <input type="password" name="password" id="login_password">
                 <p id="doctor_forgot_password">Forgot Password?</p>
-                <button type="submit" name="login">Login</button>
+                <button type="submit" name="login" id="loginDoc">Login</button>
             </form>
-            <p id="doctor_register">Create Account</p>
+            <p id="isLoginTrue">
+                <?php
+                echo isset($_SESSION['error']) ? $_SESSION['error'] : NULL;
+                unset($_SESSION['error']);
+                ?>
+            </p>
+            <button id="doctor_register">Create Account?</p>
         </div>
     </div>
 
@@ -87,6 +101,7 @@ isset($_SESSION['doctor_id']) ? header('location: panel') : NULL;
             let base = $('head base').attr('href');
             $('.doctor_register, .blurred_bg, .doctor_forgot_password_overlay').hide();
             $('.token_section, .forgot_password, .username_section').hide();
+            $('#doctorLoginForm, #doctorRegisterForm').removeAttr('action');
 
             $('.blurred_bg').click(
                 () => {
@@ -133,6 +148,35 @@ isset($_SESSION['doctor_id']) ? header('location: panel') : NULL;
                         $('.username_section').hide();
                     },
                 });
+            });
+
+
+            $('#loginDoc').click(function(e) {
+                let username = $('#login_username').val();
+                let password = $('#login_password').val();
+
+                if (username != "" && password != "") {
+                    $('#doctorLoginForm').attr('action', 'http://localhost/polyclinic/controller/doctor_controller.php');
+                } else {
+                    e.preventDefault();
+                    $('#doctorLoginForm').removeAttr('action');
+                    alert("Fields cannot be empty")
+                }
+            });
+
+            $('#registerDoc').click(function(e) {
+                let full_name = $('#register_full_name').val();
+                let email = $('#register_email').val();
+                let username = $('#register_username').val();
+                let password = $('#register_password').val();
+
+                if (full_name != "" && email != "" && username != "" && password != "") {
+                    $('#doctorRegisterForm').attr('action', 'http://localhost/polyclinic/controller/doctor_controller.php');
+                } else {
+                    e.preventDefault();
+                    $('#doctorLoginForm').removeAttr('action');
+                    alert("Fields cannot be empty")
+                }
             });
         });
     </script>

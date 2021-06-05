@@ -2,9 +2,6 @@
 include '../controller/base_url.php';
 include './../controller/appointment_controller.php';
 include './../controller/patient_controller.php';
-include './../controller/department_controller.php';
-include './../controller/schedule_controller.php';
-include './../controller/doctor_controller.php';
 
 session_start();
 if (!isset($_SESSION['patient_id'])) {
@@ -116,12 +113,12 @@ if (!isset($_SESSION['patient_id'])) {
             <div class="change_profile_detail">
                 <form method="POST" action="<?= base ?>controller/patient_controller.php">
                     <label for="email">Email</label>
-                    <input type="text" name="email" <?php echo "placeholder='" . $_SESSION['email'] . "'"; ?>>
+                    <input type="text" name="email" <?php echo "placeholder='" . $_SESSION['email'] . "'"; ?> id="email">
                     <label for="contact">Contact</label>
-                    <input type="text" name="contact" <?php echo "placeholder='" . $_SESSION['contact'] . "'"; ?>>
+                    <input type="text" name="contact" <?php echo "placeholder='" . $_SESSION['contact'] . "'"; ?> id="contact">
                     <label for="address">Address</label>
-                    <input type="text" name="address" <?php echo "placeholder='" . $_SESSION['address'] . "'"; ?>>
-                    <button name="edit_patient">Save Change</button>
+                    <input type="text" name="address" <?php echo "placeholder='" . $_SESSION['address'] . "'"; ?> id="address">
+                    <button name="edit_patient" id="edit_patient">Save Change</button>
                 </form>
             </div>
         </div>
@@ -290,6 +287,24 @@ if (!isset($_SESSION['patient_id'])) {
                     $('.user_profile_detail').hide();
                 }
             );
+
+            $('#edit_patient').click(function() {
+                let email = $('#email').attr('placeholder');
+                let contact = $('#contact').attr('placeholder');
+                let address = $('#address').attr('placeholder');
+
+                if ($('#email').val() == "") {
+                    $('#email').val(email);
+                }
+
+                if ($('#contact').val() == "") {
+                    $('#contact').val(contact);
+                }
+
+                if ($('#address').val() == "") {
+                    $('#address').val(address);
+                }
+            });
         });
     </script>
 </body>
