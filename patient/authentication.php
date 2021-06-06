@@ -5,9 +5,8 @@
 session_start();
 
 isset($_SESSION['patient_id']) ? header('location: panel') : NULL;
-echo isset($_SESSION['error']) ? $_SESSION['error'] : NULL;
 
-unset($_SESSION['error']);
+
 ?>
 
 <head>
@@ -39,32 +38,37 @@ unset($_SESSION['error']);
             <div class="slider"></div>
             <div class="register_form">
                 <p id="change_authentication_register">Returning Patient?</p>
-                <form method="POST" action="<?= base ?>controller/patient_controller.php">
+                <form method="POST" action="<?= base ?>controller/patient_controller.php" id="patientRegisterForm">
                     <label for="name">Name</label>
-                    <input type="text" name="full_name" />
+                    <input type="text" name="full_name" id="register_full_name" />
                     <label for="address">Address</label>
-                    <input type="text" name="address" />
+                    <input type="text" name="address" id="register_address" />
                     <label for="address">Email</label>
-                    <input type="text" name="email" />
+                    <input type="text" name="email" id="register_email" />
                     <label for="contact">Contact</label>
-                    <input type="text" name="contact" />
+                    <input type="text" name="contact" id="register_contact" />
                     <label for="id">ID Card Number</label>
-                    <input type="text" name="id_number" />
+                    <input type="text" name="id_number" id="register_id_number" />
                     <label for="pin">PIN</label>
-                    <input type="password" name="pin" />
-                    <button type="submit" name="register">Register</button>
+                    <input type="password" name="pin" id="register_pin" />
+                    <button type="submit" name="register" id="registerPatient">Register</button>
+                    <p id="isUserRegister">
+                        <?php
+                        echo isset($_SESSION['error']) ? $_SESSION['error'] : NULL;
+                        ?>
+                    </p>
                 </form>
                 <p id="change_authentication_register_mobile">Returning Patient?</p>
             </div>
             <div class="login_form">
                 <p id="change_authentication_login">New Patient?</p>
-                <form method="POST" action="<?= base ?>controller/patient_controller.php">
+                <form method="POST" action="<?= base ?>controller/patient_controller.php" id="patientLoginForm">
                     <label for="id_number">ID Card Number</label>
-                    <input type="text" name="id_number">
+                    <input type="text" name="id_number" id="login_id">
                     <label for="pin">PIN</label>
-                    <input type="password" name="pin">
+                    <input type="password" name="pin" id="login_pin">
                     <p id="forgot_pin">Forgot PIN?</p>
-                    <button type="submit" name="login">Login</button>
+                    <button type="submit" name="login" id="loginPatient">Login</button>
                 </form>
                 <p id="change_authentication_login_mobile">New Patient?</p>
             </div>
@@ -86,11 +90,12 @@ unset($_SESSION['error']);
             <button type="submit" name="changePin">Reset PIN</button>
         </form>
     </div>
-
+    <?php unset($_SESSION['error']); ?>
     <script>
         $(document).ready(function() {
             let base = $('head base').attr('href');
             $('.blurred_bg, .forgot_pin, .id_section, .user_forgot_password_overlay').hide();
+            $('#patientRegisterForm, #patientLoginForm').removeAttr('action');
 
             $('#change_authentication_register').click(function() {
                 $('.slider').animate({
@@ -145,6 +150,36 @@ unset($_SESSION['error']);
 
             $('.blurred_bg').click(function() {
                 $('.user_forgot_password_overlay, .blurred_bg, .id_section, .forgot_pin').hide();
+            });
+
+            $('#loginPatient').click(function(e) {
+                let id_number = $('#login_id').val();
+                let pin = $('#login_pin').val();
+
+                if (id_number != "" && pin != "") {
+                    $('#doctorLoginForm').attr('action', base + 'controller/patient_controller.php');
+                } else {
+                    e.preventDefault();
+                    $('#doctorLoginForm').removeAttr('action');
+                    alert("Fields cannot be empty")
+                }
+            });
+
+            $('#registerPatient').click(function(e) {
+                let full_name = $('#register_full_name').val();
+                let address = $('#register_address').val();
+                let email = $('#register_email').val();
+                let contact = $('#register_contact').val();
+                let id_number = $('#register_id_number').val();
+                let pin = $('#register_pin').val();
+
+                if (full_name != "" && address != "" && email != "" && contact != "" && id_number != "" && pin != "") {
+                    $('#doctorLoginForm').attr('action', base + 'controller/patient_controller.php');
+                } else {
+                    e.preventDefault();
+                    $('#doctorLoginForm').removeAttr('action');
+                    alert("Fields cannot be empty")
+                }
             });
         });
     </script>
