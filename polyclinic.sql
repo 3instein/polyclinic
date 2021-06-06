@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 31, 2021 at 08:23 AM
+-- Generation Time: Jun 06, 2021 at 06:13 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.34
 
@@ -43,8 +43,7 @@ INSERT INTO `appointments` (`id`, `schedule_id`, `patient_id`, `status`, `note`)
 (43, 4, 3, 'Finished', NULL),
 (44, 4, 3, 'Cancelled', NULL),
 (45, 4, 3, 'Finished', '{\"Note\":\"Halo\"}'),
-(46, 4, 3, 'Cancelled', NULL),
-(47, 5, 17, 'Cancelled', NULL);
+(46, 4, 3, 'Cancelled', NULL);
 
 -- --------------------------------------------------------
 
@@ -88,19 +87,10 @@ CREATE TABLE `doctors` (
 --
 
 INSERT INTO `doctors` (`id`, `department_id`, `email`, `full_name`, `username`, `password`, `profile_picture`, `session_id`) VALUES
-(1, 1, 'michael.gunawan2002@gmail.com', 'Rico Rudikan', 'ricorudikan', '$2y$10$KLCrPVdS62GSLPwY1wK1Aui/ghw.pibAnSK/c4WKj.PDMpBiy9eEe', 'ricorudikan.png', NULL),
-(2, 1, '', 'Michael Eco', 'eco123', '$2y$10$n1bFcuyTqeQbcUVwnbAGJuW6oKAsFhk0ejVAZwK2mf0LaQabzNq5G', 'a', NULL),
+(1, 1, 'michael.gunawan2002@gmail.com', 'Rico Rudikan', 'ricorudikan', '$2y$10$X/Y/hJohAM7ifeVm.GWvYentpqH884YVbLzyot3AKGI1beDyh6F3G', 'ricorudikan.png', NULL),
 (3, 1, 'reynaldi_kindarto@yahoo.com', 'Reynaldi Kindarto', 'rey', '$2y$10$/YNZjA6ii0b3r/DcdRrlIOYEe4lO5uvZt5JW7jaaKT50naKunlr6i', 'a', NULL),
-(4, 1, '', 'Rico', 'rico', '$2y$10$Mp7.egF5N1fVPIJhj1cB.uLPn/nYQhO81xpMcsHOZtUQziv9qm1CG', 'rico.png', NULL),
-(5, 2, '', 'Rudy', 'Kayne', '$2y$10$TUmZb3mfYmqUuHhM2jTwk.rTAzYwog2qA5uchQK1uhk9qWCHLM/xW', 'a', NULL),
-(6, 3, '', 'Wilbert Anthony', 'wilbert', '$2y$10$7XxHaBsGjGD9lvzFVu8J/uk2RuzLZcWnj0SeHJPsGuJlXQhuR/UEy', 'a', NULL),
-(7, 3, '', 'Rudy Kayne', 'bomek', '$2y$10$5xFeOug4jezlVz/ZbGSdSuHeSaVkuG/gUpQZ4iKvLDzkW8buax4WK', 'a', NULL),
-(8, 1, '', 'Maklo Geming', 'maklo', '$2y$10$QTlYw5PLOYnK1EP1ryfEIOD6EbbfBqucVxm7rNozFV.DS.DrXRG2G', 'a', NULL),
-(9, 1, '', 'Bapaklo Geming', 'bapaklo', '$2y$10$ln6xwd1MClJh8GH1Jd4.oejw04zr67ZA4n/rwTp7qa9ONQY7elhGm', 'a', NULL),
-(10, 1, '', 'Reynaldi Kindarto', 'kepet', '$2y$10$DtjxNkMPeSjGUPjP5OJ11OGZ368rx8JJREeRIrRQQcFmj3V0QQeQy', 'a', NULL),
-(13, 1, '', 'Maklo Geming', 'maklogeming', '$2y$10$dp3KQiCU27WASNfYlCaJH.52PSkzO0w9KppMisAwz81ZBq/ea5Hhq', 'maklogeming.png', NULL),
-(14, 1, '', 'Yohanes Dorus', 'congok', '$2y$10$cq63KrLsLjg6n8EtvzVYb.kZqU4dSqi3mkzyjrpwFMv3nd58PFuiC', 'congok.png', NULL),
-(15, 2, '', 'CONGOK', 'dorus', '$2y$10$T50JBPqxRQz2qzHUzmN5NOLRK6JAa3jZ1PPC64DzEou9uVocg6iSi', 'dorus.png', NULL);
+(18, 1, '', 'Maklo Geming', 'maklogeming', '$2y$10$PSW9PwJVRGTN6CHBesMsHuzmvrzaZbMHtooRmwDYVP.S6C6i5js2O', 'maklogeming.png', NULL),
+(20, 1, 'joshua@gmail.com', 'Joshua', 'joshua', '$2y$10$vQklNNZM13zPPBYn/0FRk.fUIIBL9bAW7ruEk1aaHbUS3bbPAwnEq', 'joshua.png', NULL);
 
 -- --------------------------------------------------------
 
@@ -153,11 +143,23 @@ CREATE TABLE `patients` (
 --
 
 INSERT INTO `patients` (`id`, `id_number`, `email`, `full_name`, `address`, `contact`, `pin`) VALUES
-(3, '123', 'michael.gunawan2002@gmail.com', 'Wilbert Anthony', 'Darmo Baru Barat XI/5', '9719823', '$2y$10$nVV9hguRAxiWch69JAaWg.WHqKA7TqZeOay89KEu33VhjP4yJZx9i'),
-(11, '1234567', '', 'b', 'b', '12345', '$2y$10$5Kk0NtQ6aLIOEH1i0nmZG.FODA3JnMEQDR2De2n.EOHrXst/1nTky'),
-(12, '12345', 'rkindarto@student.ciputra.ac.id', 'Reynaldi Kindarto', 'Darmo Baru Barat XI/5', '123', '$2y$10$BA/KdBeqM.QRvYfJir6Ba.5sVLal6QmKtc5ZngIWg2glEvbXlmuf2'),
+(3, '123', 'michael.gunawan2002@gmail.com', 'Wilbert Anthony', 'Darmo Baru Barat XI/5', '11111', '$2y$10$tI/JgpRaLkmJd2WbYKXy/.0Hw7mbgUgo/4tdngaJQo0/Lw0CTq/Fe'),
+(11, '1234567', 'n', 'b', 'b', '12345', '$2y$10$5Kk0NtQ6aLIOEH1i0nmZG.FODA3JnMEQDR2De2n.EOHrXst/1nTky'),
+(12, '12345', 'rkindarto@student.ciputra.ac.id', 'Reynaldi Kindarto', 'Darmo Baru Barat XI/5', '123', '$2y$10$Z/0f4DDsu/dDBCnqgbZjB.tg.tToeSwOheeqP/eTsRlJaR67nD6de'),
 (16, '11111', 'joshua@gmail.com', 'Joshua', 'ajsdkuasd', '12345', '$2y$10$XDgij9Vi6Gj4MOApYgQbH.9nUQO8SuikxSEGXkApoSu0dmRB6rYaC'),
 (17, '123456789', 'a', 'a', 'a', '1', '$2y$10$ju.Gn3yM9DIzuTphXY55luMWZGq/uT32CLgnoYOGcymupM0ED11lC');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `patients_token`
+--
+
+CREATE TABLE `patients_token` (
+  `id` int(11) NOT NULL,
+  `patient_id` int(11) NOT NULL,
+  `token` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -179,8 +181,7 @@ CREATE TABLE `schedules` (
 --
 
 INSERT INTO `schedules` (`schedule_id`, `department_id`, `doctor_id`, `day`, `time`, `availability`) VALUES
-(4, 1, 1, 'Monday', '10:00:00', 'Available'),
-(5, 2, 5, 'Monday', '12:00:00', 'Available');
+(4, 1, 1, 'Monday', '10:00:00', 'Available');
 
 -- --------------------------------------------------------
 
@@ -214,7 +215,8 @@ INSERT INTO `screening` (`id`, `patient_id`, `result`, `time`) VALUES
 (16, 3, '{\"question1\":\"false\",\"question2\":\"false\"}', '2021-05-30 08:21:52'),
 (17, 3, '{\"question1\":\"false\",\"question2\":\"false\"}', '2021-05-30 13:21:23'),
 (18, 3, '{\"question1\":\"false\",\"question2\":\"false\"}', '2021-05-31 05:32:48'),
-(19, 17, '{\"question1\":\"true\",\"question2\":\"false\"}', '2021-05-31 05:34:14');
+(19, 17, '{\"question1\":\"true\",\"question2\":\"false\"}', '2021-05-31 05:34:14'),
+(20, 3, '{\"question1\":\"false\",\"question2\":\"false\"}', '2021-06-01 14:24:39');
 
 --
 -- Indexes for dumped tables
@@ -239,6 +241,8 @@ ALTER TABLE `departments`
 --
 ALTER TABLE `doctors`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `email` (`email`),
   ADD KEY `department_id_key` (`department_id`);
 
 --
@@ -259,7 +263,16 @@ ALTER TABLE `hod`
 -- Indexes for table `patients`
 --
 ALTER TABLE `patients`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id_number` (`id_number`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Indexes for table `patients_token`
+--
+ALTER TABLE `patients_token`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `patients_token_key` (`patient_id`);
 
 --
 -- Indexes for table `schedules`
@@ -284,7 +297,7 @@ ALTER TABLE `screening`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -296,13 +309,13 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `doctors`
 --
 ALTER TABLE `doctors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `doctors_token`
 --
 ALTER TABLE `doctors_token`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `hod`
@@ -317,6 +330,12 @@ ALTER TABLE `patients`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
+-- AUTO_INCREMENT for table `patients_token`
+--
+ALTER TABLE `patients_token`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT for table `schedules`
 --
 ALTER TABLE `schedules`
@@ -326,7 +345,7 @@ ALTER TABLE `schedules`
 -- AUTO_INCREMENT for table `screening`
 --
 ALTER TABLE `screening`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Constraints for dumped tables
@@ -356,6 +375,12 @@ ALTER TABLE `doctors_token`
 --
 ALTER TABLE `hod`
   ADD CONSTRAINT `hod_key` FOREIGN KEY (`doctor_id`) REFERENCES `doctors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `patients_token`
+--
+ALTER TABLE `patients_token`
+  ADD CONSTRAINT `patients_token_key` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `schedules`
