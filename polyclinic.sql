@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 06, 2021 at 06:13 AM
+-- Generation Time: Jun 06, 2021 at 08:13 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.34
 
@@ -40,10 +40,9 @@ CREATE TABLE `appointments` (
 --
 
 INSERT INTO `appointments` (`id`, `schedule_id`, `patient_id`, `status`, `note`) VALUES
-(43, 4, 3, 'Finished', NULL),
-(44, 4, 3, 'Cancelled', NULL),
-(45, 4, 3, 'Finished', '{\"Note\":\"Halo\"}'),
-(46, 4, 3, 'Cancelled', NULL);
+(51, 6, 3, 'Cancelled', NULL),
+(52, 8, 3, 'Cancelled', NULL),
+(53, 6, 3, 'Upcoming', NULL);
 
 -- --------------------------------------------------------
 
@@ -88,8 +87,8 @@ CREATE TABLE `doctors` (
 
 INSERT INTO `doctors` (`id`, `department_id`, `email`, `full_name`, `username`, `password`, `profile_picture`, `session_id`) VALUES
 (1, 1, 'michael.gunawan2002@gmail.com', 'Rico Rudikan', 'ricorudikan', '$2y$10$X/Y/hJohAM7ifeVm.GWvYentpqH884YVbLzyot3AKGI1beDyh6F3G', 'ricorudikan.png', NULL),
-(3, 1, 'reynaldi_kindarto@yahoo.com', 'Reynaldi Kindarto', 'rey', '$2y$10$/YNZjA6ii0b3r/DcdRrlIOYEe4lO5uvZt5JW7jaaKT50naKunlr6i', 'a', NULL),
-(18, 1, '', 'Maklo Geming', 'maklogeming', '$2y$10$PSW9PwJVRGTN6CHBesMsHuzmvrzaZbMHtooRmwDYVP.S6C6i5js2O', 'maklogeming.png', NULL),
+(3, 1, 'reynaldi_kindarto@yahoo.com', 'Reynaldi Kindarto', 'rey', '$2y$10$QZrAnmERSebtUH0BB5NQ8..ATI.yURUznc0BSzl2CMnRxx4a88Jo2', 'a', NULL),
+(18, 1, 'maklo@yahoo.com', 'Maklo Geming', 'maklogeming', '$2y$10$PSW9PwJVRGTN6CHBesMsHuzmvrzaZbMHtooRmwDYVP.S6C6i5js2O', 'maklogeming.png', NULL),
 (20, 1, 'joshua@gmail.com', 'Joshua', 'joshua', '$2y$10$vQklNNZM13zPPBYn/0FRk.fUIIBL9bAW7ruEk1aaHbUS3bbPAwnEq', 'joshua.png', NULL);
 
 -- --------------------------------------------------------
@@ -103,6 +102,13 @@ CREATE TABLE `doctors_token` (
   `doctor_id` int(11) NOT NULL,
   `token` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `doctors_token`
+--
+
+INSERT INTO `doctors_token` (`id`, `doctor_id`, `token`) VALUES
+(74, 1, 6602);
 
 -- --------------------------------------------------------
 
@@ -146,8 +152,7 @@ INSERT INTO `patients` (`id`, `id_number`, `email`, `full_name`, `address`, `con
 (3, '123', 'michael.gunawan2002@gmail.com', 'Wilbert Anthony', 'Darmo Baru Barat XI/5', '11111', '$2y$10$tI/JgpRaLkmJd2WbYKXy/.0Hw7mbgUgo/4tdngaJQo0/Lw0CTq/Fe'),
 (11, '1234567', 'n', 'b', 'b', '12345', '$2y$10$5Kk0NtQ6aLIOEH1i0nmZG.FODA3JnMEQDR2De2n.EOHrXst/1nTky'),
 (12, '12345', 'rkindarto@student.ciputra.ac.id', 'Reynaldi Kindarto', 'Darmo Baru Barat XI/5', '123', '$2y$10$Z/0f4DDsu/dDBCnqgbZjB.tg.tToeSwOheeqP/eTsRlJaR67nD6de'),
-(16, '11111', 'joshua@gmail.com', 'Joshua', 'ajsdkuasd', '12345', '$2y$10$XDgij9Vi6Gj4MOApYgQbH.9nUQO8SuikxSEGXkApoSu0dmRB6rYaC'),
-(17, '123456789', 'a', 'a', 'a', '1', '$2y$10$ju.Gn3yM9DIzuTphXY55luMWZGq/uT32CLgnoYOGcymupM0ED11lC');
+(16, '11111', 'joshua@gmail.com', 'Joshua', 'ajsdkuasd', '12345', '$2y$10$XDgij9Vi6Gj4MOApYgQbH.9nUQO8SuikxSEGXkApoSu0dmRB6rYaC');
 
 -- --------------------------------------------------------
 
@@ -160,6 +165,15 @@ CREATE TABLE `patients_token` (
   `patient_id` int(11) NOT NULL,
   `token` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `patients_token`
+--
+
+INSERT INTO `patients_token` (`id`, `patient_id`, `token`) VALUES
+(9, 3, 7412),
+(10, 3, 8906),
+(11, 3, 9264);
 
 -- --------------------------------------------------------
 
@@ -181,7 +195,9 @@ CREATE TABLE `schedules` (
 --
 
 INSERT INTO `schedules` (`schedule_id`, `department_id`, `doctor_id`, `day`, `time`, `availability`) VALUES
-(4, 1, 1, 'Monday', '10:00:00', 'Available');
+(6, 1, 1, 'Wednesday', '10:00:00', 'Unavailable'),
+(8, 1, 3, 'Saturday', '10:00:00', 'Available'),
+(9, 1, 20, 'Monday', '12:00:00', 'Available');
 
 -- --------------------------------------------------------
 
@@ -215,8 +231,11 @@ INSERT INTO `screening` (`id`, `patient_id`, `result`, `time`) VALUES
 (16, 3, '{\"question1\":\"false\",\"question2\":\"false\"}', '2021-05-30 08:21:52'),
 (17, 3, '{\"question1\":\"false\",\"question2\":\"false\"}', '2021-05-30 13:21:23'),
 (18, 3, '{\"question1\":\"false\",\"question2\":\"false\"}', '2021-05-31 05:32:48'),
-(19, 17, '{\"question1\":\"true\",\"question2\":\"false\"}', '2021-05-31 05:34:14'),
-(20, 3, '{\"question1\":\"false\",\"question2\":\"false\"}', '2021-06-01 14:24:39');
+(20, 3, '{\"question1\":\"false\",\"question2\":\"false\"}', '2021-06-01 14:24:39'),
+(21, 3, '{\"question1\":\"true\",\"question2\":\"true\"}', '2021-06-06 14:26:25'),
+(22, 3, '{\"question1\":\"false\",\"question2\":\"true\"}', '2021-06-06 16:57:01'),
+(23, 3, '{\"question1\":\"true\",\"question2\":\"false\"}', '2021-06-06 17:44:35'),
+(24, 3, '{\"question1\":\"false\",\"question2\":\"false\"}', '2021-06-06 18:06:40');
 
 --
 -- Indexes for dumped tables
@@ -297,7 +316,7 @@ ALTER TABLE `screening`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -315,7 +334,7 @@ ALTER TABLE `doctors`
 -- AUTO_INCREMENT for table `doctors_token`
 --
 ALTER TABLE `doctors_token`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `hod`
@@ -327,25 +346,25 @@ ALTER TABLE `hod`
 -- AUTO_INCREMENT for table `patients`
 --
 ALTER TABLE `patients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `patients_token`
 --
 ALTER TABLE `patients_token`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `schedules`
 --
 ALTER TABLE `schedules`
-  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `screening`
 --
 ALTER TABLE `screening`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- Constraints for dumped tables

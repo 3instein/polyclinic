@@ -198,7 +198,7 @@
     color: rgba($color: $textUse, $alpha: 0.9);
     font-weight: map-get($font-weights, medium);
 
-    #cancel_appointment,
+    button,
     #view_note {
       text-decoration: none;
       color: #fff;
@@ -259,15 +259,19 @@
   margin-bottom: 4rem;
 }
 
-.view_appointment_page > #make_new_appointment {
-  text-decoration: none;
-  color: #fff;
-  background-color: rgba($color: $thirdBlue, $alpha: 0.9);
-  width: 100%;
-  padding: 0.75rem 2rem;
-  border-radius: 1rem;
-  margin-left: 1.5rem;
-  font-weight: map-get($font-weights, medium);
+.view_appointment_page > #make_new_appointment_mobile {
+  display: none;
+
+  @include mobile {
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    background-color: rgba($color: $thirdBlue, $alpha: 0.9);
+    width: 100%;
+    padding: 0.75rem 2rem;
+    border-radius: 1rem;
+    font-weight: map-get($font-weights, medium);
+  }
 }
 
 .view_profile_page {
@@ -335,7 +339,7 @@
 
   #patientLogout {
     @include mobile {
-      margin-left: -7.65rem;
+      margin-left: -6.65rem;
     }
   }
 
@@ -356,7 +360,7 @@
   @include mobile {
     position: absolute;
     left: 2%;
-    top: 65%;
+    top: 50%;
     margin: 0;
     padding: 0;
     border-left: none;
@@ -414,12 +418,9 @@
   }
 }
 
-.view_screening_page {
-}
-
 .view_note_overlay {
   @include flexCenter;
-  position: absolute;
+  position: fixed;
   flex-direction: column;
   justify-content: space-evenly;
   top: 50%;
@@ -430,6 +431,11 @@
   background-color: #fff;
   border-radius: 0.75rem;
   z-index: 6;
+
+  @include mobile {
+    width: 100vw;
+    height: 50vh;
+  }
 
   #display_note {
     resize: none;

@@ -1,0 +1,38 @@
+.screening_page {
+  @include flexCenter;
+  justify-content: space-evenly;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 20rem;
+  transform: translate(-50%, -50%);
+  text-align: center;
+
+  @include mobile {
+    width: 80vw;
+  }
+
+  form {
+    ol,
+    li {
+      text-align: left;
+    }
+
+    button {
+      text-decoration: none;
+      color: #fff;
+      background-color: rgba($color: $primariBlue, $alpha: 0.9);
+      padding: 0.75rem 10rem;
+      border-radius: 1rem;
+      border: none;
+      font-weight: map-get($font-weights, medium);
+      transition: all 0.1s ease-in-out;
+      margin-top: 2rem;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+}

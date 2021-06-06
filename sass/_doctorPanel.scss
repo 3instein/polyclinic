@@ -296,14 +296,14 @@
         .view_appointment_doctor_card_mobile {
           position: relative;
           margin-left: -6rem;
+          margin-bottom: 2rem;
           width: 20rem;
           height: 15rem;
           border-radius: 1rem;
           box-shadow: 3px 3px 20px rgba($color: #000000, $alpha: 0.1);
           padding: 2rem;
 
-          #finish,
-          #start {
+          button {
             position: absolute;
             bottom: 5%;
             right: 5%;
@@ -324,8 +324,16 @@
         flex-direction: column;
       }
 
-      #createSchedule,
-      #deleteSchedule {
+      #create {
+        color: #fff;
+        padding: 0.75rem 3rem;
+        background-color: rgba($color: $primariBlue, $alpha: 0.9);
+        border-radius: 0.625rem;
+        border: none;
+        font-weight: map-get($font-weights, bold);
+        transition: all 0.1s ease-in-out;
+        cursor: pointer;
+
         @include mobile {
           padding: 1rem 1rem;
           border-radius: 0.5rem;
@@ -335,6 +343,80 @@
           font-weight: 700;
           width: 20rem;
           margin-left: -7rem;
+          margin-top: -7rem;
+        }
+      }
+
+      button[name="remove"] {
+        margin-left: 2rem;
+        padding: 0.75rem 0.75rem;
+      }
+
+      .view_schedule_mobile {
+        display: none;
+
+        @include mobile {
+          @include flexCenter;
+          flex-direction: column;
+        }
+
+        .view_schedule_mobile_card {
+          display: none;
+
+          @include mobile {
+            display: block;
+            position: relative;
+            left: -17.5%;
+            width: 20rem;
+            margin-top: 2rem;
+            padding: 2rem;
+            height: 15rem;
+            border-radius: 1rem;
+            box-shadow: 3px 3px 20px rgba($color: #000000, $alpha: 0.1);
+          }
+
+          button[name="remove"] {
+            @include mobile {
+              position: absolute;
+              top: 25%;
+              right: 5%;
+              color: #fff;
+              padding: 1rem 1rem;
+              background-color: rgba($color: $primariBlue, $alpha: 0.9);
+              border-radius: 0.625rem;
+              border: none;
+              font-weight: map-get($font-weights, bold);
+            }
+          }
+
+          button[name="delete"] {
+            @include mobile {
+              position: absolute;
+              bottom: 10%;
+              left: 5%;
+              color: #fff;
+              padding: 0.75rem 3rem;
+              background-color: rgba($color: $primariBlue, $alpha: 0.9);
+              border-radius: 0.625rem;
+              border: none;
+              font-weight: map-get($font-weights, bold);
+            }
+          }
+
+          button[name="cancel"],
+          button[name="select"] {
+            @include mobile {
+              position: absolute;
+              bottom: 10%;
+              right: 5%;
+              color: #fff;
+              padding: 0.75rem 3rem;
+              background-color: rgba($color: $primariBlue, $alpha: 0.9);
+              border-radius: 0.625rem;
+              border: none;
+              font-weight: map-get($font-weights, bold);
+            }
+          }
         }
       }
     }
@@ -345,7 +427,7 @@
   @include flexCenter;
   flex-direction: column;
   justify-content: space-evenly;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -354,6 +436,11 @@
   height: 35%;
   background-color: #fff;
   z-index: 6;
+
+  @include mobile {
+    width: 100vw;
+    height: 50vh;
+  }
 
   form {
     @include flexCenter;
@@ -374,6 +461,10 @@
       font-weight: map-get($font-weights, medium);
       transition: all 0.1s ease-in-out;
 
+      @include mobile {
+        width: 80%;
+      }
+
       &:hover {
         opacity: 0.9;
       }
@@ -382,6 +473,49 @@
     #note {
       resize: none;
       font-size: 1.25rem;
+
+      @include mobile {
+        width: 80%;
+      }
+    }
+  }
+}
+
+.create_new_schedule_overlay {
+  @include flexCenter;
+  flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  width: 30%;
+  height: 35%;
+  border-radius: 1rem;
+  padding: 2rem;
+  z-index: 5;
+
+  form {
+    @include flexCenter;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+
+    select > option {
+      font-size: 1.25rem;
+    }
+
+    button {
+      font-size: 1.25rem;
+      padding: 0.5rem 2rem;
+      width: 100%;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      border: none;
+      background-color: $primariBlue;
+      color: $whiteGrayish;
+      border-radius: 0.625rem;
+      font-weight: map-get($font-weights, medium);
     }
   }
 }

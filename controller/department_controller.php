@@ -1,7 +1,7 @@
 <?php
 
 function listDepartment() {
-    require_once 'connect.php';
+    require 'connect.php';
     $sql = "SELECT * FROM departments";
     
     $query = $conn->prepare($sql);

@@ -21,7 +21,5 @@ function sendMail($subject, $target_email, $msg) {
     $mail->AddAddress($target_email); //tujuan email
     $mail->MsgHTML($msg);
 
-    if ($mail->send()) {
-        echo "SUCCESS";
-    }
+    $mail->send();
 }

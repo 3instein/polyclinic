@@ -2,10 +2,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-if (isset($_SESSION['patient_id'])) {
-    header('location: panel');
-}
 session_start();
+
+isset($_SESSION['patient_id']) ? header('location: panel') : NULL;
 echo isset($_SESSION['error']) ? $_SESSION['error'] : NULL;
 
 unset($_SESSION['error']);

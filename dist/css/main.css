@@ -582,6 +582,12 @@ footer .contact_section .office {
   text-align: left;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  footer .contact_section .office {
+    font-size: 1rem;
+  }
+}
+
 footer .contact_section .office p {
   width: 50%;
 }
@@ -609,6 +615,12 @@ footer .contact_section .social {
   width: 20%;
   height: 100%;
   text-align: left;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  footer .contact_section .social {
+    font-size: 1rem;
+  }
 }
 
 footer .contact_section .social a {
@@ -796,6 +808,7 @@ footer p {
     bottom: -12%;
     left: 60%;
     width: 15rem;
+    color: #024ed5;
   }
 }
 
@@ -804,6 +817,7 @@ footer p {
   top: -5%;
   right: 5%;
   cursor: pointer;
+  color: #024ed5;
 }
 
 @media screen and (max-width: 47.9375rem) {
@@ -836,6 +850,7 @@ footer p {
   top: -5%;
   right: 5%;
   cursor: pointer;
+  color: #024ed5;
 }
 
 @media screen and (max-width: 47.9375rem) {
@@ -864,10 +879,18 @@ footer p {
 }
 
 .form_wrapper .login_form #change_authentication_login_mobile {
-  position: absolute;
-  top: 55%;
-  left: 80%;
-  width: 20rem;
+  display: none;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .form_wrapper .login_form #change_authentication_login_mobile {
+    display: block;
+    position: absolute;
+    top: 55%;
+    left: 80%;
+    width: 20rem;
+    color: #024ed5;
+  }
 }
 
 .user_forgot_password_overlay {
@@ -1220,7 +1243,7 @@ footer p {
   font-weight: 500;
 }
 
-.view_appointment_page > table td #cancel_appointment,
+.view_appointment_page > table td button,
 .view_appointment_page > table td #view_note {
   text-decoration: none;
   color: #fff;
@@ -1234,7 +1257,7 @@ footer p {
   cursor: pointer;
 }
 
-.view_appointment_page > table td #cancel_appointment:hover,
+.view_appointment_page > table td button:hover,
 .view_appointment_page > table td #view_note:hover {
   opacity: 0.8;
 }
@@ -1289,15 +1312,21 @@ footer p {
   margin-bottom: 4rem;
 }
 
-.view_appointment_page > #make_new_appointment {
-  text-decoration: none;
-  color: #fff;
-  background-color: rgba(30, 64, 109, 0.9);
-  width: 100%;
-  padding: 0.75rem 2rem;
-  border-radius: 1rem;
-  margin-left: 1.5rem;
-  font-weight: 500;
+.view_appointment_page > #make_new_appointment_mobile {
+  display: none;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .view_appointment_page > #make_new_appointment_mobile {
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    background-color: rgba(30, 64, 109, 0.9);
+    width: 100%;
+    padding: 0.75rem 2rem;
+    border-radius: 1rem;
+    font-weight: 500;
+  }
 }
 
 .view_profile_page {
@@ -1391,7 +1420,7 @@ footer p {
 
 @media screen and (max-width: 47.9375rem) {
   .view_profile_page > .user_profile_section #patientLogout {
-    margin-left: -7.65rem;
+    margin-left: -6.65rem;
   }
 }
 
@@ -1414,7 +1443,7 @@ footer p {
   .change_profile_detail {
     position: absolute;
     left: 2%;
-    top: 65%;
+    top: 50%;
     margin: 0;
     padding: 0;
     border-left: none;
@@ -1503,7 +1532,7 @@ footer p {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  position: absolute;
+  position: fixed;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -1520,6 +1549,13 @@ footer p {
   background-color: #fff;
   border-radius: 0.75rem;
   z-index: 6;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .view_note_overlay {
+    width: 100vw;
+    height: 50vh;
+  }
 }
 
 .view_note_overlay #display_note {
@@ -1559,7 +1595,7 @@ footer p {
 }
 
 .blurred_bg {
-  position: absolute;
+  position: fixed;
   top: 0%;
   left: 0%;
   background-color: rgba(211, 211, 211, 0.3);
@@ -2248,6 +2284,7 @@ footer p {
 .doctor_dashboard .right_panel .view_doctor_schedules .view_appointment_mobile .view_appointment_doctor_card_mobile {
   position: relative;
   margin-left: -6rem;
+  margin-bottom: 2rem;
   width: 20rem;
   height: 15rem;
   border-radius: 1rem;
@@ -2256,10 +2293,8 @@ footer p {
   padding: 2rem;
 }
 
-.doctor_dashboard .right_panel .view_doctor_appointment .view_appointment_mobile .view_appointment_doctor_card_mobile #finish,
-.doctor_dashboard .right_panel .view_doctor_appointment .view_appointment_mobile .view_appointment_doctor_card_mobile #start,
-.doctor_dashboard .right_panel .view_doctor_schedules .view_appointment_mobile .view_appointment_doctor_card_mobile #finish,
-.doctor_dashboard .right_panel .view_doctor_schedules .view_appointment_mobile .view_appointment_doctor_card_mobile #start {
+.doctor_dashboard .right_panel .view_doctor_appointment .view_appointment_mobile .view_appointment_doctor_card_mobile button,
+.doctor_dashboard .right_panel .view_doctor_schedules .view_appointment_mobile .view_appointment_doctor_card_mobile button {
   position: absolute;
   bottom: 5%;
   right: 5%;
@@ -2289,9 +2324,20 @@ footer p {
   }
 }
 
+.doctor_dashboard .right_panel .view_doctor_schedules #create {
+  color: #fff;
+  padding: 0.75rem 3rem;
+  background-color: rgba(2, 78, 213, 0.9);
+  border-radius: 0.625rem;
+  border: none;
+  font-weight: 700;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 47.9375rem) {
-  .doctor_dashboard .right_panel .view_doctor_schedules #createSchedule,
-  .doctor_dashboard .right_panel .view_doctor_schedules #deleteSchedule {
+  .doctor_dashboard .right_panel .view_doctor_schedules #create {
     padding: 1rem 1rem;
     border-radius: 0.5rem;
     border: none;
@@ -2300,6 +2346,96 @@ footer p {
     font-weight: 700;
     width: 20rem;
     margin-left: -7rem;
+    margin-top: -7rem;
+  }
+}
+
+.doctor_dashboard .right_panel .view_doctor_schedules button[name="remove"] {
+  margin-left: 2rem;
+  padding: 0.75rem 0.75rem;
+}
+
+.doctor_dashboard .right_panel .view_doctor_schedules .view_schedule_mobile {
+  display: none;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .doctor_dashboard .right_panel .view_doctor_schedules .view_schedule_mobile {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
+.doctor_dashboard .right_panel .view_doctor_schedules .view_schedule_mobile .view_schedule_mobile_card {
+  display: none;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .doctor_dashboard .right_panel .view_doctor_schedules .view_schedule_mobile .view_schedule_mobile_card {
+    display: block;
+    position: relative;
+    left: -17.5%;
+    width: 20rem;
+    margin-top: 2rem;
+    padding: 2rem;
+    height: 15rem;
+    border-radius: 1rem;
+    -webkit-box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .doctor_dashboard .right_panel .view_doctor_schedules .view_schedule_mobile .view_schedule_mobile_card button[name="remove"] {
+    position: absolute;
+    top: 25%;
+    right: 5%;
+    color: #fff;
+    padding: 1rem 1rem;
+    background-color: rgba(2, 78, 213, 0.9);
+    border-radius: 0.625rem;
+    border: none;
+    font-weight: 700;
+  }
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .doctor_dashboard .right_panel .view_doctor_schedules .view_schedule_mobile .view_schedule_mobile_card button[name="delete"] {
+    position: absolute;
+    bottom: 10%;
+    left: 5%;
+    color: #fff;
+    padding: 0.75rem 3rem;
+    background-color: rgba(2, 78, 213, 0.9);
+    border-radius: 0.625rem;
+    border: none;
+    font-weight: 700;
+  }
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .doctor_dashboard .right_panel .view_doctor_schedules .view_schedule_mobile .view_schedule_mobile_card button[name="cancel"],
+  .doctor_dashboard .right_panel .view_doctor_schedules .view_schedule_mobile .view_schedule_mobile_card button[name="select"] {
+    position: absolute;
+    bottom: 10%;
+    right: 5%;
+    color: #fff;
+    padding: 0.75rem 3rem;
+    background-color: rgba(2, 78, 213, 0.9);
+    border-radius: 0.625rem;
+    border: none;
+    font-weight: 700;
   }
 }
 
@@ -2320,7 +2456,7 @@ footer p {
   -webkit-box-pack: space-evenly;
       -ms-flex-pack: space-evenly;
           justify-content: space-evenly;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
@@ -2330,6 +2466,13 @@ footer p {
   height: 35%;
   background-color: #fff;
   z-index: 6;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .doctor_note_overlay {
+    width: 100vw;
+    height: 50vh;
+  }
 }
 
 .doctor_note_overlay form {
@@ -2367,6 +2510,12 @@ footer p {
   transition: all 0.1s ease-in-out;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  .doctor_note_overlay form button[type="submit"] {
+    width: 80%;
+  }
+}
+
 .doctor_note_overlay form button[type="submit"]:hover {
   opacity: 0.9;
 }
@@ -2374,6 +2523,76 @@ footer p {
 .doctor_note_overlay form #note {
   resize: none;
   font-size: 1.25rem;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .doctor_note_overlay form #note {
+    width: 80%;
+  }
+}
+
+.create_new_schedule_overlay {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  background-color: #fff;
+  width: 30%;
+  height: 35%;
+  border-radius: 1rem;
+  padding: 2rem;
+  z-index: 5;
+}
+
+.create_new_schedule_overlay form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  height: 100%;
+}
+
+.create_new_schedule_overlay form select > option {
+  font-size: 1.25rem;
+}
+
+.create_new_schedule_overlay form button {
+  font-size: 1.25rem;
+  padding: 0.5rem 2rem;
+  width: 100%;
+  margin-top: 1.5rem;
+  cursor: pointer;
+  border: none;
+  background-color: #024ed5;
+  color: #f6eff0;
+  border-radius: 0.625rem;
+  font-weight: 500;
 }
 
 .forgot_password_wrapper {
@@ -2456,5 +2675,233 @@ footer p {
 
 .forgot_password_wrapper .forgot_password button:hover {
   opacity: 0.8;
+}
+
+.make_appointment_page {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.make_appointment_page h1 {
+  margin-bottom: 2rem;
+}
+
+.make_appointment_page #select_doctor {
+  margin-top: 2rem;
+  width: 50rem;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .make_appointment_page #select_doctor {
+    display: none;
+  }
+}
+
+.make_appointment_page #select_doctor #department {
+  margin-bottom: 2rem;
+  font-size: 1.25rem;
+  position: relative;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+
+.make_appointment_page #select_doctor .doctor_table {
+  width: 100%;
+  text-align: center;
+}
+
+.make_appointment_page #select_doctor .doctor_table tbody > tr > td > img {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.make_appointment_page #select_doctor .doctor_table tbody > tr > td > #select_this_doctor {
+  text-decoration: none;
+  color: #fff;
+  background-color: rgba(2, 78, 213, 0.9);
+  padding: 0.75rem 2rem;
+  border-radius: 1rem;
+  border: none;
+  font-weight: 500;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+
+.make_appointment_page #select_doctor .doctor_table tbody > tr > td > #select_this_doctor:hover {
+  opacity: 0.9;
+}
+
+.make_appointment_page .make_appointment_card_wrapper {
+  display: none;
+  width: 80vw;
+  height: 300px;
+  overflow-y: scroll;
+}
+
+.make_appointment_page .make_appointment_card_wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .make_appointment_page .make_appointment_card_wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    width: 100%;
+  }
+  .make_appointment_page .make_appointment_card_wrapper .make_appointment_card {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    padding: 0.5rem 0;
+  }
+  .make_appointment_page .make_appointment_card_wrapper .make_appointment_card .top {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .make_appointment_page .make_appointment_card_wrapper .make_appointment_card .top img {
+    width: 5rem;
+    height: 5rem;
+  }
+  .make_appointment_page .make_appointment_card_wrapper .make_appointment_card .top div {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    padding-left: 1rem;
+  }
+  .make_appointment_page .make_appointment_card_wrapper .make_appointment_card .bottom {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .make_appointment_page .make_appointment_card_wrapper .make_appointment_card .bottom div {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .make_appointment_page .make_appointment_card_wrapper .make_appointment_card .bottom button {
+    text-decoration: none;
+    color: #fff;
+    background-color: rgba(2, 78, 213, 0.9);
+    padding: 0.75rem 2rem;
+    border-radius: 1rem;
+    border: none;
+    font-weight: 500;
+  }
+}
+
+.make_appointment_page #department_mobile {
+  display: none;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .make_appointment_page #department_mobile {
+    display: block;
+    margin-top: 2rem;
+    font-size: 1.25rem;
+  }
+}
+
+.screening_page {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 20rem;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .screening_page {
+    width: 80vw;
+  }
+}
+
+.screening_page form ol,
+.screening_page form li {
+  text-align: left;
+}
+
+.screening_page form button {
+  text-decoration: none;
+  color: #fff;
+  background-color: rgba(2, 78, 213, 0.9);
+  padding: 0.75rem 10rem;
+  border-radius: 1rem;
+  border: none;
+  font-weight: 500;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+  margin-top: 2rem;
+}
+
+.screening_page form button:hover {
+  opacity: 0.9;
 }
 /*# sourceMappingURL=main.css.map */

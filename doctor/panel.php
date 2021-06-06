@@ -4,9 +4,7 @@ include '../controller/appointment_controller.php';
 include '../controller/doctor_controller.php';
 
 session_start();
-if (!isset($_SESSION['doctor_id'])) {
-    header('location: authentication');
-}
+!isset($_SESSION['doctor_id']) ? header('location: authentication') : NULL;
 ?>
 
 <!DOCTYPE html>
@@ -19,6 +17,7 @@ if (!isset($_SESSION['doctor_id'])) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Dashboard</title>
     <base href="<?= base ?>">
+    <!-- <base href="localhost:56986/polyclinic"> -->
     <style>
         <?php include './../dist/css/main.css'; ?>
     </style>
@@ -79,9 +78,9 @@ if (!isset($_SESSION['doctor_id'])) {
                             echo "<td>$appointment[time]</td>";
                             echo "<td>$appointment[status]</td>";
                             if ($appointment['status'] == "Upcoming") {
-                                echo "<td><button id='start' name='start' value='$appointment[id]'>Start</td></button>";
+                                echo "<td><button name='start' value='$appointment[id]'>Start</td></button>";
                             } else if ($appointment['status'] == "Ongoing") {
-                                echo "<td><button id='finish' name='finish' value='$appointment[id]'>Finish</td></button>";;
+                                echo "<td><button name='finish' value='$appointment[id]'>Finish</td></button>";;
                             } else {
                                 echo "<td></td>";
                             }
@@ -111,12 +110,12 @@ if (!isset($_SESSION['doctor_id'])) {
                         while ($appointment = $appointments->fetch_assoc()) {
                             echo "<div class=view_appointment_doctor_card_mobile>";
                             echo "<p>$appointment[status]</p>";
-                            echo "<h2>$appointment[status]</h2>";
+                            echo "<h2>$appointment[full_name]</h2>";
                             echo "<p>$appointment[day] $appointment[time]</p>";
                             if ($appointment['status'] == "Upcoming") {
-                                echo "<button id='start' name='start' value='$appointment[id]'>Start</button>";
+                                echo "<button name='start' value='$appointment[id]'>Start</button>";
                             } else if ($appointment['status'] == "Ongoing") {
-                                echo "<button id='finish' name='finish' value='$appointment[id]'>Finish</button>";;
+                                echo "<button name='finish' value='$appointment[id]'>Finish</button>";;
                             }
                             echo "</div>";
                         }
@@ -151,7 +150,7 @@ if (!isset($_SESSION['doctor_id'])) {
                             echo "<td>$row[name]</td>";
                             if (isset($_SESSION['hod'])) {
                                 if (!empty($row['full_name'])) {
-                                    echo "<td>$row[full_name] <button id='remove' value='$row[schedule_id]'>Remove</button></td>";
+                                    echo "<td>$row[full_name] <button name='remove' value='$row[schedule_id]'>X</button></td>";
                                 } else {
                                     echo "<td></td>";
                                 }
@@ -161,15 +160,15 @@ if (!isset($_SESSION['doctor_id'])) {
                             echo "<td>$row[day]</td>";
                             echo "<td>$row[time]</td>";
                             echo "<td>";
-                            if ($row['availability'] = "available" && empty($row['full_name'])) {
-                                echo "<button id='select' name='schedule_id' value='$row[schedule_id]' data-value='$_SESSION[doctor_id]'>Select</button>";
+                            if ($row['availability'] == "Available" && empty($row['full_name'])) {
+                                echo "<button name='select' value='$row[schedule_id]' data-value='$_SESSION[doctor_id]'>Select</button>";
                             } else if ($row['id'] == $_SESSION['doctor_id']) {
-                                echo "<button id='cancel' name='schedule_id' value='$row[schedule_id]'>Cancel</button>";
+                                echo "<button name='cancel' value='$row[schedule_id]'>Cancel</button>";
                             }
                             echo "</td>";
                             if (isset($_SESSION['hod'])) {
                                 echo "<td>";
-                                echo "<button id='delete' value='$row[schedule_id]'>Delete</button>";
+                                echo "<button name='delete' value='$row[schedule_id]'>Delete</button>";
                                 echo "</td>";
                             }
                             echo "</tr>";
@@ -178,11 +177,27 @@ if (!isset($_SESSION['doctor_id'])) {
                     ?>
                 </table>
                 <div class="view_schedule_mobile">
-
+                    <?php
+                    $schedule = getSchedule($_SESSION['department_id']);
+                    if (!empty($schedule)) {
+                        while ($row = $schedule->fetch_assoc()) {
+                            echo "<div class='view_schedule_mobile_card'>";
+                            echo "<p>$row[name]</p>";
+                            echo "<h2>$row[full_name] <button name='remove' value='$row[schedule_id]'>X</button></h2>";
+                            echo "<p>$row[day] $row[time]</p>";
+                            if (isset($_SESSION['hod'])) {
+                                echo "<button name='delete' value='$row[schedule_id]'>Delete</button>";
+                            }
+                            if ($row['id'] == $_SESSION['doctor_id']) {
+                                echo "<button name='cancel' value='$row[schedule_id]'>Cancel</button>";
+                            } else if ($row['availability'] == "Available" && empty($row['full_name'])) {
+                                echo "<button name='select' value='$row[schedule_id]' data-value='$_SESSION[doctor_id]'>Select</button>";
+                            }
+                            echo "</div>";
+                        }
+                    }
+                    ?>
                 </div>
-            </div>
-            <div class="view_doctor_profile">
-
             </div>
         </div>
 
@@ -193,13 +208,38 @@ if (!isset($_SESSION['doctor_id'])) {
                 <button id="addNote" type="submit" name="addNote" value="">Done</button>
             </form>
         </div>
+
+        <div class="create_new_schedule_overlay">
+            <h1>Create New Schedule</h1>
+            <form action="<?= base ?>controller/schedule_controller.php" method="POST">
+                <label for="create_day">Day</label>
+                <select name="create_day">
+                    <option>Monday</option>
+                    <option>Tuesday</option>
+                    <option>Wednesday</option>
+                    <option>Thursday</option>
+                    <option>Friday</option>
+                    <option>Saturday</option>
+                    <option>Sunday</option>
+                </select>
+                <label for="create_time">Time</label>
+                <select name="create_time">
+                    <?php
+                    for ($i = 7; $i <= 17; $i++) {
+                        echo "<option>$i:00:00</option>";
+                    }
+                    ?>
+                </select>
+                <button type="submit" name="createSchedule">Create Schedule</button>
+            </form>
+        </div>
     </section>
 
     <script>
         $(document).ready(function() {
             let base = $('head base').attr('href');
             $('.view_appointment_doctor').addClass('selected_doctor_menu');
-            $('.view_doctor_schedules, .blurred_bg, .doctor_note_overlay, .hamburger_doctor_menu').hide();
+            $('.view_doctor_schedules, .blurred_bg, .doctor_note_overlay, .hamburger_doctor_menu, .create_new_schedule_overlay').hide();
             $(".view_appointment_doctor_mobile").addClass('selected_doctor_ham_menu');
 
             $('.view_appointment_doctor').click(function(e) {
@@ -238,13 +278,12 @@ if (!isset($_SESSION['doctor_id'])) {
             $('.blurred_bg').click(function() {
                 $('.blurred_bg').hide();
                 $('.doctor_note').hide();
-                $('.doctor_note_overlay').hide();
+                $('.doctor_note_overlay, .create_new_schedule_overlay').hide();
             });
 
-            $('#select').click(function() {
-                let button = document.getElementById('select');
-                let schedule_id = $('#select').val();
-                let doctor_id = button.getAttribute('data-value');
+            $('button[name=select]').on('click touchstart', function() {
+                const schedule_id = $(this).val();
+                const doctor_id = $(this).data('value');
                 $.ajax({
                     url: base + 'controller/schedule_controller.php?action=select',
                     type: 'POST',
@@ -263,8 +302,8 @@ if (!isset($_SESSION['doctor_id'])) {
                 });
             });
 
-            $('#cancel').click(function() {
-                let schedule_id = $('#cancel').val();
+            $('button[name=cancel]').on('click touchstart', function() {
+                const schedule_id = $(this).val();
                 $.ajax({
                     url: base + 'controller/schedule_controller.php?action=cancel',
                     type: 'POST',
@@ -282,8 +321,8 @@ if (!isset($_SESSION['doctor_id'])) {
                 });
             });
 
-            $('#start').click(function() {
-                let appointment_id = $('#start').val();
+            $('button[name=start]').on('click touchstart', function() {
+                const appointment_id = $(this).val();
                 $.ajax({
                     url: base + 'controller/appointment_controller.php?action=startAppointment',
                     type: 'POST',
@@ -301,8 +340,8 @@ if (!isset($_SESSION['doctor_id'])) {
                 });
             });
 
-            $('#finish').click(function() {
-                let appointment_id = $('#finish').val();
+            $('button[name=finish]').on('click touchstart', function() {
+                const appointment_id = $(this).val();
                 $.ajax({
                     url: base + 'controller/appointment_controller.php?action=finishAppointment',
                     type: 'POST',
@@ -326,11 +365,14 @@ if (!isset($_SESSION['doctor_id'])) {
             });
 
             $('#create').click(function() {
-
+                $('.blurred_bg').show();
+                $('.create_new_schedule_overlay').animate({
+                    height: 'toggle'
+                });
             });
 
-            $('#remove').click(function() {
-                let schedule_id = $('#remove').val();
+            $('button[name=remove]').on('click touchstart', function() {
+                const schedule_id = $(this).val();
                 $.ajax({
                     url: base + 'controller/schedule_controller.php?action=removeDoctor',
                     type: 'POST',
@@ -348,8 +390,8 @@ if (!isset($_SESSION['doctor_id'])) {
                 });
             });
 
-            $('#delete').click(function() {
-                let schedule_id = $('#delete').val();
+            $('button[name=delete]').on('click touchstart', function() {
+                const schedule_id = $(this).val();
                 $.ajax({
                     url: base + 'controller/schedule_controller.php?action=deleteSchedule',
                     type: 'POST',

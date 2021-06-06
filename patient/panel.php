@@ -4,9 +4,7 @@ include '../controller/appointment_controller.php';
 include '../controller/patient_controller.php';
 
 session_start();
-if (!isset($_SESSION['patient_id'])) {
-    header('location: ' . base . '/patient/authentication');
-}
+!isset($_SESSION['patient_id']) ? header('location: authentication') : NULL;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -101,12 +99,12 @@ if (!isset($_SESSION['patient_id'])) {
                                 $day = 0;
                             }
                             if ($day != date("w")) {
-                                echo "<td><button id='cancel_appointment' name='cancelAppointment' value='$row[id]' data-value='$row[schedule_id]'>Cancel Appointment</button></td>";
+                                echo "<td><button name='cancelAppointment' value='$row[id]' data-value='$row[schedule_id]'>Cancel Appointment</button></td>";
                             } else {
                                 echo "<td></td>";
                             }
                         } else if ($row['status'] == "Finished") {
-                            echo "<td><button id='view_note' name='view_note' value='$row[id]'>View Note</button></td>";
+                            echo "<td><button name='view_note' value='$row[id]'>View Note</button></td>";
                         } else {
                             echo "<td></td>";
                         }
@@ -130,11 +128,32 @@ if (!isset($_SESSION['patient_id'])) {
                         echo "<p>$row[status]</p>";
                         echo "<h2>$row[full_name]</h2>";
                         echo "<p>$row[day] $row[time]</p>";
-                        echo "<p id'doctor_department'>$row[name]</p>";
+                        echo "<p id='doctor_department'>$row[name]</p>";
                         if ($row['status'] == "Upcoming") {
-                            echo "<button id='cancel_appointment' name='cancelAppointment' value='$row[id]' data-value='$row[schedule_id]'>Cancel Appointment</button>";
+                            if ($row['day'] == "Monday") {
+                                $day = 1;
+                            } else if ($row['day'] == "Tuesday") {
+                                $day = 2;
+                            } else if ($row['day'] == "Wednesday") {
+                                $day = 3;
+                            } else if ($row['day'] == "Thursday") {
+                                $day = 4;
+                            } else if ($row['day'] == "Friday") {
+                                $day = 5;
+                            } else if ($row['day'] == "Saturday") {
+                                $day = 6;
+                            } else if ($row['day'] == "Sunday") {
+                                $day = 0;
+                            }
+                            if ($day != date("w")) {
+                                echo "<button name='cancelAppointment' value='$row[id]' data-value='$row[schedule_id]'>Cancel Appointment</button>";
+                            } else {
+                                echo "<p></p>";
+                            }
                         } else if ($row['status'] == "Finished") {
-                            echo "<button id='view_note' name='view_note' value='$row[id]'>View Note</button>";
+                            echo "<button name='view_note' value='$row[id]'>View Note</button>";
+                        } else {
+                            echo "<p></p>";
                         }
                         echo "</div>";
                     }
@@ -142,7 +161,7 @@ if (!isset($_SESSION['patient_id'])) {
                 ?>
             </div>
             <p>Appointment can only be canceled 1 day before!</p>
-            <a href="<?= base; ?>patient/appointment.php" id="make_new_appointment">New Appointment</a>
+            <a href="<?= base; ?>patient/appointment.php" id="make_new_appointment_mobile">New Appointment</a>
         </div>
         <div class="view_profile_page">
             <div class="user_profile_section">
@@ -210,7 +229,7 @@ if (!isset($_SESSION['patient_id'])) {
 
     <script>
         $(document).ready(function(e) {
-            let base = $('head base').attr('href');
+            let base = $('head base').attr('href')
             $('.view_profile_page, .change_profile_detail, .hamburger_patient_menu').hide();
             $('.view_screening_page, .blurred_bg, .view_note_overlay').hide();
 
@@ -280,10 +299,9 @@ if (!isset($_SESSION['patient_id'])) {
                 $('.view_profile_page').hide();
             });
 
-            $('#cancel_appointment').click(function() {
-                let button = document.getElementById('cancel_appointment');
-                let schedule_id = button.getAttribute('data-value');
-                let appointment_id = $('#cancel_appointment').val();
+            $('button[name=cancelAppointment]').on('click touchstart', function() {
+                const schedule_id = $(this).data('value');
+                const appointment_id = $(this).val();
                 $.ajax({
                     url: base + '/controller/appointment_controller.php?action=cancelAppointment',
                     type: 'POST',
@@ -302,8 +320,8 @@ if (!isset($_SESSION['patient_id'])) {
                 });
             });
 
-            $('#view_note').click(function() {
-                let appointment_id = $('#view_note').val();
+            $('button[name=view_note]').on('click touchstart', function() {
+                const appointment_id = $(this).val();
                 $.ajax({
                     url: base + '/controller/appointment_controller.php?action=viewNote',
                     type: 'POST',

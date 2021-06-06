@@ -438,6 +438,10 @@ footer {
       height: 100%;
       text-align: left;
 
+      @include mobile {
+        font-size: 1rem;
+      }
+
       p {
         width: 50%;
       }
@@ -451,6 +455,10 @@ footer {
       width: 20%;
       height: 100%;
       text-align: left;
+
+      @include mobile {
+        font-size: 1rem;
+      }
 
       a {
         text-decoration: none;
