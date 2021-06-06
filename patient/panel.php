@@ -1,7 +1,7 @@
 <?php
-include '../controller/base_url.php';
-include './../controller/appointment_controller.php';
-include './../controller/patient_controller.php';
+
+include '../controller/appointment_controller.php';
+include '../controller/patient_controller.php';
 
 session_start();
 if (!isset($_SESSION['patient_id'])) {

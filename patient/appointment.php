@@ -1,6 +1,5 @@
 <?php
 
-include '../controller/base_url.php';
 include './../controller/appointment_controller.php';
 include './../controller/patient_controller.php';
 

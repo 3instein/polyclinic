@@ -1,9 +1,9 @@
 <?php
 
 function sendMail($subject, $target_email, $msg) {
-    require '../PHPMailer/src/PHPMailer.php';
-    require '../PHPMailer/src/SMTP.php';
-    require '../PHPMailer/src/Exception.php';
+    require_once '../PHPMailer/src/PHPMailer.php';
+    require_once '../PHPMailer/src/SMTP.php';
+    require_once '../PHPMailer/src/Exception.php';
 
     $email_sender = "rkindarto@student.ciputra.ac.id";
 

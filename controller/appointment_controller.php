@@ -1,5 +1,6 @@
 <?php
 
+include '../controller/base_url.php';
 include '../controller/department_controller.php';
 include '../controller/schedule_controller.php';
 
@@ -43,8 +44,8 @@ if (isset($_POST['appointment'])) {
         if ($query->execute()) {
             require 'mail_controller.php';
 
-            $sql = "SELECT appointments.id, email FROM appointments 
-                    JOIN patients ON appointments.patient_id = patients.id 
+            $sql = "SELECT appointments.id, schedules.day, schedules.time, patients.email, patients.full_name, schedules.doctor_id FROM appointments 
+                    JOIN patients ON appointments.patient_id = patients.id JOIN schedules ON appointments.schedule_id = schedules.schedule_id 
                     WHERE patient_id=? ORDER BY id DESC LIMIT 1";
             $query = $conn->prepare($sql);
             $query->bind_param("i", $id);
@@ -52,9 +53,27 @@ if (isset($_POST['appointment'])) {
             $result = $query->get_result();
             $result = $result->fetch_assoc();
 
+            $patient_name = $result['full_name'];
+            $appointment_day = $result['day'];
+            $appointment_time = $result['time'];
+            $doctor_id = $result['doctor_id'];
+
             $subject = "Appointment #$result[id]";
             $target_email = $result['email'];
-            $msg = "Your appointment has been scheduled!";
+            $msg = "Your appointment on $appointment_day at $appointment_time has been scheduled!";
+            
+            sendMail($subject, $target_email, $msg);
+            
+            $sql = "SELECT doctors.email FROM doctors WHERE id=?";
+            $query= $conn->prepare($sql);
+            $query->bind_param("i", $doctor_id);
+            $query->execute();
+            $result = $query->get_result();
+            $result = $result->fetch_assoc();
+
+            $target_email = $result['email'];
+            $msg = "You have an appointment with Mr/Mrs $patient_name on $appointment_day at $appointment_time";
+
             sendMail($subject, $target_email, $msg);
 
             header('location: ../patient/screening');
@@ -168,18 +187,35 @@ function cancelAppointment($appointment_id, $schedule_id) {
         $query->bind_param("i", $schedule_id);
 
         if ($query->execute()) {
-            $sql = "SELECT email FROM appointments 
-                    JOIN patients ON appointments.patient_id = patients.id 
+            $sql = "SELECT patients.email, patients.full_name, schedules.doctor_id, schedules.day, schedules.time FROM appointments 
+                    JOIN patients ON appointments.patient_id = patients.id JOIN schedules ON appointments.schedule_id = schedules.schedule_id
                     WHERE appointments.id = ?";
             $query = $conn->prepare($sql);
             $query->bind_param("i", $appointment_id);
             $query->execute();
-            $data = $query->get_result();
-            $data = $data->fetch_assoc();
+            $result = $query->get_result();
+            $result = $result->fetch_assoc();
+
+            $doctor_id = $result['doctor_id'];
+            $appointment_day = $result['day'];
+            $appointment_time = $result['time'];
+            $patient_name = $result['full_name'];
 
             $subject = "Appointment #$appointment_id cancelled";
-            $target_email = $data['email'];
-            $msg = "You have canceled your appointment!";
+            $target_email = $result['email'];
+            $msg = "You have canceled your appointment on $appointment_day at $appointment_time!";
+
+            sendMail($subject, $target_email, $msg);
+
+            $sql = "SELECT doctors.email FROM doctors WHERE id=?";
+            $query= $conn->prepare($sql);
+            $query->bind_param("i", $doctor_id);
+            $query->execute();
+            $result = $query->get_result();
+            $result = $result->fetch_assoc();
+
+            $target_email = $result['email'];
+            $msg = "Appointment with Mr/Mrs $patient_name on $appointment_day at $appointment_time has been cancelled!";
 
             sendMail($subject, $target_email, $msg);
             
@@ -208,7 +244,9 @@ function finishAppointment($appointment_id) {
     $query->bind_param("i", $appointment_id);
 
     if ($query->execute()) {
-        $sql = "SELECT schedule_id FROM appointments WHERE id=?";
+        $sql = "SELECT patients.email, schedule_id FROM appointments 
+                JOIN patients ON appointments.patient_id = patients.id 
+                WHERE appointments.id=? ";
 
         $query = $conn->prepare($sql);
         $query->bind_param("i", $appointment_id);
@@ -216,11 +254,19 @@ function finishAppointment($appointment_id) {
         $result = $query->get_result();
         $result = $result->fetch_assoc();
 
+        $subject = "Appointment #$appointment_id has finished";
+        $target_email = $result['email'];
+        $msg = "Thank you for visiting polyclinic. Hope you have a speedy recovery!";
+
         $sql = "UPDATE schedules SET availability = 'Available' WHERE schedule_id=?";
 
         $query = $conn->prepare($sql);
         $query->bind_param("i", $result['schedule_id']);
         $query->execute();
+
+        require 'mail_controller.php';
+
+        sendMail($subject, $target_email, $msg);
     }
 
     $conn->close();
