@@ -38,10 +38,9 @@ if (!isset($_SESSION['doctor_id'])) {
                 <p>Welcome Dr. <?= $_SESSION['full_name']; ?></p>
                 <p>
                     <?php
-                    $_SESSION['department_id'] == 1 ? $department = "General" : NULL;
-                    $_SESSION['department_id'] == 2 ? $department = "Eye" : NULL;
-                    $_SESSION['department_id'] == 3 ? $department = "Dentist" : NULL;
-                    echo $department;
+                    echo $_SESSION['department_id'] == 1 ? $department = "General" : NULL;
+                    echo $_SESSION['department_id'] == 2 ? $department = "Eye" : NULL;
+                    echo $_SESSION['department_id'] == 3 ? $department = "Dentist" : NULL;
                     ?>
                 </p>
                 <button><a href="<?= base ?>doctor/logout">Logout</a></button>
@@ -88,9 +87,7 @@ if (!isset($_SESSION['doctor_id'])) {
             <div class="view_doctor_schedules">
                 <?php
                     if(isset($_SESSION['hod'])){
-                        echo "<button id='createSchedule'>Create Schedule</button>";
-                        echo "<button>X</button>";
-                        echo "<button>Delete Schedule</button>";
+                        echo "<button id='create'>Create Schedule</button>";
                     }
                 ?>
                 <table>
@@ -100,19 +97,27 @@ if (!isset($_SESSION['doctor_id'])) {
                         <th>Day</th>
                         <th>Time</th>
                         <th>Action</th>
+                        <?php
+                            if(isset($_SESSION['hod'])){
+                                echo "<th>HOD Action</th>";
+                            }
+                        ?>
                     </tr>
                     <?php
                     $schedule = getSchedule($_SESSION['department_id']);
                     if (!empty($schedule)) {
                         while ($row = $schedule->fetch_assoc()) {
-                            switch ($row['department_id']) {
-                                case 1:
-                                    $department = "General";
-                            }
-                            // $doctor_name = $row['full_name'];
                             echo "<tr>";
-                            echo "<td>$department</td>";
-                            echo "<td>$row[full_name]</td>";
+                            echo "<td>$row[name]</td>";
+                            if(isset($_SESSION['hod'])){
+                                if(!empty($row['full_name'])){
+                                    echo "<td>$row[full_name] <button id='remove' value='$row[schedule_id]'>Remove</button></td>";
+                                } else {
+                                    echo "<td></td>";
+                                }
+                            } else {
+                                echo "<td>$row[full_name]</td>";
+                            }
                             echo "<td>$row[day]</td>";
                             echo "<td>$row[time]</td>";
                             echo "<td>";
@@ -122,6 +127,11 @@ if (!isset($_SESSION['doctor_id'])) {
                                 echo "<button id='cancel' name='schedule_id' value='$row[schedule_id]'>Cancel</button>";
                             }
                             echo "</td>";
+                            if(isset($_SESSION['hod'])){
+                                echo "<td>";
+                                echo "<button id='delete' value='$row[schedule_id]'>Delete</button>";
+                                echo "</td>";
+                            }
                             echo "</tr>";
                         }
                     }
@@ -271,8 +281,46 @@ if (!isset($_SESSION['doctor_id'])) {
                 });
             });
 
-            $('#createSchedule').click(function() {
+            $('#create').click(function() {
                 
+            });
+
+            $('#remove').click(function() {
+                let schedule_id = $('#remove').val();
+                $.ajax({
+                    url: base + 'controller/schedule_controller.php?action=removeDoctor',
+                    type: 'POST',
+                    data: {
+                        schedule_id
+                    },
+                    success: (payload) => {
+                        payload = JSON.parse(payload);
+                        if (payload.message === 'success') {
+                            location.reload();
+                        } else {
+                            alert(payload.message);
+                        }
+                    },
+                });
+            });
+
+            $('#delete').click(function() {
+                let schedule_id = $('#delete').val();
+                $.ajax({
+                    url: base + 'controller/schedule_controller.php?action=deleteSchedule',
+                    type: 'POST',
+                    data: {
+                        schedule_id
+                    },
+                    success: (payload) => {
+                        payload = JSON.parse(payload);
+                        if (payload.message === 'success') {
+                            location.reload();
+                        } else {
+                            alert(payload.message);
+                        }
+                    },
+                });
             });
         });
     </script>

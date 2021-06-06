@@ -67,7 +67,6 @@ if (isset($_POST['register'])) {
         $query = $conn->prepare($sql);
         $query->bind_param("isssss", $department_id, $email, $full_name, $username, $password, $profile_picture);
 
-        if (!empty($department_id) && !empty($full_name) && !empty($email) && !empty($password) && !empty($profile_picture)) {
             if ($query->execute()) {
                 $sql = "SELECT `id`, `department_id`, `full_name`, `username`, `profile_picture` FROM `doctors` WHERE `username` = ?";
                 $query = $conn->prepare($sql);
@@ -92,17 +91,12 @@ if (isset($_POST['register'])) {
                 }
             } else {
                 session_start();
-                $_SESSION['error'] = "Username / email already taken!";
+                $_SESSION['error'] = "Username / email already registered!";
                 header('location: ../doctor/authentication');
             }
-        } else {
-            session_start();
-            $_SESSION['error'] = "Fields must be filled!";
-            header('location: ../doctor/authentication');
-        }
     } else {
         session_start();
-        $_SESSSION['error'] = "Image is invalid!";
+        $_SESSION['error'] = "Invalid image";
         header('location: ../doctor/authentication');
     }
     $conn->close();

@@ -45,6 +45,8 @@ if (isset($_POST['register'])) {
             header('location: ../patient/appointment');
         }
     } else {
+        session_start();
+        $_SESSION['error'] = "Email / ID Card Number already registered!";
         header('location: ../patient/authentication');
     }
     $conn->close();

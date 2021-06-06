@@ -7,6 +7,7 @@ session_start();
 if (!isset($_SESSION['patient_id'])) {
     header('location: ' . base . '/patient/authentication');
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -75,7 +76,26 @@ if (!isset($_SESSION['patient_id'])) {
                         echo "<td>$row[time]</td>";
                         echo "<td>$row[status]</td>";
                         if ($row['status'] == "Upcoming") {
-                            echo "<td><button id='cancel_appointment' name='cancelAppointment' value='$row[id]' data-value='$row[schedule_id]'>Cancel Appointment</button></td>";
+                            if($row['day'] == "Monday"){
+                                $day = 1;
+                            } else if($row['day'] == "Tuesday"){
+                                $day = 2;
+                            } else if($row['day'] == "Wednesday"){
+                                $day = 3;
+                            } else if($row['day'] == "Thursday"){
+                                $day = 4;
+                            } else if($row['day'] == "Friday"){
+                                $day = 5;
+                            } else if($row['day'] == "Saturday"){
+                                $day = 6;
+                            } else if($row['day'] == "Sunday"){
+                                $day = 0;
+                            }
+                            if($day != date("w")){
+                                echo "<td><button id='cancel_appointment' name='cancelAppointment' value='$row[id]' data-value='$row[schedule_id]'>Cancel Appointment</button></td>";
+                            } else {
+                                echo "<td></td>";
+                            }
                         } else if ($row['status'] == "Finished") {
                             echo "<td><button id='view_note' name='view_note' value='$row[id]'>View Note</button></td>";
                         } else {
@@ -240,7 +260,9 @@ if (!isset($_SESSION['patient_id'])) {
                     },
                     success: (payload) => {
                         payload = JSON.parse(payload);
-                        if (payload.message === 'success') {} else {
+                        if (payload.message === 'success') {
+                            location.reload();
+                        } else {
                             alert(payload.message);
                         }
                     },

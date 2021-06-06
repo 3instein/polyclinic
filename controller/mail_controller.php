@@ -11,7 +11,7 @@ function sendMail($subject, $target_email, $msg) {
     $mail->IsSMTP();
     $mail->SMTPSecure = 'ssl';
     $mail->Host = "smtp.gmail.com"; //host masing2 provider email
-    $mail->SMTPDebug = 2;
+    $mail->SMTPDebug = 0;
     $mail->Port = 465; //--tls: 587, ssl: 465
     $mail->SMTPAuth = true;
     $mail->Username = $email_sender; //user email

@@ -73,7 +73,6 @@ isset($_SESSION['doctor_id']) ? header('location: panel') : NULL;
             <p id="isLoginTrue">
                 <?php
                 echo isset($_SESSION['error']) ? $_SESSION['error'] : NULL;
-                unset($_SESSION['error']);
                 ?>
             </p>
             <button id="doctor_register">Create Account?</p>
@@ -96,6 +95,7 @@ isset($_SESSION['doctor_id']) ? header('location: panel') : NULL;
         </form>
     </div>
 
+    <?php unset($_SESSION['error']); ?>
     <script>
         $(document).ready(function() {
             let base = $('head base').attr('href');
@@ -156,7 +156,7 @@ isset($_SESSION['doctor_id']) ? header('location: panel') : NULL;
                 let password = $('#login_password').val();
 
                 if (username != "" && password != "") {
-                    $('#doctorLoginForm').attr('action', 'http://localhost/polyclinic/controller/doctor_controller.php');
+                    $('#doctorLoginForm').attr('action', base + 'controller/doctor_controller.php');
                 } else {
                     e.preventDefault();
                     $('#doctorLoginForm').removeAttr('action');
@@ -171,7 +171,7 @@ isset($_SESSION['doctor_id']) ? header('location: panel') : NULL;
                 let password = $('#register_password').val();
 
                 if (full_name != "" && email != "" && username != "" && password != "") {
-                    $('#doctorRegisterForm').attr('action', 'http://localhost/polyclinic/controller/doctor_controller.php');
+                    $('#doctorRegisterForm').attr('action', base + 'controller/doctor_controller.php');
                 } else {
                     e.preventDefault();
                     $('#doctorLoginForm').removeAttr('action');

@@ -12,11 +12,11 @@
     <form action="<?= base ?>controller/screening_controller.php" method="POST">
         <ol>
             <li>Any allergic reaction to medication</li>
-            <input type="radio" name="question-1" value="true">Yes
-            <input type="radio" name="question-1" value="false">No
+            <input type="radio" name="question-1" value="true" required>Yes
+            <input type="radio" name="question-1" value="false" required>No
             <li>High blood pressure</li>
-            <input type="radio" name="question-2" value="true">Yes
-            <input type="radio" name="question-2" value="false">No
+            <input type="radio" name="question-2" value="true" required>Yes
+            <input type="radio" name="question-2" value="false" required>No
         </ol>
         <button type="submit" name="screening_submit">Submit</button>
     </form>

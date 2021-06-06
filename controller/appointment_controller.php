@@ -121,7 +121,7 @@ function getDoctorAppointment($doctor_id) {
     $sql = "SELECT appointments.id, patients.full_name, schedules.time, appointments.status, schedules.day
             FROM appointments JOIN schedules ON appointments.schedule_id = schedules.schedule_id 
             JOIN patients ON appointments.patient_id = patients.id 
-            WHERE schedules.doctor_id=? AND appointments.status != 'Finished' ORDER BY appointments.id DESC";
+            WHERE schedules.doctor_id=? ORDER BY appointments.id DESC";
     $query = $conn->prepare($sql);
     $query->bind_param("i", $doctor_id);
 
@@ -183,7 +183,6 @@ function cancelAppointment($appointment_id, $schedule_id) {
 
             sendMail($subject, $target_email, $msg);
             
-            header('location: ../patient/panel');
         }
     }
     $conn->close();
