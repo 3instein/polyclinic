@@ -96,7 +96,7 @@ if (!isset($_SESSION['patient_id'])) {
         <div class="view_profile_page">
             <div class="user_profile_section">
                 <img src="<?= base ?>dist/img/user_logo.svg" alt="user">
-                <p>Hello <?= $_SESSION['full_name']; ?></p>
+                <p>Hello, <?= $_SESSION['full_name']; ?></p>
                 <p><?= $_SESSION['id_number']; ?></p>
                 <p id="edit_user_profile">Edit Profile</p>
                 <a href="<?= base; ?>patient/logout" id="patientLogout">Logout</a>
