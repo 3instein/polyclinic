@@ -21,7 +21,7 @@ isset($_SESSION['patient_id']) ? header('location: panel') : NULL;
     </style>
 
     <link rel="stylesheet" href="" />
-    <title>Schedule Your Appoinment | PolyClinic</title>
+    <title>Login / Register</title>
 </head>
 
 <body>

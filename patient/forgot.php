@@ -18,7 +18,7 @@ if (isset($_GET['token']) && isset($_GET['id_number'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Reset Your Password</title>
 
     <style>
         <?php include './../dist/css/main.css'; ?>

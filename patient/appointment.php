@@ -17,7 +17,7 @@ include './../controller/patient_controller.php';
     <style>
         <?php include '../dist/css/main.css'; ?>
     </style>
-    <title>Document</title>
+    <title>Schedule Your Appointment</title>
 </head>
 
 <body>

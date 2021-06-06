@@ -1993,7 +1993,7 @@ footer p {
 
 .doctor_dashboard .left_panel .doctor_profile p:nth-child(2) {
   position: relative;
-  left: 60%;
+  left: 50%;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
 }

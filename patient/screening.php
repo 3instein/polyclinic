@@ -10,7 +10,7 @@
     <style>
         <?php include '../dist/css/main.css'; ?>
     </style>
-    <title>Document</title>
+    <title>Screening</title>
 </head>
 
 <body>

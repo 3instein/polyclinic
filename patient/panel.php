@@ -32,7 +32,7 @@ session_start();
             display_c();
         }
     </script>
-    <title>Document</title>
+    <title>Patient Panel</title>
 </head>
 
 <body onload=display_ct();>
