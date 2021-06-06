@@ -51,8 +51,15 @@ if (!isset($_SESSION['doctor_id'])) {
             <nav>
                 <p class="view_appointment_doctor">Appointment</p>
                 <p class="view_schedule_doctor">Schedule</p>
-                <p class="view_profile_doctor">Profile</p>
             </nav>
+            <div class="hamburger_doctor_icon">
+                <p>Doctor's Panel</p>
+                <img src="<?= base ?>/dist/img/list.svg" alt="">
+            </div>
+            <div class="hamburger_doctor_menu">
+                <p class="view_appointment_doctor_mobile">Appointment</p>
+                <p class="view_schedule_doctor_mobile">Schedule</p>
+            </div>
             <div class="view_doctor_appointment">
                 <table>
                     <tr>
@@ -83,12 +90,45 @@ if (!isset($_SESSION['doctor_id'])) {
                     }
                     ?>
                 </table>
+                <div class="view_appointment_mobile">
+                    <div class="doctor_profile_mobile">
+                        <img src="<?= base ?>images/profile/<?= $_SESSION['profile_picture']; ?>">
+                        <p>Welcome Dr. <?= $_SESSION['full_name']; ?></p>
+                        <p>
+                            <?php
+                            $_SESSION['department_id'] == 1 ? $department = "General" : NULL;
+                            $_SESSION['department_id'] == 2 ? $department = "Eye" : NULL;
+                            $_SESSION['department_id'] == 3 ? $department = "Dentist" : NULL;
+                            echo $department;
+                            ?>
+                        </p>
+                        <button><a href="<?= base ?>doctor/logout">Logout</a></button>
+                    </div>
+                    <h1>Your Appointment</h1>
+                    <?php
+                    $appointments = getDoctorAppointment($_SESSION['doctor_id']);
+                    if (!empty($appointments)) {
+                        while ($appointment = $appointments->fetch_assoc()) {
+                            echo "<div class=view_appointment_doctor_card_mobile>";
+                            echo "<p>$appointment[status]</p>";
+                            echo "<h2>$appointment[status]</h2>";
+                            echo "<p>$appointment[day] $appointment[time]</p>";
+                            if ($appointment['status'] == "Upcoming") {
+                                echo "<button id='start' name='start' value='$appointment[id]'>Start</button>";
+                            } else if ($appointment['status'] == "Ongoing") {
+                                echo "<button id='finish' name='finish' value='$appointment[id]'>Finish</button>";;
+                            }
+                            echo "</div>";
+                        }
+                    }
+                    ?>
+                </div>
             </div>
             <div class="view_doctor_schedules">
                 <?php
-                    if(isset($_SESSION['hod'])){
-                        echo "<button id='create'>Create Schedule</button>";
-                    }
+                if (isset($_SESSION['hod'])) {
+                    echo "<button id='create'>Create Schedule</button>";
+                }
                 ?>
                 <table>
                     <tr>
@@ -98,9 +138,9 @@ if (!isset($_SESSION['doctor_id'])) {
                         <th>Time</th>
                         <th>Action</th>
                         <?php
-                            if(isset($_SESSION['hod'])){
-                                echo "<th>HOD Action</th>";
-                            }
+                        if (isset($_SESSION['hod'])) {
+                            echo "<th>HOD Action</th>";
+                        }
                         ?>
                     </tr>
                     <?php
@@ -109,8 +149,8 @@ if (!isset($_SESSION['doctor_id'])) {
                         while ($row = $schedule->fetch_assoc()) {
                             echo "<tr>";
                             echo "<td>$row[name]</td>";
-                            if(isset($_SESSION['hod'])){
-                                if(!empty($row['full_name'])){
+                            if (isset($_SESSION['hod'])) {
+                                if (!empty($row['full_name'])) {
                                     echo "<td>$row[full_name] <button id='remove' value='$row[schedule_id]'>Remove</button></td>";
                                 } else {
                                     echo "<td></td>";
@@ -127,7 +167,7 @@ if (!isset($_SESSION['doctor_id'])) {
                                 echo "<button id='cancel' name='schedule_id' value='$row[schedule_id]'>Cancel</button>";
                             }
                             echo "</td>";
-                            if(isset($_SESSION['hod'])){
+                            if (isset($_SESSION['hod'])) {
                                 echo "<td>";
                                 echo "<button id='delete' value='$row[schedule_id]'>Delete</button>";
                                 echo "</td>";
@@ -137,6 +177,9 @@ if (!isset($_SESSION['doctor_id'])) {
                     }
                     ?>
                 </table>
+                <div class="view_schedule_mobile">
+
+                </div>
             </div>
             <div class="view_doctor_profile">
 
@@ -156,7 +199,8 @@ if (!isset($_SESSION['doctor_id'])) {
         $(document).ready(function() {
             let base = $('head base').attr('href');
             $('.view_appointment_doctor').addClass('selected_doctor_menu');
-            $('.view_doctor_schedules, .blurred_bg, .doctor_note_overlay').hide();
+            $('.view_doctor_schedules, .blurred_bg, .doctor_note_overlay, .hamburger_doctor_menu').hide();
+            $(".view_appointment_doctor_mobile").addClass('selected_doctor_ham_menu');
 
             $('.view_appointment_doctor').click(function(e) {
                 e.preventDefault();
@@ -282,7 +326,7 @@ if (!isset($_SESSION['doctor_id'])) {
             });
 
             $('#create').click(function() {
-                
+
             });
 
             $('#remove').click(function() {
@@ -321,6 +365,26 @@ if (!isset($_SESSION['doctor_id'])) {
                         }
                     },
                 });
+            });
+
+            $('.hamburger_doctor_icon img').click(function() {
+                $('.hamburger_doctor_menu').animate({
+                    height: 'toggle'
+                });
+            });
+
+            $('.view_appointment_doctor_mobile').click(function() {
+                $('.view_doctor_appointment').show();
+                $('.view_doctor_schedules, .hamburger_doctor_menu').hide();
+                $(".view_appointment_doctor_mobile").addClass('selected_doctor_ham_menu');
+                $(".view_schedule_doctor_mobile").removeClass('selected_doctor_ham_menu');
+            });
+
+            $('.view_schedule_doctor_mobile').click(function() {
+                $('.view_doctor_appointment, .hamburger_doctor_menu').hide();
+                $('.view_doctor_schedules').show();
+                $(".view_appointment_doctor_mobile").removeClass('selected_doctor_ham_menu');
+                $(".view_schedule_doctor_mobile").addClass('selected_doctor_ham_menu');
             });
         });
     </script>

@@ -55,6 +55,7 @@ unset($_SESSION['error']);
                     <input type="password" name="pin" />
                     <button type="submit" name="register">Register</button>
                 </form>
+                <p id="change_authentication_register_mobile">Returning Patient?</p>
             </div>
             <div class="login_form">
                 <p id="change_authentication_login">New Patient?</p>
@@ -66,6 +67,7 @@ unset($_SESSION['error']);
                     <p id="forgot_pin">Forgot PIN?</p>
                     <button type="submit" name="login">Login</button>
                 </form>
+                <p id="change_authentication_login_mobile">New Patient?</p>
             </div>
         </div>
     </section>
@@ -130,6 +132,20 @@ unset($_SESSION['error']);
                         $('.id_section').hide();
                     },
                 });
+            });
+
+            $('#change_authentication_register_mobile').click(function() {
+                $('.login_form').show();
+                $('.register_form').hide();
+            });
+
+            $('#change_authentication_login_mobile').click(function() {
+                $('.login_form').hide();
+                $('.register_form').show();
+            });
+
+            $('.blurred_bg').click(function() {
+                $('.user_forgot_password_overlay, .blurred_bg, .id_section, .forgot_pin').hide();
             });
         });
     </script>

@@ -22,6 +22,15 @@
         <a href="#about" class="navbar_link">About</a>
         <a href="#contact" class="navbar_link">Contact</a>
       </div>
+      <div class="hamburger_icon">
+        <img src="./dist/img/list.svg" alt="" id="hamburger_menu" />
+      </div>
+      <div class="hamburger_menu">
+        <a href="">Appointment</a>
+        <a href="">About</a>
+        <a href="">Contact</a>
+      </div>
+      <div class="hambuger_blur"></div>
     </nav>
 
     <section class="container">
@@ -30,7 +39,7 @@
           <h1>Find The Right</h1>
           <h2>Doctor For You</h2>
           <p>Get your medical service with certified and professional doctor with us.</p>
-          <a href="#appoinment" class="hero_btn">Get Started</a>
+          <a href="./patient/authentication.php" class="hero_btn">Get Started</a>
         </div>
         <img src="./dist/img/hero_doctor.svg" alt="Doctor" />
       </div>
@@ -75,6 +84,37 @@
       </div>
     </section>
 
+    <footer>
+      <div class="contact_section container">
+        <div class="office">
+          <h2>Office</h2>
+          <p>CitraLand CBD Boulevard, Made, Kec. Sambikerep, Kota SBY, Jawa Timur 60219</p>
+          <p>(082) 335905925</p>
+        </div>
+        <div class="social">
+          <h2>Social</h2>
+          <a href="">Instagram</a>
+          <a href="">Gmail</a>
+          <a href="">Facebook</a>
+        </div>
+      </div>
+      <p>© 2021 PolyClinic</p>
+    </footer>
+
     <script src="./dist/js/app.js"></script>
+    <script>
+      $(document).ready(function () {
+        $(".hamburger_menu, .hamburger_menu a").hide();
+
+        $("#hamburger_menu").click(function () {
+          $(".hamburger_icon").toggleClass("hamburger_pressed");
+          $(".hambuger_blur").toggleClass("hamburger_blurred_bg");
+          $(".hamburger_menu").animate({
+            height: "toggle",
+          });
+          $(".hamburger_menu a").fadeToggle(500);
+        });
+      });
+    </script>
   </body>
 </html>

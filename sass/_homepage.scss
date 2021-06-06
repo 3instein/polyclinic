@@ -11,6 +11,14 @@ nav {
     height: 4rem;
   }
 
+  .navbar_nav,
+  .navbar_brand,
+  .navbar_brand > img {
+    @include mobile {
+      display: none;
+    }
+  }
+
   .navbar_nav > .navbar_link {
     text-decoration: none;
     color: $textUse;
@@ -25,6 +33,64 @@ nav {
       margin-left: 2.5rem;
     }
   }
+
+  .hamburger_icon {
+    display: none;
+
+    @include mobile {
+      position: absolute;
+      right: 10%;
+      top: 0%;
+      transform: translateX(9.8%);
+      display: block;
+      width: 100%;
+      height: 5.5rem;
+      z-index: 10;
+
+      #hamburger_menu {
+        position: absolute;
+        right: 0%;
+        top: 0%;
+        width: 5.5rem;
+        height: 5.5rem;
+      }
+    }
+  }
+
+  .hamburger_pressed {
+    background-color: $primariBlue;
+  }
+
+  .hamburger_blurred_bg {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    background-color: rgba(211, 211, 211, 0.3);
+    backdrop-filter: blur(0.5rem);
+    width: 100vw;
+    height: 100vh;
+    z-index: 5;
+  }
+
+  .hamburger_menu {
+    @include flexCenter;
+    flex-direction: column;
+    justify-content: space-evenly;
+    position: absolute;
+    top: -2%;
+    left: 0%;
+    width: 100%;
+    height: 15rem;
+    margin-top: 6rem;
+    z-index: 10;
+    background-color: $primariBlue;
+
+    a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 1.25rem;
+    }
+  }
 }
 
 .hero {
@@ -34,6 +100,10 @@ nav {
   background: linear-gradient(93.03deg, $primariBlue -3.29%, rgba(10, 27, 216, 0.6) 83.23%, $secondaryBlue 176.65%);
   margin-top: 2.5rem;
   border-radius: 4rem;
+
+  @include mobile {
+    background: none;
+  }
 
   &_text {
     position: absolute;
@@ -47,14 +117,35 @@ nav {
     p {
       color: $whiteGrayish;
       font-weight: map-get($font-weights, medium);
+
+      @include mobile {
+        color: $textUse;
+      }
     }
 
     h1 {
       font-size: 6rem;
+
+      @include mobile {
+        position: relative;
+        left: 50%;
+        transform: translateX(-40%);
+        font-size: 3.5rem;
+        text-align: center;
+      }
     }
 
     h2 {
       font-size: 5rem;
+
+      @include mobile {
+        position: relative;
+        left: 50%;
+        transform: translateX(-40%);
+        font-size: 2.5rem;
+        text-align: center;
+        margin-top: 0.5rem;
+      }
     }
 
     p {
@@ -62,6 +153,15 @@ nav {
       margin: 1rem 0 3rem 0;
       line-height: 1.5;
       font-weight: map-get($font-weights, light);
+
+      @include mobile {
+        position: relative;
+        left: 50%;
+        transform: translateX(-40%);
+        width: 100%;
+        font-size: 1.5rem;
+        text-align: center;
+      }
     }
 
     .hero_btn {
@@ -72,6 +172,10 @@ nav {
       border-radius: 0.625rem;
       font-weight: map-get($font-weights, medium);
       transition: all 0.2s ease-in-out;
+
+      @include mobile {
+        display: none;
+      }
 
       &:hover {
         opacity: 0.9;
@@ -85,6 +189,10 @@ nav {
     height: 65.875rem;
     top: -15%;
     right: -8%;
+
+    @include mobile {
+      display: none;
+    }
   }
 }
 
@@ -93,6 +201,10 @@ nav {
   width: 100%;
   height: 32rem;
   background-color: #fff;
+
+  @include mobile {
+    display: none;
+  }
 
   p {
     position: absolute;
@@ -180,11 +292,19 @@ nav {
   height: 70vh;
   margin-top: 2rem;
 
+  @include mobile {
+    margin-top: 0;
+  }
+
   img {
     position: absolute;
     top: 0%;
     left: 0%;
     width: 60%;
+
+    @include mobile {
+      width: 100%;
+    }
   }
 
   .appoinment_text > h1 {
@@ -196,6 +316,14 @@ nav {
     font-weight: map-get($font_weights, medium);
     line-height: 1.2;
 
+    @include mobile {
+      top: 50%;
+      left: 0%;
+      text-align: center;
+      width: 100%;
+      font-size: 2rem;
+    }
+
     &::after {
       content: "";
       position: absolute;
@@ -204,6 +332,10 @@ nav {
       width: 7rem;
       height: 0.3rem;
       background-color: $darkGrayish;
+
+      @include mobile {
+        display: none;
+      }
     }
   }
 
@@ -214,6 +346,10 @@ nav {
     width: 45%;
     font-size: 1.75rem;
     font-weight: map-get($font-weights, regular);
+
+    @include mobile {
+      display: none;
+    }
   }
 
   .appoinment_text a {
@@ -223,6 +359,18 @@ nav {
     text-decoration: none;
     color: $primariBlue;
     font-weight: map-get($font-weights, bold);
+
+    @include mobile {
+      bottom: 7%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #fff;
+      padding: 1rem 2rem;
+      background-color: $primariBlue;
+      border-radius: 0.625rem;
+      width: 100%;
+      font-weight: map-get($font-weights, medium);
+    }
 
     &:hover {
       opacity: 0.8;
@@ -234,6 +382,10 @@ nav {
   position: relative;
   margin-top: 8rem;
 
+  @include mobile {
+    margin-top: 3rem;
+  }
+
   h1 {
     position: absolute;
     left: 50%;
@@ -241,6 +393,11 @@ nav {
     transform: translateX(-50%);
     font-size: 4rem;
     font-weight: map-get($font-weights, medium);
+
+    @include mobile {
+      font-size: 3.5rem;
+      text-align: center;
+    }
 
     &::after {
       content: "";
@@ -251,6 +408,62 @@ nav {
       width: 7rem;
       height: 0.3rem;
       background-color: $darkGrayish;
+
+      @include mobile {
+        display: none;
+      }
     }
+  }
+}
+
+footer {
+  position: relative;
+  bottom: 0%;
+  left: 0%;
+  background-color: #f6f8fd;
+  width: 100%;
+  text-align: center;
+
+  .contact_section {
+    @include flexCenter;
+    justify-content: space-evenly;
+    height: 18rem;
+
+    .office {
+      @include flexCenter;
+      align-items: flex-start;
+      flex-direction: column;
+      justify-content: space-evenly;
+      width: 4 0%;
+      height: 100%;
+      text-align: left;
+
+      p {
+        width: 50%;
+      }
+    }
+
+    .social {
+      @include flexCenter;
+      align-items: flex-start;
+      flex-direction: column;
+      justify-content: space-evenly;
+      width: 20%;
+      height: 100%;
+      text-align: left;
+
+      a {
+        text-decoration: none;
+        color: $textUse;
+
+        &:hover {
+          color: $primariBlue;
+        }
+      }
+    }
+  }
+
+  p {
+    padding: 0.5rem 0;
   }
 }

@@ -19,3 +19,4 @@ $('.owl-carousel').owlCarousel({
     autoplaySpeed: 1000,
     autoplayHoverPause: true,
 });
+

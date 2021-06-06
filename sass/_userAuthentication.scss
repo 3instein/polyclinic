@@ -4,6 +4,10 @@
   @include flexCenter;
   text-decoration: none;
 
+  @include mobile {
+    display: none;
+  }
+
   p {
     font-family: "Viga", sans-serif;
     color: $textUse;
@@ -23,6 +27,14 @@
   height: 70%;
   margin-top: 2rem;
 
+  @include mobile {
+    width: 80%;
+    height: 100%;
+    box-shadow: none;
+    margin-top: 0;
+    
+  }
+
   .slider {
     position: absolute;
     top: 0%;
@@ -32,6 +44,10 @@
     background: linear-gradient(93.03deg, $primariBlue -3.29%, rgba(10, 27, 216, 1) 83.23%, $secondaryBlue 176.65%);
     border-radius: 0 1rem 1rem 0;
     z-index: 2;
+
+    @include mobile {
+      display: none;
+    }
   }
 
   .register_form,
@@ -41,6 +57,10 @@
     transform: translateY(-50%);
     width: 50%;
     height: 36rem;
+
+    @include mobile {
+      top: 40%
+    }
 
     form {
       @include flexCenter();
@@ -60,6 +80,11 @@
         font-size: 1rem;
         padding: 0.25rem 0;
         width: 20rem;
+
+        @include mobile {
+          font-size: 1.25rem;
+          width: 14rem;
+        }
       }
 
       button[type="submit"] {
@@ -74,9 +99,26 @@
         font-weight: map-get($font-weights, medium);
         transition: all 0.2s ease-in-out;
 
+        @include mobile {
+          padding: 1rem 2rem;
+          width: 14rem;
+        }
+
         &:hover {
           opacity: 0.9;
         }
+      }
+    }
+
+    #change_authentication_register_mobile {
+      display: none;
+
+      @include mobile {
+        display: block;
+        position: absolute;
+        bottom: -12%;
+        left: 60%;
+        width: 15rem;
       }
     }
   }
@@ -87,6 +129,10 @@
     right: 5%;
     cursor: pointer;
 
+    @include mobile {
+      display: none;
+    }
+
     &:hover {
       opacity: 0.7;
     }
@@ -95,12 +141,24 @@
   .login_form {
     right: 0%;
     float: right;
+    
+    @include mobile {
+      display: none;
+      position: absolute;
+      float: none;
+      top: 50%;
+      left: 0%;
+    }
 
     #change_authentication_login {
       position: absolute;
       top: -5%;
       right: 5%;
       cursor: pointer;
+      
+      @include mobile {
+        display: none;
+      }
 
       &:hover {
         opacity: 0.7;
@@ -120,6 +178,13 @@
         }
       }
     }
+
+    #change_authentication_login_mobile {
+      position: absolute;
+      top: 55%;
+      left: 80%;
+      width: 20rem;
+    }
   }
 }
 
@@ -134,6 +199,10 @@
   background-color: #fff;
   text-align: center;
   z-index: 6;
+
+  @include mobile {
+    width: 100%;
+  }
 
   h1 {
     margin-top: 2rem;

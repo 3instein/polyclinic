@@ -10,6 +10,7 @@
 body {
   font-family: "Poppins", sans-serif;
   font-size: 1.25rem;
+  overflow-x: hidden;
 }
 
 .container {
@@ -41,6 +42,14 @@ nav .navbar_brand > img {
   height: 4rem;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  nav .navbar_nav,
+  nav .navbar_brand,
+  nav .navbar_brand > img {
+    display: none;
+  }
+}
+
 nav .navbar_nav > .navbar_link {
   text-decoration: none;
   color: #333333;
@@ -57,6 +66,80 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   margin-left: 2.5rem;
 }
 
+nav .hamburger_icon {
+  display: none;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  nav .hamburger_icon {
+    position: absolute;
+    right: 10%;
+    top: 0%;
+    -webkit-transform: translateX(9.8%);
+            transform: translateX(9.8%);
+    display: block;
+    width: 100%;
+    height: 5.5rem;
+    z-index: 10;
+  }
+  nav .hamburger_icon #hamburger_menu {
+    position: absolute;
+    right: 0%;
+    top: 0%;
+    width: 5.5rem;
+    height: 5.5rem;
+  }
+}
+
+nav .hamburger_pressed {
+  background-color: #024ed5;
+}
+
+nav .hamburger_blurred_bg {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  background-color: rgba(211, 211, 211, 0.3);
+  -webkit-backdrop-filter: blur(0.5rem);
+          backdrop-filter: blur(0.5rem);
+  width: 100vw;
+  height: 100vh;
+  z-index: 5;
+}
+
+nav .hamburger_menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  position: absolute;
+  top: -2%;
+  left: 0%;
+  width: 100%;
+  height: 15rem;
+  margin-top: 6rem;
+  z-index: 10;
+  background-color: #024ed5;
+}
+
+nav .hamburger_menu a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.25rem;
+}
+
 .hero {
   position: relative;
   width: 100%;
@@ -64,6 +147,12 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   background: linear-gradient(93.03deg, #024ed5 -3.29%, rgba(10, 27, 216, 0.6) 83.23%, #0a1bd8 176.65%);
   margin-top: 2.5rem;
   border-radius: 4rem;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .hero {
+    background: none;
+  }
 }
 
 .hero_text {
@@ -82,12 +171,43 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   font-weight: 500;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  .hero_text h1,
+  .hero_text h2,
+  .hero_text p {
+    color: #333333;
+  }
+}
+
 .hero_text h1 {
   font-size: 6rem;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  .hero_text h1 {
+    position: relative;
+    left: 50%;
+    -webkit-transform: translateX(-40%);
+            transform: translateX(-40%);
+    font-size: 3.5rem;
+    text-align: center;
+  }
+}
+
 .hero_text h2 {
   font-size: 5rem;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .hero_text h2 {
+    position: relative;
+    left: 50%;
+    -webkit-transform: translateX(-40%);
+            transform: translateX(-40%);
+    font-size: 2.5rem;
+    text-align: center;
+    margin-top: 0.5rem;
+  }
 }
 
 .hero_text p {
@@ -95,6 +215,18 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   margin: 1rem 0 3rem 0;
   line-height: 1.5;
   font-weight: 300;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .hero_text p {
+    position: relative;
+    left: 50%;
+    -webkit-transform: translateX(-40%);
+            transform: translateX(-40%);
+    width: 100%;
+    font-size: 1.5rem;
+    text-align: center;
+  }
 }
 
 .hero_text .hero_btn {
@@ -106,6 +238,12 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   font-weight: 500;
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .hero_text .hero_btn {
+    display: none;
+  }
 }
 
 .hero_text .hero_btn:hover {
@@ -120,11 +258,23 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   right: -8%;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  .hero img {
+    display: none;
+  }
+}
+
 .reverse_hero {
   position: relative;
   width: 100%;
   height: 32rem;
   background-color: #fff;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .reverse_hero {
+    display: none;
+  }
 }
 
 .reverse_hero p {
@@ -236,11 +386,23 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   margin-top: 2rem;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  #appoinment {
+    margin-top: 0;
+  }
+}
+
 #appoinment img {
   position: absolute;
   top: 0%;
   left: 0%;
   width: 60%;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  #appoinment img {
+    width: 100%;
+  }
 }
 
 #appoinment .appoinment_text > h1 {
@@ -253,6 +415,16 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   line-height: 1.2;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  #appoinment .appoinment_text > h1 {
+    top: 50%;
+    left: 0%;
+    text-align: center;
+    width: 100%;
+    font-size: 2rem;
+  }
+}
+
 #appoinment .appoinment_text > h1::after {
   content: "";
   position: absolute;
@@ -261,6 +433,12 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   width: 7rem;
   height: 0.3rem;
   background-color: #878288;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  #appoinment .appoinment_text > h1::after {
+    display: none;
+  }
 }
 
 #appoinment .appoinment_text > h2 {
@@ -272,6 +450,12 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   font-weight: 400;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  #appoinment .appoinment_text > h2 {
+    display: none;
+  }
+}
+
 #appoinment .appoinment_text a {
   position: absolute;
   bottom: 20%;
@@ -281,6 +465,21 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   font-weight: 700;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  #appoinment .appoinment_text a {
+    bottom: 7%;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+    color: #fff;
+    padding: 1rem 2rem;
+    background-color: #024ed5;
+    border-radius: 0.625rem;
+    width: 100%;
+    font-weight: 500;
+  }
+}
+
 #appoinment .appoinment_text a:hover {
   opacity: 0.8;
 }
@@ -288,6 +487,12 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
 #about {
   position: relative;
   margin-top: 8rem;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  #about {
+    margin-top: 3rem;
+  }
 }
 
 #about h1 {
@@ -302,6 +507,13 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   font-weight: 500;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  #about h1 {
+    font-size: 3.5rem;
+    text-align: center;
+  }
+}
+
 #about h1::after {
   content: "";
   position: absolute;
@@ -312,6 +524,104 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   width: 7rem;
   height: 0.3rem;
   background-color: #878288;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  #about h1::after {
+    display: none;
+  }
+}
+
+footer {
+  position: relative;
+  bottom: 0%;
+  left: 0%;
+  background-color: #f6f8fd;
+  width: 100%;
+  text-align: center;
+}
+
+footer .contact_section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  height: 18rem;
+}
+
+footer .contact_section .office {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  width: 4 0%;
+  height: 100%;
+  text-align: left;
+}
+
+footer .contact_section .office p {
+  width: 50%;
+}
+
+footer .contact_section .social {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  width: 20%;
+  height: 100%;
+  text-align: left;
+}
+
+footer .contact_section .social a {
+  text-decoration: none;
+  color: #333333;
+}
+
+footer .contact_section .social a:hover {
+  color: #024ed5;
+}
+
+footer p {
+  padding: 0.5rem 0;
 }
 
 #home > a {
@@ -325,6 +635,12 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
       -ms-flex-align: center;
           align-items: center;
   text-decoration: none;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  #home > a {
+    display: none;
+  }
 }
 
 #home > a p {
@@ -348,6 +664,16 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   margin-top: 2rem;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  .form_wrapper {
+    width: 80%;
+    height: 100%;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    margin-top: 0;
+  }
+}
+
 .form_wrapper .slider {
   position: absolute;
   top: 0%;
@@ -359,6 +685,12 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   z-index: 2;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  .form_wrapper .slider {
+    display: none;
+  }
+}
+
 .form_wrapper .register_form,
 .form_wrapper .login_form {
   position: absolute;
@@ -367,6 +699,13 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
           transform: translateY(-50%);
   width: 50%;
   height: 36rem;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .form_wrapper .register_form,
+  .form_wrapper .login_form {
+    top: 40%;
+  }
 }
 
 .form_wrapper .register_form form,
@@ -408,6 +747,14 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   width: 20rem;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  .form_wrapper .register_form form input,
+  .form_wrapper .login_form form input {
+    font-size: 1.25rem;
+    width: 14rem;
+  }
+}
+
 .form_wrapper .register_form form button[type="submit"],
 .form_wrapper .login_form form button[type="submit"] {
   font-size: 1.25rem;
@@ -423,9 +770,33 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   transition: all 0.2s ease-in-out;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  .form_wrapper .register_form form button[type="submit"],
+  .form_wrapper .login_form form button[type="submit"] {
+    padding: 1rem 2rem;
+    width: 14rem;
+  }
+}
+
 .form_wrapper .register_form form button[type="submit"]:hover,
 .form_wrapper .login_form form button[type="submit"]:hover {
   opacity: 0.9;
+}
+
+.form_wrapper .register_form #change_authentication_register_mobile,
+.form_wrapper .login_form #change_authentication_register_mobile {
+  display: none;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .form_wrapper .register_form #change_authentication_register_mobile,
+  .form_wrapper .login_form #change_authentication_register_mobile {
+    display: block;
+    position: absolute;
+    bottom: -12%;
+    left: 60%;
+    width: 15rem;
+  }
 }
 
 .form_wrapper .register_form > #change_authentication_register {
@@ -433,6 +804,12 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   top: -5%;
   right: 5%;
   cursor: pointer;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .form_wrapper .register_form > #change_authentication_register {
+    display: none;
+  }
 }
 
 .form_wrapper .register_form > #change_authentication_register:hover {
@@ -444,11 +821,27 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   float: right;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  .form_wrapper .login_form {
+    display: none;
+    position: absolute;
+    float: none;
+    top: 50%;
+    left: 0%;
+  }
+}
+
 .form_wrapper .login_form #change_authentication_login {
   position: absolute;
   top: -5%;
   right: 5%;
   cursor: pointer;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .form_wrapper .login_form #change_authentication_login {
+    display: none;
+  }
 }
 
 .form_wrapper .login_form #change_authentication_login:hover {
@@ -470,6 +863,13 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   opacity: 0.9;
 }
 
+.form_wrapper .login_form #change_authentication_login_mobile {
+  position: absolute;
+  top: 55%;
+  left: 80%;
+  width: 20rem;
+}
+
 .user_forgot_password_overlay {
   position: absolute;
   left: 50%;
@@ -482,6 +882,12 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   background-color: #fff;
   text-align: center;
   z-index: 6;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .user_forgot_password_overlay {
+    width: 100%;
+  }
 }
 
 .user_forgot_password_overlay h1 {
@@ -562,6 +968,12 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   width: 100%;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  .first_nav {
+    display: none;
+  }
+}
+
 .first_nav .navbar_brand {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -624,11 +1036,23 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   margin-bottom: 3rem;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  .second_nav {
+    border-bottom: none;
+  }
+}
+
 .second_nav p {
   position: relative;
   color: #333333;
   font-weight: 500;
   cursor: pointer;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .second_nav p {
+    display: none;
+  }
 }
 
 .second_nav p.selected_menu::after {
@@ -646,14 +1070,111 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
           animation: lineAnime 0.5s;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  .second_nav p.selected_menu::after {
+    display: none;
+  }
+}
+
 .second_nav p:not(:last-child) {
   margin-right: 2rem;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .second_nav p:not(:last-child) {
+    margin: 0;
+  }
+}
+
+.second_nav .hambuger_panel {
+  display: none;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .second_nav .hambuger_panel {
+    display: block;
+  }
+}
+
+.second_nav .hambuger_panel .hamburger_patient_panel > img {
+  display: none;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .second_nav .hambuger_panel .hamburger_patient_panel > img {
+    display: block;
+    position: absolute;
+    top: 0%;
+    left: 80%;
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .second_nav .hambuger_panel img {
+    display: block;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+.second_nav .hambuger_panel .hamburger_patient_menu {
+  display: none;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .second_nav .hambuger_panel .hamburger_patient_menu {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: space-evenly;
+        -ms-flex-pack: space-evenly;
+            justify-content: space-evenly;
+    position: absolute;
+    top: 10%;
+    right: 5%;
+    width: 15rem;
+    height: 15rem;
+    text-align: right;
+    border: 3px solid #f1f1f9;
+    background-color: #fff;
+    z-index: 10;
+  }
+}
+
+.second_nav .hambuger_panel .hamburger_patient_menu p {
+  display: none;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .second_nav .hambuger_panel .hamburger_patient_menu p {
+    display: block;
+    margin-right: 1rem;
+  }
+}
+
+.second_nav .hambuger_panel .hamburger_patient_menu p.selected_hamburger_menu {
+  font-weight: 800;
 }
 
 .view_appointment_page > table {
   width: 100%;
   text-align: left;
   border-collapse: collapse;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .view_appointment_page > table {
+    display: none;
+  }
 }
 
 .view_appointment_page > table th,
@@ -718,6 +1239,67 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   opacity: 0.8;
 }
 
+.view_appointment_page > .view_patient_appointment_card {
+  display: none;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .view_appointment_page > .view_patient_appointment_card {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
+.view_appointment_page > .view_patient_appointment_card .patient_appointment_card {
+  position: relative;
+  width: 100%;
+  height: 14rem;
+  background-color: #fff;
+  -webkit-box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.1);
+          box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.view_appointment_page > .view_patient_appointment_card .patient_appointment_card #doctor_department {
+  position: absolute;
+  bottom: 20%;
+  left: 5%;
+}
+
+.view_appointment_page > .view_patient_appointment_card .patient_appointment_card button {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  padding: 1rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  background-color: #024ed5;
+  color: #fff;
+  font-weight: 700;
+}
+
+.view_appointment_page > p {
+  margin-bottom: 4rem;
+}
+
+.view_appointment_page > #make_new_appointment {
+  text-decoration: none;
+  color: #fff;
+  background-color: rgba(30, 64, 109, 0.9);
+  width: 100%;
+  padding: 0.75rem 2rem;
+  border-radius: 1rem;
+  margin-left: 1.5rem;
+  font-weight: 500;
+}
+
 .view_profile_page {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -746,6 +1328,15 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   margin-left: 4rem;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  .view_profile_page > .user_profile_section {
+    position: relative;
+    left: 25%;
+    -webkit-transform: translateX(-25%);
+            transform: translateX(-25%);
+  }
+}
+
 .view_profile_page > .user_profile_section img {
   width: 17.5rem;
   height: 17.5rem;
@@ -755,6 +1346,13 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
 .view_profile_page > .user_profile_section p {
   color: #333333;
   font-weight: 700;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .view_profile_page > .user_profile_section p {
+    width: 20rem;
+    text-align: center;
+  }
 }
 
 .view_profile_page > .user_profile_section p:nth-child(3) {
@@ -779,14 +1377,28 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   font-weight: 500;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  .view_profile_page > .user_profile_section #patientLogout,
+  .view_profile_page > .user_profile_section #edit_user_profile {
+    width: 20rem;
+  }
+}
+
 .view_profile_page > .user_profile_section #patientLogout:hover,
 .view_profile_page > .user_profile_section #edit_user_profile:hover {
   opacity: 0.9;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  .view_profile_page > .user_profile_section #patientLogout {
+    margin-left: -7.65rem;
+  }
+}
+
 .view_profile_page > .user_profile_section #edit_user_profile {
   margin: 3rem 0 0 0;
   background-color: rgba(30, 64, 109, 0.9);
+  margin-top: 20rem;
 }
 
 .view_profile_page > .user_profile_detail,
@@ -795,6 +1407,18 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   margin: 0 4rem;
   border-left: 1px solid rgba(51, 51, 51, 0.3);
   padding-left: 4rem;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .view_profile_page > .user_profile_detail,
+  .change_profile_detail {
+    position: absolute;
+    left: 2%;
+    top: 65%;
+    margin: 0;
+    padding: 0;
+    border-left: none;
+  }
 }
 
 .view_profile_page > .user_profile_detail img,
@@ -826,6 +1450,13 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   height: 25rem;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  .view_profile_page > .change_profile_detail > form {
+    margin-left: 1.35rem;
+    height: 15rem;
+  }
+}
+
 .view_profile_page > .change_profile_detail > form label {
   font-size: 1.5rem;
   font-weight: 500;
@@ -850,6 +1481,12 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   font-weight: 500;
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .view_profile_page > .change_profile_detail > form #edit_patient {
+    width: 20rem;
+  }
 }
 
 .view_profile_page > .change_profile_detail > form #edit_patient:hover {
@@ -892,9 +1529,15 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
 }
 
 #ct {
-  position: absolute;
+  position: fixed;
   bottom: 5%;
   right: 5%;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  #ct {
+    display: none;
+  }
 }
 
 @-webkit-keyframes lineAnime {
@@ -959,6 +1602,18 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
       -ms-flex-direction: column;
           flex-direction: column;
   height: 60%;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .doctor_authentication_wrapper .doctor_register h1 {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .doctor_authentication_wrapper .doctor_register {
+    width: 80%;
+  }
 }
 
 .doctor_authentication_wrapper .doctor_register form {
@@ -1137,6 +1792,13 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   z-index: 6;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  .doctor_forgot_password_overlay {
+    width: 80%;
+    height: 60%;
+  }
+}
+
 .doctor_forgot_password_overlay h1 {
   margin-top: 2rem;
 }
@@ -1224,6 +1886,12 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   height: 100%;
   width: 25%;
   border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .doctor_dashboard .left_panel {
+    display: none;
+  }
 }
 
 .doctor_dashboard .left_panel nav {
@@ -1335,6 +2003,12 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   z-index: 2;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  .doctor_dashboard .right_panel nav {
+    display: none;
+  }
+}
+
 .doctor_dashboard .right_panel nav::after {
   content: "";
   position: absolute;
@@ -1343,6 +2017,12 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   width: 80rem;
   height: 0.1rem;
   background-color: rgba(0, 0, 0, 0.2);
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .doctor_dashboard .right_panel nav::after {
+    display: none;
+  }
 }
 
 .doctor_dashboard .right_panel nav p {
@@ -1368,8 +2048,80 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
           animation: lineAnime 0.4s;
 }
 
+@media screen and (max-width: 47.9375rem) {
+  .doctor_dashboard .right_panel nav p.selected_doctor_menu::after {
+    display: none;
+  }
+}
+
 .doctor_dashboard .right_panel nav p:hover {
   opacity: 0.8;
+}
+
+.doctor_dashboard .right_panel .hamburger_doctor_icon {
+  display: none;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .doctor_dashboard .right_panel .hamburger_doctor_icon {
+    display: block;
+  }
+}
+
+.doctor_dashboard .right_panel .hamburger_doctor_icon p {
+  position: absolute;
+  top: 3%;
+  left: 5%;
+}
+
+.doctor_dashboard .right_panel .hamburger_doctor_icon img {
+  width: 4rem;
+  height: 4rem;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .doctor_dashboard .right_panel .hamburger_doctor_icon img {
+    position: absolute;
+    top: 0%;
+    right: 0%;
+  }
+}
+
+.doctor_dashboard .right_panel .hamburger_doctor_menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: absolute;
+  top: 10%;
+  right: 2%;
+  width: 12rem;
+  height: 8rem;
+  text-align: right;
+  background-color: #fff;
+  border: 3px solid #f1f1f9;
+  z-index: 6;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .doctor_dashboard .right_panel .hamburger_doctor_menu p.selected_doctor_ham_menu {
+    font-weight: 800;
+  }
 }
 
 .doctor_dashboard .right_panel .view_doctor_appointment,
@@ -1385,6 +2137,13 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
   width: 100%;
   text-align: left;
   border-collapse: collapse;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .doctor_dashboard .right_panel .view_doctor_appointment table,
+  .doctor_dashboard .right_panel .view_doctor_schedules table {
+    display: none;
+  }
 }
 
 .doctor_dashboard .right_panel .view_doctor_appointment table th,
@@ -1416,6 +2175,132 @@ nav .navbar_nav > .navbar_link:not(:nth-child(1)) {
 .doctor_dashboard .right_panel .view_doctor_appointment table button:hover,
 .doctor_dashboard .right_panel .view_doctor_schedules table button:hover {
   opacity: 0.8;
+}
+
+.doctor_dashboard .right_panel .view_doctor_appointment .view_appointment_mobile,
+.doctor_dashboard .right_panel .view_doctor_schedules .view_appointment_mobile {
+  display: none;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .doctor_dashboard .right_panel .view_doctor_appointment .view_appointment_mobile,
+  .doctor_dashboard .right_panel .view_doctor_schedules .view_appointment_mobile {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    width: 100%;
+  }
+}
+
+.doctor_dashboard .right_panel .view_doctor_appointment .view_appointment_mobile .doctor_profile_mobile img,
+.doctor_dashboard .right_panel .view_doctor_schedules .view_appointment_mobile .doctor_profile_mobile img {
+  margin-left: -3rem;
+  margin-top: -6rem;
+  width: 15rem;
+  height: 15rem;
+  border-radius: 50%;
+}
+
+.doctor_dashboard .right_panel .view_doctor_appointment .view_appointment_mobile .doctor_profile_mobile p,
+.doctor_dashboard .right_panel .view_doctor_schedules .view_appointment_mobile .doctor_profile_mobile p {
+  width: 20rem;
+  margin-left: -4rem;
+}
+
+.doctor_dashboard .right_panel .view_doctor_appointment .view_appointment_mobile .doctor_profile_mobile p:nth-child(3),
+.doctor_dashboard .right_panel .view_doctor_schedules .view_appointment_mobile .doctor_profile_mobile p:nth-child(3) {
+  margin-left: 1.5rem;
+}
+
+.doctor_dashboard .right_panel .view_doctor_appointment .view_appointment_mobile .doctor_profile_mobile button,
+.doctor_dashboard .right_panel .view_doctor_schedules .view_appointment_mobile .doctor_profile_mobile button {
+  border: none;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  margin-left: -5rem;
+}
+
+.doctor_dashboard .right_panel .view_doctor_appointment .view_appointment_mobile .doctor_profile_mobile button a,
+.doctor_dashboard .right_panel .view_doctor_schedules .view_appointment_mobile .doctor_profile_mobile button a {
+  text-decoration: none;
+  font-size: 1.25rem;
+  padding: 0.75rem 7rem;
+  cursor: pointer;
+  background-color: #c1151b;
+  color: #f6eff0;
+  border-radius: 0.625rem;
+  font-weight: 500;
+}
+
+.doctor_dashboard .right_panel .view_doctor_appointment .view_appointment_mobile h1,
+.doctor_dashboard .right_panel .view_doctor_schedules .view_appointment_mobile h1 {
+  width: 20rem;
+  margin-left: -5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.doctor_dashboard .right_panel .view_doctor_appointment .view_appointment_mobile .view_appointment_doctor_card_mobile,
+.doctor_dashboard .right_panel .view_doctor_schedules .view_appointment_mobile .view_appointment_doctor_card_mobile {
+  position: relative;
+  margin-left: -6rem;
+  width: 20rem;
+  height: 15rem;
+  border-radius: 1rem;
+  -webkit-box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.1);
+          box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.doctor_dashboard .right_panel .view_doctor_appointment .view_appointment_mobile .view_appointment_doctor_card_mobile #finish,
+.doctor_dashboard .right_panel .view_doctor_appointment .view_appointment_mobile .view_appointment_doctor_card_mobile #start,
+.doctor_dashboard .right_panel .view_doctor_schedules .view_appointment_mobile .view_appointment_doctor_card_mobile #finish,
+.doctor_dashboard .right_panel .view_doctor_schedules .view_appointment_mobile .view_appointment_doctor_card_mobile #start {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  padding: 1rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  background-color: #024ed5;
+  color: #fff;
+  font-weight: 700;
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .doctor_dashboard .right_panel .view_doctor_schedules {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .doctor_dashboard .right_panel .view_doctor_schedules #createSchedule,
+  .doctor_dashboard .right_panel .view_doctor_schedules #deleteSchedule {
+    padding: 1rem 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    background-color: #024ed5;
+    color: #fff;
+    font-weight: 700;
+    width: 20rem;
+    margin-left: -7rem;
+  }
 }
 
 .doctor_note_overlay {

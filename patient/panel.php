@@ -7,7 +7,6 @@ session_start();
 if (!isset($_SESSION['patient_id'])) {
     header('location: ' . base . '/patient/authentication');
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,12 +47,22 @@ if (!isset($_SESSION['patient_id'])) {
                 <img src="<?= base ?>dist/img/logo.svg" alt="Logo" />
                 <p>Polyclinic</p>
             </a>
-            <p>Patient's Panel</p>
         </nav>
         <nav class="second_nav">
             <p class="view_appointment">Appointment</p>
             <p class="view_profile">Profile</p>
             <p class="view_screening">Screening</p>
+            <div class="hambuger_panel">
+                <img src="<?= base ?>/dist/img/logo.svg" alt="">
+                <div class="hamburger_patient_panel">
+                    <img src="<?= base ?>/dist/img/list.svg" alt="">
+                </div>
+                <div class="hamburger_patient_menu">
+                    <p class="view_appointment_mobile">Appointment</p>
+                    <p class="view_profile_mobile">Profile</p>
+                    <p class="view_screening_mobile">Screening</p>
+                </div>
+            </div>
         </nav>
         <div class="view_appointment_page">
             <table>
@@ -76,22 +85,22 @@ if (!isset($_SESSION['patient_id'])) {
                         echo "<td>$row[time]</td>";
                         echo "<td>$row[status]</td>";
                         if ($row['status'] == "Upcoming") {
-                            if($row['day'] == "Monday"){
+                            if ($row['day'] == "Monday") {
                                 $day = 1;
-                            } else if($row['day'] == "Tuesday"){
+                            } else if ($row['day'] == "Tuesday") {
                                 $day = 2;
-                            } else if($row['day'] == "Wednesday"){
+                            } else if ($row['day'] == "Wednesday") {
                                 $day = 3;
-                            } else if($row['day'] == "Thursday"){
+                            } else if ($row['day'] == "Thursday") {
                                 $day = 4;
-                            } else if($row['day'] == "Friday"){
+                            } else if ($row['day'] == "Friday") {
                                 $day = 5;
-                            } else if($row['day'] == "Saturday"){
+                            } else if ($row['day'] == "Saturday") {
                                 $day = 6;
-                            } else if($row['day'] == "Sunday"){
+                            } else if ($row['day'] == "Sunday") {
                                 $day = 0;
                             }
-                            if($day != date("w")){
+                            if ($day != date("w")) {
                                 echo "<td><button id='cancel_appointment' name='cancelAppointment' value='$row[id]' data-value='$row[schedule_id]'>Cancel Appointment</button></td>";
                             } else {
                                 echo "<td></td>";
@@ -111,7 +120,29 @@ if (!isset($_SESSION['patient_id'])) {
                     </td>
                 </tr>
             </table>
+            <div class="view_patient_appointment_card">
+                <h2>Your Appointment</h2>
+                <?php
+                $appointment = getPatientAppointment($_SESSION['patient_id']);
+                if (!empty($appointment)) {
+                    while ($row = $appointment->fetch_assoc()) {
+                        echo "<div class='patient_appointment_card'>";
+                        echo "<p>$row[status]</p>";
+                        echo "<h2>$row[full_name]</h2>";
+                        echo "<p>$row[day] $row[time]</p>";
+                        echo "<p id'doctor_department'>$row[name]</p>";
+                        if ($row['status'] == "Upcoming") {
+                            echo "<button id='cancel_appointment' name='cancelAppointment' value='$row[id]' data-value='$row[schedule_id]'>Cancel Appointment</button>";
+                        } else if ($row['status'] == "Finished") {
+                            echo "<button id='view_note' name='view_note' value='$row[id]'>View Note</button>";
+                        }
+                        echo "</div>";
+                    }
+                }
+                ?>
+            </div>
             <p>Appointment can only be canceled 1 day before!</p>
+            <a href="<?= base; ?>patient/appointment.php" id="make_new_appointment">New Appointment</a>
         </div>
         <div class="view_profile_page">
             <div class="user_profile_section">
@@ -180,12 +211,14 @@ if (!isset($_SESSION['patient_id'])) {
     <script>
         $(document).ready(function(e) {
             let base = $('head base').attr('href');
-            $('.view_profile_page, .change_profile_detail').hide();
+            $('.view_profile_page, .change_profile_detail, .hamburger_patient_menu').hide();
             $('.view_screening_page, .blurred_bg, .view_note_overlay').hide();
 
             $('.view_appointment').css(
                 "font-weight", "800"
             ).addClass('selected_menu');
+
+            $('.view_appointment_mobile').addClass('selected_hamburger_menu');
 
             $('.view_appointment').click(function(e) {
                 e.preventDefault();
@@ -326,6 +359,42 @@ if (!isset($_SESSION['patient_id'])) {
                 if ($('#address').val() == "") {
                     $('#address').val(address);
                 }
+            });
+
+            $('.hamburger_patient_panel img').click(function() {
+                $('.hamburger_patient_menu').animate({
+                    height: "toggle"
+                });
+            });
+
+            $('.view_appointment_mobile').click(function() {
+                $('.view_appointment_mobile').addClass('selected_hamburger_menu');
+                $('.view_profile_mobile').removeClass('selected_hamburger_menu');
+                $('.view_screening_mobile').removeClass('selected_hamburger_menu');
+                $('.view_profile_page').hide();
+                $('.view_appointment_page').show();
+                $('.view_screening_page').hide();
+                $('.hamburger_patient_menu').hide();
+            });
+
+            $('.view_profile_mobile').click(function() {
+                $('.view_appointment_mobile').removeClass('selected_hamburger_menu');
+                $('.view_profile_mobile').addClass('selected_hamburger_menu');
+                $('.view_screening_mobile').removeClass('selected_hamburger_menu');
+                $('.view_profile_page').show();
+                $('.view_appointment_page').hide();
+                $('.view_screening_page').hide();
+                $('.hamburger_patient_menu').hide();
+            });
+
+            $('.view_screening_mobile').click(function() {
+                $('.view_appointment_mobile').removeClass('selected_hamburger_menu');
+                $('.view_profile_mobile').removeClass('selected_hamburger_menu');
+                $('.view_screening_mobile').addClass('selected_hamburger_menu');
+                $('.view_profile_page').hide();
+                $('.view_appointment_page').hide();
+                $('.view_screening_page').show();
+                $('.hamburger_patient_menu').hide();
             });
         });
     </script>
