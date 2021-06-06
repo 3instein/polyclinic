@@ -90,7 +90,6 @@ isset($_SESSION['patient_id']) ? header('location: panel') : NULL;
             <button type="submit" name="changePin">Reset PIN</button>
         </form>
     </div>
-    <?php unset($_SESSION['error']); ?>
     <script>
         $(document).ready(function() {
             let base = $('head base').attr('href');
@@ -157,11 +156,11 @@ isset($_SESSION['patient_id']) ? header('location: panel') : NULL;
                 let pin = $('#login_pin').val();
 
                 if (id_number != "" && pin != "") {
-                    $('#doctorLoginForm').attr('action', base + 'controller/patient_controller.php');
+                    $('#patientLoginForm').attr('action', base + 'controller/patient_controller.php');
                 } else {
                     e.preventDefault();
                     $('#doctorLoginForm').removeAttr('action');
-                    alert("Fields cannot be empty")
+                    alert("Fields cannot be empty");
                 }
             });
 
@@ -174,10 +173,10 @@ isset($_SESSION['patient_id']) ? header('location: panel') : NULL;
                 let pin = $('#register_pin').val();
 
                 if (full_name != "" && address != "" && email != "" && contact != "" && id_number != "" && pin != "") {
-                    $('#doctorLoginForm').attr('action', base + 'controller/patient_controller.php');
+                    $('#patientRegisterForm').attr('action', base + 'controller/patient_controller.php');
                 } else {
                     e.preventDefault();
-                    $('#doctorLoginForm').removeAttr('action');
+                    $('#patientRegisterForm').removeAttr('action');
                     alert("Fields cannot be empty")
                 }
             });
